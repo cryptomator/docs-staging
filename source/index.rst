@@ -10,7 +10,11 @@ Cryptomator - Put a Lock on Your Cloud
 
 `Cryptomator <https://cryptomator.org/>`_ encrypts your data quickly and easily, so you can safely upload it to your favourite cloud service.
 
-If you're a first time user, you will probably want to follow :ref:`this guide on how to get started <desktop/getting-started>`.
+If you're a first time user, you will probably want to follow our getting started guides for 
+
+* the :ref:`desktop applications <desktop/getting-started>`,
+* the :ref:`Android app <android/getting-started>` or
+* the :ref:`iOS app <ios/getting-started>`.
 
 If you are interested in the security of Cryptomator, have a look at our :ref:`security section <security/security-target>`.
 
@@ -33,6 +37,7 @@ If you are interested in the security of Cryptomator, have a look at our :ref:`s
    :caption: Android
    
    android/setup.rst
+   android/getting-started.rst
    android/cloud-management.rst
    android/vault-management.rst
    android/access-vault.rst
@@ -44,6 +49,7 @@ If you are interested in the security of Cryptomator, have a look at our :ref:`s
    :caption: iOS
    
    ios/setup.rst
+   ios/getting-started.rst
    ios/vault-management.rst
 
 .. toctree::
