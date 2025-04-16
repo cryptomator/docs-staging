@@ -6,10 +6,6 @@ Vault Cryptography
 File Header Encryption
 ----------------------
 
-.. note::
-
-    The following section only applies to vaults with the cipher combo ``SIV_GCM`` in the decoded JWT payload. For vaults with ``SIV_CTRMAC``, have a look at our `1.6 documentation <https://docs.cryptomator.org/en/1.6/security/architecture/#file-header-encryption>`_.
-
 The file header stores certain metadata, which is needed for file content encryption.
 It consists of 68 bytes.
 
@@ -122,7 +118,7 @@ This prevents undetected movement of files between directories.
     :width: 614px
     :align: center
 
-    \*Unencrypted directory ID of the partent dir `as described above <security/vault/directory-ids>`_
+    \*Unencrypted directory ID of the parent dir `as described above <#directory-ids>`_
 
 
 .. code-block:: console

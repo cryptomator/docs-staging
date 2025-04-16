@@ -55,7 +55,7 @@ Click on ``Reveal Drive`` in the Cryptomator window to open the mount location u
 
      Even though your files are shown unencrypted in the virtual drive, they are not stored unencrypted on the hard drive but only in `volatile memory <https://en.wikipedia.org/wiki/Volatile_memory>`_
 
-.. image:: ../img/desktop/vault-detail-unlocked.png
+.. image:: ../img/desktop/vault-detail-unlocked-simple.png
     :alt: Cryptomator window showing an unlocked vault
 
 .. note::
@@ -79,7 +79,7 @@ The Locate Encrypted File feature helps users find the encrypted version of a sp
 2. Click on the ``Locate Encrypted File`` button.
 3. Select the file within the vault.
 
-As an alternativ for clicking the button, you can directly drag & drop a file onto the button.
+As an alternative for clicking the button, you can directly drag & drop a file onto the button.
 
 A file manager window opens showing the encrypted folder and marking the encrypted file.
 
