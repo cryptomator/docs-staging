@@ -16,6 +16,7 @@
 - [Advanced Setting Properties](/desktop/advanced-settings.md): Cryptomator allows configuring parts of the environment using properties. For information on using properties, see Setting Properties. All those properties can only be set in the advanced configuration file Cryptomator.cfg; they are not available on the command line.
 - [Encrypted File Names](/desktop/encrypted-file-names.md): Neither file name nor directory structure encryption can be disabled.
 - [Error Handling](/desktop/error-handling.md): If you encounter an unexpected error, Cryptomator gives you the option to look up a solution in our error database. It's possible that the error has already been reported and a solution has been suggested for you to follow.
+- [Files in Use](/desktop/files-in-use.md): This feature is only available for Cryptomator Hub vaults.
 - [Getting Started](/desktop/getting-started.md): You will be greeted with the following screen when you start Cryptomator for the first time.
 - [Network Settings](/desktop/network.md): In general, Cryptomator does not require a network connection to function.
 - [Password and Recovery Key](/desktop/password-and-recovery-key.md): This section explains how to change a password for a vault, show its recovery key, and reset a password.
@@ -32,8 +33,10 @@
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Admin](/hub/admin.md): License
 - [Deployment](/hub/deployment.md): Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
+- [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 1.5.0.
+- [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 1.5.0.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
-- [User & Group Management](/hub/user-group-management.md): Users and groups are managed in Keycloak, a powerful, open-source identity and access management solution.
+- [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 1.5.0.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.
 - [Vault Recovery](/hub/vault-recovery.md): This section contains instructions for recovering Cryptomator Hub vaults using the vault recovery key.
 - [Your Account](/hub/your-account.md): To open vaults secured by a Cryptomator Hub instance, you need an account on the regarding Hub instance.
@@ -1133,6 +1136,58 @@ For further information, please visit our [privacy policy](https://cryptomator.o
 
 ---
 
+# Files in Use
+
+info
+
+This feature is only available for [Cryptomator Hub](/hub/introduction/.md) vaults.
+
+When multiple people work in a shared vault, two users might try to edit the same file at the same time. The **Files in Use** feature helps prevent accidental overwrites in this situation.
+
+## When This Feature Applies[​](#when-this-feature-applies "Direct link to When This Feature Applies")
+
+You can run into concurrent edits when:
+
+* a Cryptomator Hub vault is used by multiple team members
+* the vault is synced across multiple devices
+* the vault is accessed over a network share
+
+If another user is currently editing a file, Cryptomator can block opening that file for writing on your side.
+
+note
+
+The usage information is passed with the files being edited. Therefore, it requires either the vault residing on shared storage (for example, a network share) or file synchronization. In the latter case, it takes around 10s until the status is synchronized to other devices (depending on the sync app).
+
+## What You Will See[​](#what-you-will-see "Direct link to What You Will See")
+
+If a file is currently in use by someone else, Cryptomator shows a notification in the app. This means another device or user has an active edit session for that file.
+
+![Cryptomator notification for a file currently in use](/img/desktop/files-in-use-notification.png)
+
+## What You Can Do[​](#what-you-can-do "Direct link to What You Can Do")
+
+In most cases, the best action is to wait until the other person finishes editing and then try again.
+
+You can also choose to ignore the use status and continue. Use this only if you are sure it is safe, because forcing access can overwrite someone else's newer changes.
+
+We recommend the following sequence when receiving a "File is in use" notification:
+
+1. Ask the person shown in the notification whether they are still editing the file.
+2. If they already closed the file but it is still shown as "in use", use "Ignore Use Status".
+3. Open a file marked as in use without checking with teammates only in exceptional situations.
+4. In that case, create a backup copy first to avoid losing edits.
+
+## Stale Use Status[​](#stale-use-status "Direct link to Stale Use Status")
+
+The use status is cleared after some time without file updates (around 10 min). If this happens, access is possible again. This helps in cases such as device sleep, crashes, or interrupted sessions.
+
+## Related Topics[​](#related-topics "Direct link to Related Topics")
+
+* [Synchronization Conflicts](/desktop/sync-conflicts/.md)
+
+
+---
+
 # Getting Started
 
 You will be greeted with the following screen when you start Cryptomator for the first time. You can create new vaults (or add existing ones) using the [`+`](/desktop/adding-vaults/.md) button located at the lower left corner.
@@ -1942,6 +1997,23 @@ The following events are logged:
 * **Reset User Account** – A user [reset their account](/hub/your-account/.md#reset-account).
 * **User Keys Change** – A user changed their keys. This happens when, e.g., the user [finished the account setup](/hub/your-account/.md#account-setup) or when the `Account Key Changed`.
 
+#### Emergency Access[​](#event-type-emergency-access "Direct link to Emergency Access")
+
+Early Access
+
+This feature is currently in **early access** and will be fully available in version 1.5.0.
+
+* **Emergency Access Setup** – A vault owner set up or updated the Emergency Access configuration for a vault (e.g. by assigning council members in Vault Details).
+* **Emergency Access Settings Updated** – An admin changed the global Emergency Access settings.
+* **Emergency Access Recovery Started** – A council member started an Emergency Access recovery process.
+* **Emergency Access Recovery Approved** – A council member approved a running recovery process.
+* **Emergency Access Recovery Completed** – A council member completed a recovery process.
+* **Emergency Access Recovery Aborted** – A council member aborted a running recovery process.
+
+note
+
+When a council member starts a recovery process both `Emergency Access Recovery Started` and `Emergency Access Recovery Approved` is logged.
+
 #### Legacy[​](#event-type-legacy "Direct link to Legacy")
 
 * **Claim Vault Ownership** – A user claimed vault ownership. This event is logged when a vault created with hub pre 1.3.0 is claimed by the vault creator using the `Vault Admin Password`.
@@ -1991,6 +2063,33 @@ With the **Fingerprint Verification Preciseness** property, the minimum length o
 note
 
 If a user resets their account, their [User Key Pair](/security/hub/.md#user-key-pair) is regenerated, invalidating all previously established trust relationships regarding this user.<br /><!-- -->Additionally, any existing trust chains that included the user will be broken, requiring re-verification to restore trust.
+
+## Emergency Access[​](#emergency-access "Direct link to Emergency Access")
+
+Early Access
+
+This feature is currently in **early access** and will be fully available in version 1.5.0.
+
+This configuration defines default [Emergency Access](/hub/emergency-access/.md) values for new or updated vaults.
+
+![Emergency Access](/img/hub/admin-emergency-access.png)
+
+Enable `Enable Emergency Access` and configure:
+
+* `Required Keys`: Number of required key shares
+* `Keyholders`: Default council members (only activated users)
+* Optional: `Let vault owners choose different keyholders`
+* Optional: `At least` (minimum members if owners can choose a different council)
+
+warning
+
+A council without redundancy (`Required Keys == number of council members`) is possible, but not recommended.
+
+Enterprise Feature
+
+The following Audit Log feature is available only in the **Enterprise Edition**:
+
+* Emergency Access Audit Logs
 
 
 ---
@@ -2136,6 +2235,138 @@ Make sure this backup is moved to another secure location.
 
 ---
 
+# Early Access
+
+These features are currently in **early access** and will be fully available in **Cryptomator Hub 1.5.0**.
+
+* [User & Group Management](/hub/user-group-management/.md) — Manage users, groups, roles, and permissions directly in Hub
+* [Emergency Access](/hub/emergency-access/.md) - Restore access to a vault in case of account loss or ownership issues
+
+
+---
+
+# Emergency Access
+
+Early Access
+
+This feature is currently in **early access** and will be fully available in version 1.5.0.
+
+Emergency Access restores access to a vault inside Cryptomator Hub in case of account loss or ownership issues. Its process requires a group of trusted users (the "council") to approve the recovery. When enough approvals are collected, the emergency change is completed and vault management access is restored. Technically, this is implemented using key splitting based on **[Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing)**.
+
+## Setup Emergency Access[​](#setup-emergency-access "Direct link to Setup Emergency Access")
+
+The feature can be activated for new and existing vaults:
+
+* **New vaults:** During vault creation, use the `Define Emergency Access Conditions` step. For the full workflow, see [Vault Management](/hub/vault-management/.md#create-a-vault).
+* **Existing vaults:** Open `Vault Details` and [configure Emergency Access](/hub/vault-management/.md#emergency-access-council).
+
+## Starting a Recovery Process[​](#starting-a-recovery-process "Direct link to Starting a Recovery Process")
+
+To start, open the `Emergency Access` page, select the vault, and start the desired process.
+
+![Emergency Access Vault List](/img/hub/emergency_access_vault_list.png)
+
+There are two process types:
+
+1. `Change Emergency Access Council`: Change Emergency Access council and threshold
+2. `Choose Vault Members`: Choose vault owners/members
+
+info
+
+Only one running process per type is allowed for the same vault.
+
+Use this quick guide to choose the right process:
+
+| If you want to...                                          | Start this process                                                    |
+| ---------------------------------------------------------- | --------------------------------------------------------------------- |
+| Give vault access to different users (owners/members)      | `Choose Vault Members`                                                |
+| Remove access from specific users                          | `Choose Vault Members`                                                |
+| Replace council members who approve emergency operations   | `Change Emergency Access Council`                                     |
+| Change how many council approvals are required (threshold) | Configurable in the [admin settings](/hub/admin/.md#emergency-access) |
+
+note
+
+Starting a process automatically approves the process.
+
+### Choose Vault Members[​](#choose-vault-members "Direct link to Choose Vault Members")
+
+The `Choose Vault Members` process allows you to select new vault `Owners` or `Members`.
+
+Users that are no longer part of the vault are shown as `Removed`.
+
+![Emergency Access Vault List](/img/hub/emergency_access_change_permissions_start.png)
+
+### Change Emergency Access Council[​](#change-emergency-access-council "Direct link to Change Emergency Access Council")
+
+The `Change Emergency Access Council` process allows you to select a new council.
+
+The minimum required number of members is configured in the [Admin settings](/hub/admin/.md#emergency-access).
+
+![Emergency Access Vault List](/img/hub/emergency_access_change_council_start.png)
+
+## Approve a Recovery Process[​](#approve-a-recovery-process "Direct link to Approve a Recovery Process")
+
+To view or approve running Emergency Access processes, open the `Emergency Access` list. If for a vault an Emergency Access process is running, the vault is displayed with a process button. If you haven't approved the process, the button includes `Approve now`.
+
+![Emergency Access Vault List Approve Now](/img/hub/emergency_access_vault_list_change_council_approve_now.png)
+
+Approve a running process in three steps:
+
+1. Open the vault in the `Emergency Access` list.
+2. Click `Approve now` to open the `Approve Emergency Access` dialog.
+3. Review the details and click `Approve`.
+
+![Emergency Access Vault List Approve Dialog](/img/hub/emergency_access_vault_list_change_council_approve_dialog.png)
+
+After submitting your share, the button shows `Waiting for other approvals`. You can track the ongoing process progress in the same process button and its details popover.
+
+You can also inspect details before approving. Hover (or click) the segment ring area on the left side of the process button to open the process details popover. The popover shows:
+
+* process type and required approvals
+* current progress
+* process council members
+* per-member status (`Added` / `Pending`)
+
+![Emergency Access Vault List Hover Process](/img/hub/emergency_access_vault_list_hover_process.png)
+
+## Complete a Recovery Process[​](#complete-a-recovery-process "Direct link to Complete a Recovery Process")
+
+As soon as enough shares are available, the process button in the `Emergency Access` vault list shows `Complete now`.
+
+![Emergency Access Vault List Complete Now](/img/hub/emergency_access_vault_list_change_council_complete_now.png)
+
+Click `Complete now` to open the `Complete Emergency Access` dialog. In this dialog, review the process details and click `Complete Process` to finalize the recovery process.
+
+![Emergency Access Vault List Complete Dialog](/img/hub/emergency_access_vault_list_change_council_complete_dialog.png)
+
+Results by type:
+
+* `Choose Vault Members`: Vault roles are updated and required access grants are redistributed.
+* `Change Emergency Access Council`: The old council is replaced by the new council.
+
+After successful completion, the process is removed.
+
+## Abort a Recovery Process[​](#abort-a-recovery-process "Direct link to Abort a Recovery Process")
+
+Running processes can be canceled in the dialog using `Abort this Process`.
+
+![Emergency Access Vault List Abort Dialog](/img/hub/emergency_access_vault_list_change_council_abort_dialog.png)
+
+## Typical States and Notes[​](#typical-states-and-notes "Direct link to Typical States and Notes")
+
+The following warning states can appear in the Emergency Access list:
+
+* `No Vault Council Member anymore`: The user is still part of a running process but no longer part of the current vault council. What to do: Ask a current council member to start a new process with the correct council composition.
+* `Broken Emergency Access`: Too few valid shares remain (for example after council members reset their accounts). What to do: Reconfigure the council in vault details and ensure enough active council members can provide shares.
+* `No Redundancy`: No fault tolerance in the council. What to do: Increase the number of council members or reduce the required threshold so one unavailable user does not block recovery.
+
+## Audit Log Events[​](#audit-log-events "Direct link to Audit Log Events")
+
+See [Emergency Access Audit Log events](/hub/admin/.md#event-type-emergency-access).
+
+
+---
+
 ![Cryptomator Hub connects team members](/img/hub/hub-intro.png)
 
 # Cryptomator Hub
@@ -2161,62 +2392,186 @@ This documentation covers various topics, depending on your role. If you are…
 
 # User & Group Management
 
-Users and groups are managed in [Keycloak](https://www.keycloak.org/), a powerful, open-source identity and access management solution. In the default configuration Cryptomator Hub provides its own Keycloak instance, but you can also integrate an existing instance.
+Early Access
 
-You can access the Keycloak management interface over the admin section of Hub.
+This feature is currently in **early access** and will be fully available in version 1.5.0.
 
-![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
+Users and groups are managed directly in the Cryptomator Hub admin interface. As an administrator, you can create, edit, and delete users and groups, assign roles, and manage group memberships.
 
-There you can perform all users or groups related tasks, such as [creating new users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-creating-user_server_administration_guide), [deleting users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-deleting-user_server_administration_guide) or [manage groups](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-managing-groups_server_administration_guide).
+Access the user and group management from the navigation bar in the admin area.
+
+## User Management[​](#user-management "Direct link to User Management")
+
+### User List[​](#user-list "Direct link to User List")
+
+The user list displays all users in your Hub instance. You can search for users by name or email and see key metrics for each user:
+
+* Number of accessible **vaults**
+* Number of **group** memberships
+* Number of registered **devices**
+
+![User list overview](/img/hub/user-list.png)
+
+### Create User[​](#create-user "Direct link to Create User")
+
+To create a new user, click the "Create User" button in the user list. Fill in the following fields:
+
+* **Profile Picture URL**: Optional URL to a profile picture
+* **First Name**: The user's first name
+* **Last Name**: The user's last name
+* **Username**: A unique identifier for the user (cannot be changed later)
+* **Email**: The user's email address
+* **Roles**: Assign roles to the user (see [Roles](#roles))
+* **Password**: Set an initial password for the user
+
+![Create user form](/img/hub/user-create.png)
+
+After creation, the user can log in with their credentials and complete the [account setup](/hub/your-account/.md#account-setup).
+
+### Edit User[​](#edit-user "Direct link to Edit User")
+
+To edit a user, navigate to the user's detail page and click "Edit". You can modify:
+
+* Profile Picture URL
+* First Name
+* Last Name
+* Email
+* Roles
+* Password (set a new password)
+
+note
+
+Username cannot be changed after user creation.
+
+### Delete User[​](#delete-user "Direct link to Delete User")
+
+To delete a user, you can either click the delete button in the user list or navigate to the user's detail page and click on the options button next to the "Edit" button, then select "Delete". A confirmation dialog will appear. Deleting a user will:
+
+* Remove the user from all groups
+* Revoke access to all vaults
+* Delete all registered devices
+
+warning
+
+This action cannot be undone.
+
+### User Details[​](#user-details "Direct link to User Details")
+
+The user detail page shows comprehensive information about a user:
+
+* **Groups**: All groups the user is a member of
+* **Accessible Vaults**: Vaults the user has access to (directly or through group membership)
+* **Devices**: All registered devices of the user
+* **Legacy Devices**: Devices registered with older Hub versions (see [Legacy Devices](/hub/your-account/.md#legacy-devices))
+
+![User detail view](/img/hub/user-detail.png)
+
+## Group Management[​](#group-management "Direct link to Group Management")
+
+Groups allow you to organize users and grant vault access to multiple users at once.
+
+### Group List[​](#group-list "Direct link to Group List")
+
+The group list displays all groups with:
+
+* Number of **members**
+* Number of accessible **vaults**
+
+![Group list overview](/img/hub/group-list.png)
+
+### Create Group[​](#create-group "Direct link to Create Group")
+
+To create a new group, click the "Create Group" button. Fill in:
+
+* **Profile Picture URL**: Optional URL to a group picture
+* **Name**: A descriptive name for the group
+
+![Create group form](/img/hub/group-create.png)
+
+### Edit Group[​](#edit-group "Direct link to Edit Group")
+
+To edit a group, navigate to the group's detail page and click "Edit". You can modify the group name and profile picture URL.
+
+### Delete Group[​](#delete-group "Direct link to Delete Group")
+
+To delete a group, you can either click the delete button in the group list or navigate to the group's detail page and click on the options button next to the "Edit" button, then select "Delete". A confirmation dialog will appear. Deleting a group will:
+
+* Remove all members from the group
+* Revoke group-based vault access (users may still have direct access)
+
+warning
+
+This action cannot be undone.
+
+### Group Details[​](#group-details "Direct link to Group Details")
+
+The group detail page shows:
+
+* **Members**: All users who are members of this group
+* **Accessible Vaults**: Vaults the group has access to
+
+![Group detail view](/img/hub/group-detail.png)
+
+### Manage Group Members[​](#manage-group-members "Direct link to Manage Group Members")
+
+From the group detail page, you can:
+
+* **Add Members**: Click "Add Member" to search for and add users to the group
+* **Remove Members**: Click the remove button next to a member to remove them from the group
+
+![Add member dialog](/img/hub/group-add-member.png)
 
 note
 
 Subgroups are not supported at this time.
 
-## Connect External IAM[​](#connect-external-iam "Direct link to Connect External IAM")
-
-Alternatively to the in-house administration, you can also connect Keycloak to other identity and access management solutions (IAM) to keep your user management centralized. You can either only synchronize existing users and groups from your IAM (using LDAP or Active Directory) or completely delegate the authentication process to your IAM via OpenID Connect or SAML.
-
-Setting up LDAP synchronization is described in the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/#_ldap). For OpenID Connect and SAML, the Keycloak documentation provides [general information](https://www.keycloak.org/docs/latest/server_admin/#_identity_broker). A good step-by-step guide for connecting Microsoft Entra with OpenID Connect can be found [here](https://dev.to/andremoriya/keycloak-azure-active-directory-4cg4).
-
-note
-
-With `LDAP`, all users and groups are imported and synchronized with Keycloak, so they are available immediately after setup. With `OpenID Connect` or `SAML`, users are unknown to Keycloak and Hub *until they log in for the first time*.
-
-warning
-
-Regardless of your choice, your Keycloak instance always contains two local users: `admin` and `syncer`. **Do not edit or delete them!** The first one is for administration tasks and the second one is used to synchronize users and groups between Keycloak and Hub.
-
 ## Roles[​](#roles "Direct link to Roles")
 
-There are four different roles in Cryptomator Hub:
+There are three roles in Cryptomator Hub:
 
-* **user**: A user can open vaults and manage their own account.
-* **admin**: An admin manages the Keycloak realm, can see the audit log, and can create vaults.
-* **create-vault**: Only users with this role can create vaults. The role is inherited by the `admin` role.
+| Role             | Description                                                      |
+| ---------------- | ---------------------------------------------------------------- |
+| **user**         | Default role. Can open vaults and manage their own account.      |
+| **admin**        | Can manage users and groups, view audit logs, and create vaults. |
+| **create-vault** | Allows users to create new vaults. Inherited by the admin role.  |
 
-The `user`, `admin`, and `create-vault` roles are assigned to users or groups via the Keycloak admin console by an existing user with the `admin` role.
+Roles are assigned when creating or editing a user. The `user` role is assigned by default to all users.
 
 ### Create Vault Role[​](#create-vault-role "Direct link to Create Vault Role")
 
-By default, this role is only assigned to the `admin` role. This means that only users with the `admin` role can create vaults. If you want to allow other users to create vaults, you can assign the `create-vault` role to them directly or via a group.
-
-If you want that all users can create vaults, assigning the `create-vault` role as transient role to the `user` role. This way, every user will have the `create-vault` role as well.
-
-To allow all users vault creation, assign `create-vault` as a transient role to the `user` role:
-
-1. Open the Keycloak admin console.
-2. Select `Realm roles`.
-3. Select the `user` role.
-4. Select `Assign role`.
-5. Select the `create-vault` role.
-6. Apply with `Assign`.
+By default, only users with the `admin` role can create vaults. To allow other users to create vaults, assign the `create-vault` role to them when creating or editing the user.
 
 ## User Avatars[​](#user-avatars "Direct link to User Avatars")
 
-Cryptomator Hub supports user avatars. As an administrator, you can enable this feature in the administration area by creating a user "picture" profile attribute in the "User Profile" setting in the Realm in Keycloak. See [Keycloak Documentation](https://www.keycloak.org/ui-customization/avatars#_setting_a_picture_attribute_from_the_admin_console) for more information.
+Users can have profile pictures displayed throughout Hub (e.g., in vault member lists). As an administrator, you can set the profile picture URL when creating or editing a user.
 
-When enabled, users can define their avatar in their Keycloak profile page. The avatar is then displayed in Cryptomator Hub, for example in the vault member list. The avatar needs to be provided as a URL (e.g. https\://path\_to\_image.png) or as a Base64 encoded data image (e.g. `data:image/svg+xml;base64,content`).
+The avatar can be provided as a URL to an image (e.g., `https://example.com/avatar.png`).
+
+If no profile picture is set, a generated avatar based on the user's name will be displayed.
+
+## External Identity Management[​](#enterprise-external-iam "Direct link to External Identity Management")
+
+Enterprise Feature
+
+Connecting external identity and access management (IAM) solutions is available as an Enterprise feature.
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+
+![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
+
+Connecting Cryptomator Hub to an external identity manager allows you to:
+
+* Synchronize users and groups from LDAP or Active Directory
+* Delegate authentication via OpenID Connect or SAML
+* Keep your user management centralized in your existing IAM
+
+You can access the Keycloak management interface from the admin section of Hub. There you can perform all user- and group-related tasks, such as [creating new users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-creating-user_server_administration_guide), [deleting users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-deleting-user_server_administration_guide) or [managing groups](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-managing-groups_server_administration_guide).
+
+Setting up LDAP synchronization is described in the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/#_ldap). For OpenID Connect and SAML, the Keycloak documentation provides [general information](https://www.keycloak.org/docs/latest/server_admin/#_identity_broker).
+
+warning
+
+Regardless of your IAM setup, your Hub instance always contains two system users: `admin` and `syncer`. **Do not edit or delete them!** These accounts are required for administration and synchronization tasks.
 
 
 ---
@@ -2236,6 +2591,14 @@ note
 * As a user, you will only see the vaults that you have access to.
 * As an admin of the Hub instance, you can see all vaults, but you can only access those that you have been granted access to.
 
+Emergency Access Status in Vault List (Enterprise only, early access)
+
+In the `Vault List`, owners can see the Emergency Access status directly via badges:
+
+* `Council missing`: No council is configured for the vault
+* `Broken Emergency Access`: Not enough valid council members (for example after council members reset their accounts)
+* `Insufficient Emergency Access`: No fault tolerance in the council
+
 ## Create a Vault[​](#create-a-vault "Direct link to Create a Vault")
 
 note
@@ -2245,6 +2608,20 @@ Creating vaults require the `create-vault` role. [Here](/hub/user-group-manageme
 To create a vault in Hub, navigate to the vault list and click on the `Create Vault` button in the top right corner. Every vault has a name and optionally a description. Fill out the form and continue the process by clicking the `Next` button in the right corner.
 
 ![Create a vault](/img/hub/create-vault.png)
+
+If the [Emergency Access](/hub/emergency-access/.md) feature is enabled, the following step appears:
+
+Here, the conditions for Emergency Access are defined for the new vault. If the administrator allows custom council selection, you can adjust the default council. Select the council members who should participate in emergency recovery and review the example recovery scenario. Click `Next` to continue to the recovery key step.
+
+Early Access
+
+Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
+
+Enterprise Feature
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+
+![Define Emergency Access Conditions](/img/hub/create-vault-emergency-access.png)
 
 In the next step, the vault *recovery key* is displayed. It can [restore access to the vault data](/hub/vault-recovery/.md) in case of an emergency, e.g. if Cryptomator Hub is down. Store it at a safe location, tick the checkbox and complete the setup by clicking the `Create Vault` button at the bottom
 
@@ -2276,9 +2653,11 @@ To add a user, grant devices access, or view the members list, you need to have 
 
 * `Shared with` members list
 * `Update Permissions` button (only clickable if necessary)
-* `Edit Vault Metatdata` button
+* `Edit Vault Metadata` button
 * `Download Vault Template` button
 * `Show Recovery Key` button
+* `Setup Emergency Access Council` button (only visible if necessary)
+* `Fix Emergency Access Council` button (and only visible if necessary)
 * `Archive Vault` button
 
 ### Share a Vault[​](#share-a-vault "Direct link to Share a Vault")
@@ -2314,6 +2693,14 @@ Download the vault template only once! If you download it multiple times, you wi
 ### Show Recovery Key[​](#show-recovery-key "Direct link to Show Recovery Key")
 
 To show the vault recovery key, click on the `Show Recovery Key` button in the [vault details](#vault-details). It shows the same recovery key shown during vault creation. You can use it to [restore access to the vault data](/hub/vault-recovery/.md) in case of an emergency, e.g. if Cryptomator Hub is down. Store it at a safe location.
+
+### Setup/Fix Emergency Access Council[​](#emergency-access-council "Direct link to Setup/Fix Emergency Access Council")
+
+Early Access
+
+Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
+
+To configure [Emergency Access](/hub/emergency-access/.md) for a vault, click `Setup Emergency Access Council` in the [vault details](#vault-details). If Emergency Access is already configured but needs correction, click `Fix Emergency Access Council`. This opens a dialog where you define the council members and confirm with `Grant`.
 
 ### Archive Vault[​](#archive-vault "Direct link to Archive Vault")
 

@@ -16,6 +16,7 @@
 - [Advanced Setting Properties](/desktop/advanced-settings.md): Cryptomator allows configuring parts of the environment using properties. For information on using properties, see Setting Properties. All those properties can only be set in the advanced configuration file Cryptomator.cfg; they are not available on the command line.
 - [Encrypted File Names](/desktop/encrypted-file-names.md): Neither file name nor directory structure encryption can be disabled.
 - [Error Handling](/desktop/error-handling.md): If you encounter an unexpected error, Cryptomator gives you the option to look up a solution in our error database. It's possible that the error has already been reported and a solution has been suggested for you to follow.
+- [Files in Use](/desktop/files-in-use.md): This feature is only available for Cryptomator Hub vaults.
 - [Getting Started](/desktop/getting-started.md): You will be greeted with the following screen when you start Cryptomator for the first time.
 - [Network Settings](/desktop/network.md): In general, Cryptomator does not require a network connection to function.
 - [Password and Recovery Key](/desktop/password-and-recovery-key.md): This section explains how to change a password for a vault, show its recovery key, and reset a password.
@@ -32,8 +33,10 @@
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Admin](/hub/admin.md): License
 - [Deployment](/hub/deployment.md): Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
+- [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 1.5.0.
+- [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 1.5.0.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
-- [User & Group Management](/hub/user-group-management.md): Users and groups are managed in Keycloak, a powerful, open-source identity and access management solution.
+- [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 1.5.0.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.
 - [Vault Recovery](/hub/vault-recovery.md): This section contains instructions for recovering Cryptomator Hub vaults using the vault recovery key.
 - [Your Account](/hub/your-account.md): To open vaults secured by a Cryptomator Hub instance, you need an account on the regarding Hub instance.
