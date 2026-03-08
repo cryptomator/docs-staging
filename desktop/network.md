@@ -8,11 +8,11 @@ If the network connection is present, it is used for optional features, i.e. upd
 
 Depending on the OS, the required trusted root certificates are loaded from different locations.
 
-| OS      | Trust Store                                                                                                                                     |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Linux   | PKCS#12 file `/etc/cryptomator/certs.p12`; If the file does not exist, the JDK default trust store is used. [1](#user-content-fn-1)             |
-| macOS   | System keychain                                                                                                                                 |
-| Windows | Certificate store "Trusted Root Certification Authorities", with registry path `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates\ROOT\` |
+| OS      | Trust Store                                                                                                                                                                                                                 |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Linux   | PKCS#12 file `/etc/cryptomator/certs.p12`; If the file does not exist, the JDK default trust store is used. [1](#user-content-fn-1)                                                                                         |
+| macOS   | System keychain                                                                                                                                                                                                             |
+| Windows | Certificate store "Trusted Root Certification Authorities", with registry path `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\SystemCertificates\ROOT\`. Additionally, the JDK default trust store is used. [1](#user-content-fn-1) |
 
 ## Proxy Server[​](#proxy-server "Direct link to Proxy Server")
 
@@ -30,7 +30,7 @@ To change the proxy server, you need to edit `Cryptomator.cfg` located in the in
 java-options=-Djava.net.useSystemProxies=true
 ```
 
-and *if it exists*, only replace the word `true` with `false`.
+and *if it exists*, replace `true` with `false`.
 
 In the second step, add the following lines to the end of the file:
 
@@ -48,4 +48,4 @@ and replace `[1]` with the host address of the proxy server, `[2]` with the port
 
 ## Footnotes[​](#footnote-label "Direct link to Footnotes")
 
-1. For more information about the location and contained certificates, see [JEP 319](https://openjdk.org/jeps/319). [↩](#user-content-fnref-1)
+1. For more information about the location and contained certificates, see [JEP 319](https://openjdk.org/jeps/319). [↩](#user-content-fnref-1) [↩2](#user-content-fnref-1-2)
