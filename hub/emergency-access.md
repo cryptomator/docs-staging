@@ -6,7 +6,7 @@ This feature is currently in **early access** and will be fully available in ver
 
 Emergency Access restores access to a vault inside Cryptomator Hub in case of account loss or ownership issues. Its process requires a group of trusted users (the "council") to approve the recovery. When enough approvals are collected, the emergency change is completed and vault management access is restored. Technically, this is implemented using key splitting based on **[Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing)**.
 
-## Setup Emergency Access[​](#setup-emergency-access "Direct link to Setup Emergency Access")
+## Set Up Emergency Access[​](#set-up-emergency-access "Direct link to Set Up Emergency Access")
 
 The feature can be activated for new and existing vaults:
 
@@ -59,7 +59,7 @@ The minimum required number of members is configured in the [Admin settings](/hu
 
 ## Approve a Recovery Process[​](#approve-a-recovery-process "Direct link to Approve a Recovery Process")
 
-To view or approve running Emergency Access processes, open the `Emergency Access` list. If for a vault an Emergency Access process is running, the vault is displayed with a process button. If you haven't approved the process, the button includes `Approve now`.
+To view or approve running Emergency Access processes, open the `Emergency Access` list. If an Emergency Access process is running for a vault, the vault is displayed with a process button. If you haven't approved the process, the button includes `Approve now`.
 
 ![Emergency Access Vault List Approve Now](/img/hub/emergency_access_vault_list_change_council_approve_now.png)
 

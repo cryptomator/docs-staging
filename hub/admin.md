@@ -79,7 +79,7 @@ This feature is currently in **early access** and will be fully available in ver
 
 note
 
-When a council member starts a recovery process both `Emergency Access Recovery Started` and `Emergency Access Recovery Approved` is logged.
+When a council member starts a recovery process, both `Emergency Access Recovery Started` and `Emergency Access Recovery Approved` are logged.
 
 #### Legacy[​](#event-type-legacy "Direct link to Legacy")
 
@@ -141,7 +141,7 @@ This configuration defines default [Emergency Access](/hub/emergency-access/.md)
 
 ![Emergency Access](/img/hub/admin-emergency-access.png)
 
-Enable `Enable Emergency Access` and configure:
+Activate `Enable Emergency Access` and configure:
 
 * `Required Keys`: Number of required key shares
 * `Keyholders`: Default council members (only activated users)

@@ -933,7 +933,7 @@ note
 
 Editing the *admin configuration* may require elevated privileges (i.e. admin or root permissions).
 
-The storage location of the Admin configuration file `config.properties` depends on the OS. The following table shows for each OS the storage path:
+The storage location of the admin configuration file `config.properties` depends on the OS. The following table shows the storage path for each OS:
 
 | OS      | Default Path                                                 |
 | ------- | ------------------------------------------------------------ |
@@ -1093,7 +1093,7 @@ If another user is currently editing a file, Cryptomator can block opening that 
 
 note
 
-The usage information is passed with the files being edited. Therefore, it requires either the vault residing on shared storage (for example, a network share) or file synchronization. In the latter case, it takes around 10s until the status is synchronized to other devices (depending on the sync app).
+The usage information is passed with the files being edited. Therefore, it requires either the vault residing on shared storage (for example, a network share) or file synchronization. In the latter case, it takes around 10 seconds until the status is synchronized to other devices (depending on the sync app).
 
 ## What You Will See[​](#what-you-will-see "Direct link to What You Will See")
 
@@ -1111,7 +1111,7 @@ We recommend the following sequence when receiving a "File is in use" notificati
 
 1. Ask the person shown in the notification whether they are still editing the file.
 2. If they already closed the file but it is still shown as "in use", use "Ignore Use Status".
-3. Open a file marked as in use without checking with teammates only in exceptional situations.
+3. Only open a file marked as in use without checking with teammates in exceptional situations.
 4. In that case, create a backup copy first to avoid losing edits.
 
 ## Stale Use Status[​](#stale-use-status "Direct link to Stale Use Status")
@@ -1296,7 +1296,7 @@ Secret Service (Linux)
 
 Uses the KDE Wallet or the GNOME keyring to store your password. The password is only stored locally in the default KDE Wallet or the default GNOME keyring. Secret Service is the successor of KDE Wallet and GNOME keyring, as it works for both.
 
-Requires KDE Wallet or GNOME keyring to be installed and running on your Linux system, with the default wallet, respectively keyring present.
+Requires KDE Wallet or GNOME keyring to be installed and running on your Linux system, with the default wallet or keyring present.
 
 There are also third-party plug-ins for Cryptomator that allow you to store vault passwords in external password managers:
 
@@ -1955,7 +1955,7 @@ This feature is currently in **early access** and will be fully available in ver
 
 note
 
-When a council member starts a recovery process both `Emergency Access Recovery Started` and `Emergency Access Recovery Approved` is logged.
+When a council member starts a recovery process, both `Emergency Access Recovery Started` and `Emergency Access Recovery Approved` are logged.
 
 #### Legacy[​](#event-type-legacy "Direct link to Legacy")
 
@@ -2017,7 +2017,7 @@ This configuration defines default [Emergency Access](/hub/emergency-access/.md)
 
 ![Emergency Access](/img/hub/admin-emergency-access.png)
 
-Enable `Enable Emergency Access` and configure:
+Activate `Enable Emergency Access` and configure:
 
 * `Required Keys`: Number of required key shares
 * `Keyholders`: Default council members (only activated users)
@@ -2183,7 +2183,7 @@ Make sure this backup is moved to another secure location.
 These features are currently in **early access** and will be fully available in **Cryptomator Hub 1.5.0**.
 
 * [User & Group Management](/hub/user-group-management/.md) — Manage users, groups, roles, and permissions directly in Hub
-* [Emergency Access](/hub/emergency-access/.md) - Restore access to a vault in case of account loss or ownership issues
+* [Emergency Access](/hub/emergency-access/.md) — Restore access to a vault in case of account loss or ownership issues
 
 
 ---
@@ -2196,7 +2196,7 @@ This feature is currently in **early access** and will be fully available in ver
 
 Emergency Access restores access to a vault inside Cryptomator Hub in case of account loss or ownership issues. Its process requires a group of trusted users (the "council") to approve the recovery. When enough approvals are collected, the emergency change is completed and vault management access is restored. Technically, this is implemented using key splitting based on **[Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing)**.
 
-## Setup Emergency Access[​](#setup-emergency-access "Direct link to Setup Emergency Access")
+## Set Up Emergency Access[​](#set-up-emergency-access "Direct link to Set Up Emergency Access")
 
 The feature can be activated for new and existing vaults:
 
@@ -2249,7 +2249,7 @@ The minimum required number of members is configured in the [Admin settings](/hu
 
 ## Approve a Recovery Process[​](#approve-a-recovery-process "Direct link to Approve a Recovery Process")
 
-To view or approve running Emergency Access processes, open the `Emergency Access` list. If for a vault an Emergency Access process is running, the vault is displayed with a process button. If you haven't approved the process, the button includes `Approve now`.
+To view or approve running Emergency Access processes, open the `Emergency Access` list. If an Emergency Access process is running for a vault, the vault is displayed with a process button. If you haven't approved the process, the button includes `Approve now`.
 
 ![Emergency Access Vault List Approve Now](/img/hub/emergency_access_vault_list_change_council_approve_now.png)
 
