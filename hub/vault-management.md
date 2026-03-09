@@ -122,6 +122,10 @@ Early Access
 
 Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
 
+Enterprise Feature
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+
 To configure [Emergency Access](/hub/emergency-access/.md) for a vault, click `Setup Emergency Access Council` in the [vault details](#vault-details). If Emergency Access is already configured but needs correction, click `Fix Emergency Access Council`. This opens a dialog where you define the council members and confirm with `Grant`.
 
 ### Archive Vault[​](#archive-vault "Direct link to Archive Vault")

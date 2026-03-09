@@ -1942,16 +1942,12 @@ The following events are logged:
 
 #### Emergency Access[​](#event-type-emergency-access "Direct link to Emergency Access")
 
-Early Access
-
-This feature is currently in **early access** and will be fully available in version 1.5.0.
-
 * **Emergency Access Setup** – A vault owner set up or updated the Emergency Access configuration for a vault (e.g. by assigning council members in Vault Details).
-* **Emergency Access Settings Updated** – An admin changed the global Emergency Access settings.
-* **Emergency Access Recovery Started** – A council member started an Emergency Access recovery process.
-* **Emergency Access Recovery Approved** – A council member approved a running recovery process.
-* **Emergency Access Recovery Completed** – A council member completed a recovery process.
-* **Emergency Access Recovery Aborted** – A council member aborted a running recovery process.
+* **Emergency Access Settings Updated** – An admin changed the [global Emergency Access settings](#emergency-access-emergency-access).
+* **Emergency Access Recovery Started** – A council member [started](/hub/emergency-access/.md#starting-a-recovery-process) an Emergency Access recovery process.
+* **Emergency Access Recovery Approved** – A council member [approved](/hub/emergency-access/.md#approve-a-recovery-process) a running recovery process.
+* **Emergency Access Recovery Completed** – A council member [completed](/hub/emergency-access/.md#complete-a-recovery-process) a recovery process.
+* **Emergency Access Recovery Aborted** – A council member [aborted](/hub/emergency-access/.md#abort-a-recovery-process) a running recovery process.
 
 note
 
@@ -2011,7 +2007,11 @@ If a user resets their account, their [User Key Pair](/security/hub/.md#user-key
 
 Early Access
 
-This feature is currently in **early access** and will be fully available in version 1.5.0.
+Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
+
+Enterprise Feature
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
 
 This configuration defines default [Emergency Access](/hub/emergency-access/.md) values for new or updated vaults.
 
@@ -2027,12 +2027,6 @@ Activate `Enable Emergency Access` and configure:
 warning
 
 A council without redundancy (`Required Keys == number of council members`) is possible, but not recommended.
-
-Enterprise Feature
-
-The following Audit Log feature is available only in the **Enterprise Edition**:
-
-* Emergency Access Audit Logs
 
 
 ---
@@ -2193,6 +2187,10 @@ These features are currently in **early access** and will be fully available in 
 Early Access
 
 This feature is currently in **early access** and will be fully available in version 1.5.0.
+
+Enterprise Feature
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
 
 Emergency Access restores access to a vault inside Cryptomator Hub in case of account loss or ownership issues. Its process requires a group of trusted users (the "council") to approve the recovery. When enough approvals are collected, the emergency change is completed and vault management access is restored. Technically, this is implemented using key splitting based on **[Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing)**.
 
@@ -2642,6 +2640,10 @@ To show the vault recovery key, click on the `Show Recovery Key` button in the [
 Early Access
 
 Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
+
+Enterprise Feature
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
 
 To configure [Emergency Access](/hub/emergency-access/.md) for a vault, click `Setup Emergency Access Council` in the [vault details](#vault-details). If Emergency Access is already configured but needs correction, click `Fix Emergency Access Council`. This opens a dialog where you define the council members and confirm with `Grant`.
 

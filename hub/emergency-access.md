@@ -4,6 +4,10 @@ Early Access
 
 This feature is currently in **early access** and will be fully available in version 1.5.0.
 
+Enterprise Feature
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+
 Emergency Access restores access to a vault inside Cryptomator Hub in case of account loss or ownership issues. Its process requires a group of trusted users (the "council") to approve the recovery. When enough approvals are collected, the emergency change is completed and vault management access is restored. Technically, this is implemented using key splitting based on **[Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing)**.
 
 ## Set Up Emergency Access[​](#set-up-emergency-access "Direct link to Set Up Emergency Access")
