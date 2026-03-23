@@ -40,6 +40,7 @@ Our Windows installers are signed using a code signing certificate. You can veri
 
    <!-- -->
 
+   * Version 1.19.2: `33000890b1b9dff7ee6e525b2d0000000890b1`
    * Version 1.19.1: `33000852bd6c3a151ff92180ee0000000852bd`
    * Version 1.19.0: `3300083c47651e1daeb99b00eb000000083c47`
    * Version 1.18.1: `330007d28ad57305892a81cac600000007d28a`
