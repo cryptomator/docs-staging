@@ -47,17 +47,7 @@ On Windows, you can choose the drive letter of the virtual drive for each vault 
 
 ## Locate Encrypted File[​](#locate-encrypted-file "Direct link to Locate Encrypted File")
 
-The Locate Encrypted File feature helps users find the encrypted version of a specific file. This feature is particularly useful when vault files are versioned and the user wants to restore an older version of a file. As Cryptomator encrypts filenames and obfuscates directory structures, users first locate the encrypted file and then restore an older version of the encrypted file with the third party app.
-
-1. Unlock the desired vault.
-2. Click on the `Locate Encrypted File` button.
-3. Select the file within the vault.
-
-As an alternative for clicking the button, you can directly drag & drop a file onto the button.
-
-A file manager window opens showing the encrypted folder and marking the encrypted file.
-
-Your browser does not support the video tag.
+See [Locate Encrypted File](/desktop/encrypted-file-names/.md#locate-encrypted-file) in the Encrypted File Names section.
 
 ## File System Case Sensitivity[​](#file-system-case-sensitivity "Direct link to File System Case Sensitivity")
 
