@@ -14,6 +14,7 @@
 - [Accessing Vaults](/desktop/accessing-vaults.md): You can only access decrypted files of a vault if you can unlock it. Unlocking a vault is just a two-step process as long as you know the password.
 - [Adding Vaults](/desktop/adding-vaults.md): You will be presented with three options when adding a vault:
 - [Admin Configuration](/desktop/admin-config.md): The admin configuration allows device or system administrators to define environment properties for Cryptomator so it runs in the desired context for all users on a device.
+- [Common Errors](/desktop/common-errors.md): This page collects errors users frequently run into and their known solutions.
 - [Encrypted File Names](/desktop/encrypted-file-names.md): File name and directory structure encryption cannot be disabled.
 - [Error Handling](/desktop/error-handling.md): If you encounter an unexpected error, Cryptomator gives you the option to look up a solution in our error database. It's possible that the error has already been reported and a solution has been suggested for you to follow.
 - [Files in Use](/desktop/files-in-use.md): This feature is only available for Cryptomator Hub vaults.
