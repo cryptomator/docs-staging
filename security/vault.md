@@ -17,8 +17,11 @@ The file header stores certain metadata, which is needed for file content encryp
 
 ```
 headerNonce := createRandomBytes(12)
+
 contentKey := createRandomBytes(32)
+
 cleartextPayload := 0xFFFFFFFFFFFFFFFF . contentKey
+
 ciphertextPayload, tag := aesGcm(cleartextPayload, encryptionMasterKey, headerNonce)
 ```
 
@@ -47,12 +50,19 @@ Afterwards, the encrypted chunks are joined preserving the order of the cleartex
 
 ```
 cleartextChunks[] := split(cleartext, 32KiB)
+
 for (int i = 0; i < length(cleartextChunks); i++) {
+
     chunkNonce := createRandomBytes(12)
+
     aad := bigEndian(i) . headerNonce
+
     ciphertextPayload, tag := aesGcm(cleartextChunks[i], contentKey, chunkNonce, aad)
+
     ciphertextChunks[i] := chunkNonce . ciphertextPayload . tag
+
 }
+
 ciphertextFileContent := join(ciphertextChunks[])
 ```
 
@@ -79,6 +89,7 @@ When traversing directories, the directory ID of a given subdirectory is process
 
 ```
 dirIdHash := base32(sha1(aesSiv(dirId, null, encryptionMasterKey, macMasterKey)))
+
 dirPath := vaultRoot + '/d/' + substr(dirIdHash, 0, 2) + '/' + substr(dirIdHash, 2, 30)
 ```
 
@@ -114,10 +125,15 @@ Thus, a cleartext directory structure like this:
 
 ```
 .
+
 ├─ File.txt
+
 ├─ SymlinkToFile.txt
+
 ├─ Subdirectory
+
 │  └─ ...
+
 └─ ...
 ```
 
@@ -125,19 +141,33 @@ Becomes a ciphertext directory structure like this:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 5TyvCyF255sRtfrIv**83ucADQ==.c9r  # File.txt
+
 │  │     ├─ FHTa55bH*sUfVDbEb0gTL9hZ8nho.c9r  # Subdirectory
+
 │  │     │  └─ dir.c9r  # contains dirId
+
 │  │     └─ gLeOGMCN358*UBf2Qk9cWCQl.c9r  # SymlinkToFile.txt
+
 │  │        └─ symlink.c9r  # contains link target
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77  # contains contents of Subdirectory
+
 │        └─ ...
+
 ├─ masterkey.cryptomator
+
 ├─ masterkey.cryptomator.DFD9B248.bkup
+
 └─ vault.cryptomator
 ```
 
@@ -153,11 +183,17 @@ If an encrypted name (including its `.c9r` extension) exceeds these 220 chars, w
 
 ```
 if (length(ciphertextName) > 220) {
+
     deflatedName := base64url(sha1(ciphertextName)) + '.c9s'
+
     inflatedNameFilePath := deflatedName + '/name.c9s'
+
     fileContentsPath := deflatedName + '/contents.c9r'
+
     symlinkFilePath := deflatedName + '/symlink.c9r'
+
     dirIdFilePath := deflatedName + '/dir.c9r'
+
 }
 ```
 
@@ -170,28 +206,51 @@ A vault containing several nodes with very long names might result in a cipherte
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 5TyvCyF255sRtfrIv**83ucADQ==.c9r
+
 │  │     ├─ FHTa55bH*sUfVDbEb0gTL9hZ8nho.c9r
+
 │  │     │  └─ dir.c9r
+
 │  │     ├─ gLeOGMCN358*UBf2Qk9cWCQl.c9r
+
 │  │     │  └─ symlink.c9r
+
 │  │     ├─ IjTsXtReTy6bAAuxzLPV9T0k2vg=.c9s  # shortened name...
+
 │  │     │  ├─ contents.c9r  # ...node is a regular file
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     ├─ q2nx5XeNCenHyQvkFD4mxYNrWpQ=.c9s  # shortened name...
+
 │  │     │  ├─ dir.c9r  # ...node is a directory
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     └─ u*JJCJE-T4IH-EBYASUp1u3p7mA=.c9s  # shortened name...
+
 │  │        ├─ name.c9s  # ...mapping to this full name
+
 │  │        └─ symlink.c9r  # ...node is a symlink
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ masterkey.cryptomator
+
 ├─ masterkey.cryptomator.DFD9B248.bkup
+
 └─ vault.cryptomator
 ```
 

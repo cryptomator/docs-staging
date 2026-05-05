@@ -80,6 +80,7 @@ FUSE-T is a newer alternative that runs entirely in user space, avoiding the nee
 
 ```
 brew tap macos-fuse-t/homebrew-cask
+
 brew install fuse-t
 ```
 

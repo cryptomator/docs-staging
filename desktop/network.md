@@ -36,9 +36,13 @@ In the second step, add the following lines to the end of the file:
 
 ```
 java-options=-Dhttp.proxyHost=[1]
+
 java-options=-Dhttp.proxyPort=[2]
+
 java-options=-Dhttps.proxyHost=[1]
+
 java-options=-Dhttps.proxyPort=[2]
+
 java-options=-Dhttp.nonProxyHosts=localhost|127.0.0.1|cryptomator-vault|[3]
 ```
 

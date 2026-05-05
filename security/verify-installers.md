@@ -30,6 +30,7 @@ Our Windows installers are signed using a code signing certificate. You can veri
    <!-- -->
    ```
    Get-AuthenticodeSignature -FilePath "~\Downloads\Cryptomator-*.msi"
+
    Get-AuthenticodeSignature -FilePath "~\Downloads\Cryptomator-*.exe"
    ```
 
@@ -47,7 +48,9 @@ If the installer is properly signed, you should see output similar to:
 
 ```
 SignerCertificate                Status    StatusMessage           Path
+
 -----------------                ------    -------------           ----
+
 BB0E...                          Valid     Signature verified.     Cryptomator-1.19.1-x64.msi
 ```
 
@@ -87,6 +90,7 @@ On macOS, you can verify the code signature of the Cryptomator app using the bui
    <!-- -->
    ```
    codesign -dv ~/Downloads/Cryptomator-*.dmg
+
    codesign -dv /Applications/Cryptomator.app
    ```
 
@@ -101,7 +105,10 @@ If the app is properly signed, you should see output similar to:
 
 ```
 Executable=/Applications/Cryptomator.app/Contents/MacOS/Cryptomator
+
 Identifier=org.cryptomator
+
 ...
+
 TeamIdentifier=YZQJQUHA3L
 ```

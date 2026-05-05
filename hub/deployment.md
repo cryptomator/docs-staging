@@ -33,58 +33,111 @@ If you don't have a running Traefik deployment and want to use Docker Compose to
 
 ```
 networks:
+
   srv:
+
     name: srv
 
+
+
 services:
+
   traefik:
+
     image: traefik:v3
+
     command:
+
       # Provider
+
       - '--providers.docker'
+
       - '--providers.docker.exposedbydefault=false'
+
       - '--providers.docker.network=srv'
+
       # Entrypoints
+
       - '--entrypoints.web.address=:80'
+
       - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
+
       - '--entrypoints.websecure.address=:443'
+
       # Let's Encrypt
+
       - '--certificatesresolvers.myresolver.acme.email=TODO' # TODO change
+
       - '--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web'
+
       - '--certificatesresolvers.myresolver.acme.httpchallenge=true'
+
       - '--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json'
+
       # Uncomment to use staging for testing
+
       # - '--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory'
+
       - '--entrypoints.websecure.http.tls.certresolver=myresolver'
+
       # HTTP/3
+
       - '--entrypoints.websecure.http3'
+
       # Logs
+
       - '--accesslog.filepath=/logs/access.log'
+
       - '--accesslog.format=json'
+
       - '--log.filepath=/logs/traefik.log'
+
       - '--log.format=json'
+
       - '--log.level=ERROR'
+
       # Misc
+
       - '--api.dashboard=false'
+
       - '--global.checknewversion=false'
+
       - '--global.sendanonymoususage=false'
+
       - '--ping'
+
     ports:
+
       - '80:80'
+
       - '443:443'
+
     networks:
+
       - 'srv'
+
     restart: always
+
     healthcheck:
+
       test: ['CMD', 'traefik', 'healthcheck', '--ping']
+
       interval: 10s
+
       timeout: 10s
+
       retries: 5
+
     volumes:
+
       - '/var/run/docker.sock:/var/run/docker.sock'
+
       - './logs:/logs'
+
       - './letsencrypt:/letsencrypt'
+
     labels:
+
       - 'traefik.enable=false'
 ```
 
@@ -118,11 +171,17 @@ Cryptomator Hub and Keycloak both write to the connected Postgres database. So t
 
 ```
 Docker:
+
 docker exec -u postgres -it postgres /bin/bash -c /usr/local/bin/pg_dumpall \
+
     > "$(date +%F)-hub-backup"
 
+
+
 Kubernetes:
+
 kubectl exec -it deployments/postgres -n NAMESPACE \
+
     -- /usr/local/bin/pg_dumpall -U postgres > "$(date +%F)-hub-backup"
 ```
 

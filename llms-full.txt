@@ -32,7 +32,7 @@
 ## hub
 
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
-- [Admin](/hub/admin.md): License
+- [Admin](/hub/admin.md): License {/ #license /}
 - [Deployment](/hub/deployment.md): Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
 - [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 1.5.0.
 - [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 1.5.0.
@@ -45,26 +45,26 @@
 ## ios
 
 - [Working with Vaults](/ios/access-vault.md): Cryptomator for iOS is fully integrated into the Files app of iOS. In order to access your encrypted data, you have to use the Files app.
-- [Cloud Management](/ios/cloud-management.md): WebDAV
+- [Cloud Management](/ios/cloud-management.md): WebDAV {/ #webdav /}
 - [Settings](/ios/settings.md): You can configure Cryptomator to your needs. Access the settings by tapping the gear icon in the top left corner.
 - [Setup](/ios/setup.md): You can get Cryptomator for iOS on the App Store.
 - [Shortcuts Guide](/ios/shortcuts-guide.md): The Shortcuts integration of Cryptomator allows you to build different automations in the Shortcuts app. With that, you can automate recurring tasks quickly and easily.
-- [Vault Management](/ios/vault-management.md): Unlock Duration
+- [Vault Management](/ios/vault-management.md): Unlock Duration {/ #unlock-duration /}
 
 ## misc
 
-- [Contribute](/misc/contribute.md): How Can You Help Us?
+- [Contribute](/misc/contribute.md): How Can You Help Us? {/ #how-can-you-help-us /}
 - [Manual Migration](/misc/manual-migration.md): Under some circumstances, Cryptomator refuses to automatically migrate a vault to a newer format. In this case, your vault will remain untouched, so you can continue using it with the previous version.
 - [Supported Cloud Services](/misc/supported-cloud-services.md): A standard use case for Cryptomator is storing your encrypted vaults in a Cloud Service of your choice for
 - [Vault Format History](/misc/vault-format-history.md): Cryptomator vaults need to adhere to a structure and format (as described in Security Architecture) that may change over time.
 
 ## security
 
-- [Security Architecture](/security/architecture.md): Virtual Filesystem
-- [Best Practices](/security/best-practices.md): Sharing of Vaults
+- [Security Architecture](/security/architecture.md): Virtual Filesystem {/ #virtual-filesystem /}
+- [Best Practices](/security/best-practices.md): Sharing of Vaults {/ #sharing-of-vaults /}
 - [Cryptomator Hub](/security/hub.md): Cryptomator Hub facilitates asymmetric encryption to allow sharing the key material used in Cryptomator vaults between multiple parties.
 - [Security Target](/security/security-target.md): Cryptomator was designed to solve privacy issues when saving files to cloud storages.
-- [Vault Cryptography](/security/vault.md): File Header Encryption
+- [Vault Cryptography](/security/vault.md): File Header Encryption {/ #file-header-encryption /}
 - [Verify Installer Signatures](/security/verify-installers.md): If you are not sure whether an alleged Cryptomator installer is legitimate, you can verify its authenticity and integrity.
 
 
@@ -1081,9 +1081,13 @@ If you have a directory structure inside your vault like this:
 
 ```
 .
+
 ├─ myProject.pptx
+
 ├─ Images for Project
+
 │  └─ ImageOfBees.jpg
+
 └─ ...
 ```
 
@@ -1091,18 +1095,31 @@ The actual directory structure of the vault on your hard drive/cloud will look l
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ dirId.c9r  # internal vault file
+
 │  │     ├─ 5TyvCyF255sRtfrIv**83ucADQ==.c9r  # myProject.pptx
+
 │  │     └─ FHTa55bH*sUfVDbEb0gTL9hZ8nho.c9r  # Linking entry for directory "Images for Project"
+
 │  │        └─ dir.c9r  # contains information for the link
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77  # content of the directory "Images for Project"
+
 │        └─ 4lmrQYfE_5ETusEkVJlTJrcFzjwxNBymig==.c9r # ImageOfBees.jpg
+
 ├─ masterkey.cryptomator
+
 ├─ masterkey.cryptomator.DFD9B248.bkup
+
 └─ vault.cryptomator
 ```
 
@@ -1239,9 +1256,13 @@ In the second step, add the following lines to the end of the file:
 
 ```
 java-options=-Dhttp.proxyHost=[1]
+
 java-options=-Dhttp.proxyPort=[2]
+
 java-options=-Dhttps.proxyHost=[1]
+
 java-options=-Dhttps.proxyPort=[2]
+
 java-options=-Dhttp.nonProxyHosts=localhost|127.0.0.1|cryptomator-vault|[3]
 ```
 
@@ -1838,6 +1859,7 @@ FUSE-T is a newer alternative that runs entirely in user space, avoiding the nee
 
 ```
 brew tap macos-fuse-t/homebrew-cask
+
 brew install fuse-t
 ```
 
@@ -2133,58 +2155,111 @@ If you don't have a running Traefik deployment and want to use Docker Compose to
 
 ```
 networks:
+
   srv:
+
     name: srv
 
+
+
 services:
+
   traefik:
+
     image: traefik:v3
+
     command:
+
       # Provider
+
       - '--providers.docker'
+
       - '--providers.docker.exposedbydefault=false'
+
       - '--providers.docker.network=srv'
+
       # Entrypoints
+
       - '--entrypoints.web.address=:80'
+
       - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
+
       - '--entrypoints.websecure.address=:443'
+
       # Let's Encrypt
+
       - '--certificatesresolvers.myresolver.acme.email=TODO' # TODO change
+
       - '--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web'
+
       - '--certificatesresolvers.myresolver.acme.httpchallenge=true'
+
       - '--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json'
+
       # Uncomment to use staging for testing
+
       # - '--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory'
+
       - '--entrypoints.websecure.http.tls.certresolver=myresolver'
+
       # HTTP/3
+
       - '--entrypoints.websecure.http3'
+
       # Logs
+
       - '--accesslog.filepath=/logs/access.log'
+
       - '--accesslog.format=json'
+
       - '--log.filepath=/logs/traefik.log'
+
       - '--log.format=json'
+
       - '--log.level=ERROR'
+
       # Misc
+
       - '--api.dashboard=false'
+
       - '--global.checknewversion=false'
+
       - '--global.sendanonymoususage=false'
+
       - '--ping'
+
     ports:
+
       - '80:80'
+
       - '443:443'
+
     networks:
+
       - 'srv'
+
     restart: always
+
     healthcheck:
+
       test: ['CMD', 'traefik', 'healthcheck', '--ping']
+
       interval: 10s
+
       timeout: 10s
+
       retries: 5
+
     volumes:
+
       - '/var/run/docker.sock:/var/run/docker.sock'
+
       - './logs:/logs'
+
       - './letsencrypt:/letsencrypt'
+
     labels:
+
       - 'traefik.enable=false'
 ```
 
@@ -2218,11 +2293,17 @@ Cryptomator Hub and Keycloak both write to the connected Postgres database. So t
 
 ```
 Docker:
+
 docker exec -u postgres -it postgres /bin/bash -c /usr/local/bin/pg_dumpall \
+
     > "$(date +%F)-hub-backup"
 
+
+
 Kubernetes:
+
 kubectl exec -it deployments/postgres -n NAMESPACE \
+
     -- /usr/local/bin/pg_dumpall -U postgres > "$(date +%F)-hub-backup"
 ```
 
@@ -3373,28 +3454,51 @@ This is an example of the vault structure:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 5TyvCyF255sRtfrIv__83ucADQ==.c9r  # regular file
+
 │  │     ├─ FHTa55bH_sUfVDbEb0gTL9hZ8nho.c9r  # irregular file...
+
 │  │     │  └─ dir.c9r  # ...which is a directory
+
 │  │     ├─ gLeOGMCN358_UBf2Qk9cWCQl.c9r  # irregular file...
+
 │  │     │  └─ symlink.c9r  # ...which is a symlink
+
 │  │     ├─ IjTsXtReTy6bAAuxzLPV9T0k2vg=.c9s  # shortened name...
+
 │  │     │  ├─ contents.c9r  # ...which is a regular file
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     ├─ q2nx5XeNCenHyQvkFD4mxYNrWpQ=.c9s  # shortened name...
+
 │  │     │  ├─ dir.c9r  # ...which is a directory
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     ├─ u_JJCJE-T4IH-EBYASUp1u3p7mA=.c9s  # shortened name...
+
 │  │     │  ├─ name.c9s  # ...mapping to this full name
+
 │  │     │  └─ symlink.c9r  # ...which is a symlink
+
 │  │     └─ ...
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ masterkey.cryptomator
+
 └─ masterkey.cryptomator.DFD9B248.bkup
 ```
 
@@ -3424,20 +3528,35 @@ This is an example of the vault structure:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 0USJ7VD36K7YU2RARYJMEFTABZOGN6LUH63VRH5MADVOZ433VZ7EPSM2PLJPHTBL6
+
 │  │     ├─ 0YWVRCCROEC3ZECD2UTJR7BGYERU3LG6R7QODBGMZ7EQ3BXGY24======
+
 │  │     ├─ ...
+
 │  │     ├─ YWBBP7RC6FFX6ZN4YBLN4WXD6IIBTMKXHFFDQEZNYTQLNZWOGDT22EY=
+
 │  │     └─ ZTNHMICOWU6ZSNIR72ESLQSGDMLQYQ42XEKGOWSYYX5II===
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ m
+
 │  └─ ...
+
 ├─ masterkey.cryptomator
+
 └─ masterkey.cryptomator.bkup
 ```
 
@@ -3451,20 +3570,35 @@ This is an example of the vault structure:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ USJ7VD36K7YU2RARYJMEFTABZOGN6LUH63VRH5MADVOZ433VZ7EPSM2PLJPHTBL6_
+
 │  │     ├─ YWBBP7RC6FFX6ZN4YBLN4WXD6IIBTMKXHFFDQEZNYTQLNZWOGDT22EY=
+
 │  │     ├─ ...
+
 │  │     ├─ YWVRCCROEC3ZECD2UTJR7BGYERU3LG6R7QODBGMZ7EQ3BXGY24======_
+
 │  │     └─ ZTNHMICOWU6ZSNIR72ESLQSGDMLQYQ42XEKGOWSYYX5II===
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ m
+
 │  └─ ...
+
 ├─ masterkey.cryptomator
+
 └─ masterkey.cryptomator.bkup
 ```
 
@@ -3497,9 +3631,13 @@ The decoded header:
 
 ```
 {
+
   "kid": "masterkeyfile:masterkey.cryptomator", /* URI of where to get the key */
+
   "typ": "JWT",
+
   "alg": "HS256" /* current implementations also support HS384 and HS512 */
+
 }
 ```
 
@@ -3507,10 +3645,15 @@ The decoded payload:
 
 ```
 {
+
   "format": 8, /* vault format for checking software compatibility */
+
   "shorteningThreshold": 220, /* how many characters in ciphertext filenames before shortening */
+
   "jti": "ce976f7a-7b92-4cc0-b4c1-c74a6aa17cf5", /* random UUID to uniquely identify the vault */
+
   "cipherCombo": "SIV_GCM" /* mode of operation for the block cipher. Other possible values are "SIV_CTRMAC" */
+
 }
 ```
 
@@ -3547,16 +3690,27 @@ Every Cryptomator Hub user who is authorized to access this vault will retrieve 
 
 ```
 {
+
     "alg": "ECDH-ES",
+
     "enc": "A256GCM",
+
     "epk": {
+
         "crv": "P-384",
+
         "kty": "EC",
+
         "x": "p1J...g",
+
         "y": "8Il...H"
+
     }
+
     "apu": "",
+
     "apv": ""
+
 }
 ```
 
@@ -3564,7 +3718,9 @@ The JWE's decrypted payload holds a single value, which can then be consumed by 
 
 ```
 {
+
     "key": "H7u...o==" /* 512 bit raw masterkey */
+
 }
 ```
 
@@ -3574,9 +3730,13 @@ Alternatively, for normal password-protected vaults, Cryptomator will derive a 3
 
 ```
 encryptionMasterKey := createRandomBytes(32)
+
 macMasterKey := createRandomBytes(32)
+
 kek := scrypt(password, scryptSalt, scryptCostParam, scryptBlockSize)
+
 wrappedEncryptionMasterKey := aesKeyWrap(encryptionMasterKey, kek)
+
 wrappedMacMasterKey := aesKeyWrap(macMasterKey, kek)
 ```
 
@@ -3586,13 +3746,21 @@ The wrapped keys and the parameters needed to derive the KEK are then stored as 
 
 ```
 {
+
     "version": 999, /* deprecated, vault format is now specified in the vault configuration */
+
     "scryptSalt": "QGk...jY=",
+
     "scryptCostParam": 32768,
+
     "scryptBlockSize": 8,
+
     "primaryMasterKey": "QDi...Q==", /* wrappedEncryptionMasterKey */
+
     "hmacMasterKey": "L83...Q==", /* wrappedMacMasterKey */
+
     "versionMac": "3/U...9Q=" /* HMAC-256 of vault version to prevent undetected downgrade attacks */
+
 }
 ```
 
@@ -3823,8 +3991,11 @@ The file header stores certain metadata, which is needed for file content encryp
 
 ```
 headerNonce := createRandomBytes(12)
+
 contentKey := createRandomBytes(32)
+
 cleartextPayload := 0xFFFFFFFFFFFFFFFF . contentKey
+
 ciphertextPayload, tag := aesGcm(cleartextPayload, encryptionMasterKey, headerNonce)
 ```
 
@@ -3853,12 +4024,19 @@ Afterwards, the encrypted chunks are joined preserving the order of the cleartex
 
 ```
 cleartextChunks[] := split(cleartext, 32KiB)
+
 for (int i = 0; i < length(cleartextChunks); i++) {
+
     chunkNonce := createRandomBytes(12)
+
     aad := bigEndian(i) . headerNonce
+
     ciphertextPayload, tag := aesGcm(cleartextChunks[i], contentKey, chunkNonce, aad)
+
     ciphertextChunks[i] := chunkNonce . ciphertextPayload . tag
+
 }
+
 ciphertextFileContent := join(ciphertextChunks[])
 ```
 
@@ -3885,6 +4063,7 @@ When traversing directories, the directory ID of a given subdirectory is process
 
 ```
 dirIdHash := base32(sha1(aesSiv(dirId, null, encryptionMasterKey, macMasterKey)))
+
 dirPath := vaultRoot + '/d/' + substr(dirIdHash, 0, 2) + '/' + substr(dirIdHash, 2, 30)
 ```
 
@@ -3920,10 +4099,15 @@ Thus, a cleartext directory structure like this:
 
 ```
 .
+
 ├─ File.txt
+
 ├─ SymlinkToFile.txt
+
 ├─ Subdirectory
+
 │  └─ ...
+
 └─ ...
 ```
 
@@ -3931,19 +4115,33 @@ Becomes a ciphertext directory structure like this:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 5TyvCyF255sRtfrIv**83ucADQ==.c9r  # File.txt
+
 │  │     ├─ FHTa55bH*sUfVDbEb0gTL9hZ8nho.c9r  # Subdirectory
+
 │  │     │  └─ dir.c9r  # contains dirId
+
 │  │     └─ gLeOGMCN358*UBf2Qk9cWCQl.c9r  # SymlinkToFile.txt
+
 │  │        └─ symlink.c9r  # contains link target
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77  # contains contents of Subdirectory
+
 │        └─ ...
+
 ├─ masterkey.cryptomator
+
 ├─ masterkey.cryptomator.DFD9B248.bkup
+
 └─ vault.cryptomator
 ```
 
@@ -3959,11 +4157,17 @@ If an encrypted name (including its `.c9r` extension) exceeds these 220 chars, w
 
 ```
 if (length(ciphertextName) > 220) {
+
     deflatedName := base64url(sha1(ciphertextName)) + '.c9s'
+
     inflatedNameFilePath := deflatedName + '/name.c9s'
+
     fileContentsPath := deflatedName + '/contents.c9r'
+
     symlinkFilePath := deflatedName + '/symlink.c9r'
+
     dirIdFilePath := deflatedName + '/dir.c9r'
+
 }
 ```
 
@@ -3976,28 +4180,51 @@ A vault containing several nodes with very long names might result in a cipherte
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 5TyvCyF255sRtfrIv**83ucADQ==.c9r
+
 │  │     ├─ FHTa55bH*sUfVDbEb0gTL9hZ8nho.c9r
+
 │  │     │  └─ dir.c9r
+
 │  │     ├─ gLeOGMCN358*UBf2Qk9cWCQl.c9r
+
 │  │     │  └─ symlink.c9r
+
 │  │     ├─ IjTsXtReTy6bAAuxzLPV9T0k2vg=.c9s  # shortened name...
+
 │  │     │  ├─ contents.c9r  # ...node is a regular file
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     ├─ q2nx5XeNCenHyQvkFD4mxYNrWpQ=.c9s  # shortened name...
+
 │  │     │  ├─ dir.c9r  # ...node is a directory
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     └─ u*JJCJE-T4IH-EBYASUp1u3p7mA=.c9s  # shortened name...
+
 │  │        ├─ name.c9s  # ...mapping to this full name
+
 │  │        └─ symlink.c9r  # ...node is a symlink
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ masterkey.cryptomator
+
 ├─ masterkey.cryptomator.DFD9B248.bkup
+
 └─ vault.cryptomator
 ```
 
@@ -4048,6 +4275,7 @@ Our Windows installers are signed using a code signing certificate. You can veri
    <!-- -->
    ```
    Get-AuthenticodeSignature -FilePath "~\Downloads\Cryptomator-*.msi"
+
    Get-AuthenticodeSignature -FilePath "~\Downloads\Cryptomator-*.exe"
    ```
 
@@ -4065,7 +4293,9 @@ If the installer is properly signed, you should see output similar to:
 
 ```
 SignerCertificate                Status    StatusMessage           Path
+
 -----------------                ------    -------------           ----
+
 BB0E...                          Valid     Signature verified.     Cryptomator-1.19.1-x64.msi
 ```
 
@@ -4105,6 +4335,7 @@ On macOS, you can verify the code signature of the Cryptomator app using the bui
    <!-- -->
    ```
    codesign -dv ~/Downloads/Cryptomator-*.dmg
+
    codesign -dv /Applications/Cryptomator.app
    ```
 
@@ -4119,8 +4350,11 @@ If the app is properly signed, you should see output similar to:
 
 ```
 Executable=/Applications/Cryptomator.app/Contents/MacOS/Cryptomator
+
 Identifier=org.cryptomator
+
 ...
+
 TeamIdentifier=YZQJQUHA3L
 ```
 

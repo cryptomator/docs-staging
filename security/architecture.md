@@ -24,9 +24,13 @@ The decoded header:
 
 ```
 {
+
   "kid": "masterkeyfile:masterkey.cryptomator", /* URI of where to get the key */
+
   "typ": "JWT",
+
   "alg": "HS256" /* current implementations also support HS384 and HS512 */
+
 }
 ```
 
@@ -34,10 +38,15 @@ The decoded payload:
 
 ```
 {
+
   "format": 8, /* vault format for checking software compatibility */
+
   "shorteningThreshold": 220, /* how many characters in ciphertext filenames before shortening */
+
   "jti": "ce976f7a-7b92-4cc0-b4c1-c74a6aa17cf5", /* random UUID to uniquely identify the vault */
+
   "cipherCombo": "SIV_GCM" /* mode of operation for the block cipher. Other possible values are "SIV_CTRMAC" */
+
 }
 ```
 
@@ -74,16 +83,27 @@ Every Cryptomator Hub user who is authorized to access this vault will retrieve 
 
 ```
 {
+
     "alg": "ECDH-ES",
+
     "enc": "A256GCM",
+
     "epk": {
+
         "crv": "P-384",
+
         "kty": "EC",
+
         "x": "p1J...g",
+
         "y": "8Il...H"
+
     }
+
     "apu": "",
+
     "apv": ""
+
 }
 ```
 
@@ -91,7 +111,9 @@ The JWE's decrypted payload holds a single value, which can then be consumed by 
 
 ```
 {
+
     "key": "H7u...o==" /* 512 bit raw masterkey */
+
 }
 ```
 
@@ -101,9 +123,13 @@ Alternatively, for normal password-protected vaults, Cryptomator will derive a 3
 
 ```
 encryptionMasterKey := createRandomBytes(32)
+
 macMasterKey := createRandomBytes(32)
+
 kek := scrypt(password, scryptSalt, scryptCostParam, scryptBlockSize)
+
 wrappedEncryptionMasterKey := aesKeyWrap(encryptionMasterKey, kek)
+
 wrappedMacMasterKey := aesKeyWrap(macMasterKey, kek)
 ```
 
@@ -113,13 +139,21 @@ The wrapped keys and the parameters needed to derive the KEK are then stored as 
 
 ```
 {
+
     "version": 999, /* deprecated, vault format is now specified in the vault configuration */
+
     "scryptSalt": "QGk...jY=",
+
     "scryptCostParam": 32768,
+
     "scryptBlockSize": 8,
+
     "primaryMasterKey": "QDi...Q==", /* wrappedEncryptionMasterKey */
+
     "hmacMasterKey": "L83...Q==", /* wrappedMacMasterKey */
+
     "versionMac": "3/U...9Q=" /* HMAC-256 of vault version to prevent undetected downgrade attacks */
+
 }
 ```
 

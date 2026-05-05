@@ -25,28 +25,51 @@ This is an example of the vault structure:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 5TyvCyF255sRtfrIv__83ucADQ==.c9r  # regular file
+
 │  │     ├─ FHTa55bH_sUfVDbEb0gTL9hZ8nho.c9r  # irregular file...
+
 │  │     │  └─ dir.c9r  # ...which is a directory
+
 │  │     ├─ gLeOGMCN358_UBf2Qk9cWCQl.c9r  # irregular file...
+
 │  │     │  └─ symlink.c9r  # ...which is a symlink
+
 │  │     ├─ IjTsXtReTy6bAAuxzLPV9T0k2vg=.c9s  # shortened name...
+
 │  │     │  ├─ contents.c9r  # ...which is a regular file
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     ├─ q2nx5XeNCenHyQvkFD4mxYNrWpQ=.c9s  # shortened name...
+
 │  │     │  ├─ dir.c9r  # ...which is a directory
+
 │  │     │  └─ name.c9s  # ...mapping to this full name
+
 │  │     ├─ u_JJCJE-T4IH-EBYASUp1u3p7mA=.c9s  # shortened name...
+
 │  │     │  ├─ name.c9s  # ...mapping to this full name
+
 │  │     │  └─ symlink.c9r  # ...which is a symlink
+
 │  │     └─ ...
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ masterkey.cryptomator
+
 └─ masterkey.cryptomator.DFD9B248.bkup
 ```
 
@@ -76,20 +99,35 @@ This is an example of the vault structure:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ 0USJ7VD36K7YU2RARYJMEFTABZOGN6LUH63VRH5MADVOZ433VZ7EPSM2PLJPHTBL6
+
 │  │     ├─ 0YWVRCCROEC3ZECD2UTJR7BGYERU3LG6R7QODBGMZ7EQ3BXGY24======
+
 │  │     ├─ ...
+
 │  │     ├─ YWBBP7RC6FFX6ZN4YBLN4WXD6IIBTMKXHFFDQEZNYTQLNZWOGDT22EY=
+
 │  │     └─ ZTNHMICOWU6ZSNIR72ESLQSGDMLQYQ42XEKGOWSYYX5II===
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ m
+
 │  └─ ...
+
 ├─ masterkey.cryptomator
+
 └─ masterkey.cryptomator.bkup
 ```
 
@@ -103,19 +141,34 @@ This is an example of the vault structure:
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ USJ7VD36K7YU2RARYJMEFTABZOGN6LUH63VRH5MADVOZ433VZ7EPSM2PLJPHTBL6_
+
 │  │     ├─ YWBBP7RC6FFX6ZN4YBLN4WXD6IIBTMKXHFFDQEZNYTQLNZWOGDT22EY=
+
 │  │     ├─ ...
+
 │  │     ├─ YWVRCCROEC3ZECD2UTJR7BGYERU3LG6R7QODBGMZ7EQ3BXGY24======_
+
 │  │     └─ ZTNHMICOWU6ZSNIR72ESLQSGDMLQYQ42XEKGOWSYYX5II===
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77
+
 │        └─ ...
+
 ├─ m
+
 │  └─ ...
+
 ├─ masterkey.cryptomator
+
 └─ masterkey.cryptomator.bkup
 ```

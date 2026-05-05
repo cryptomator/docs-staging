@@ -32,7 +32,7 @@
 ## hub
 
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
-- [Admin](/hub/admin.md): License
+- [Admin](/hub/admin.md): License {/ #license /}
 - [Deployment](/hub/deployment.md): Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
 - [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 1.5.0.
 - [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 1.5.0.
@@ -45,24 +45,24 @@
 ## ios
 
 - [Working with Vaults](/ios/access-vault.md): Cryptomator for iOS is fully integrated into the Files app of iOS. In order to access your encrypted data, you have to use the Files app.
-- [Cloud Management](/ios/cloud-management.md): WebDAV
+- [Cloud Management](/ios/cloud-management.md): WebDAV {/ #webdav /}
 - [Settings](/ios/settings.md): You can configure Cryptomator to your needs. Access the settings by tapping the gear icon in the top left corner.
 - [Setup](/ios/setup.md): You can get Cryptomator for iOS on the App Store.
 - [Shortcuts Guide](/ios/shortcuts-guide.md): The Shortcuts integration of Cryptomator allows you to build different automations in the Shortcuts app. With that, you can automate recurring tasks quickly and easily.
-- [Vault Management](/ios/vault-management.md): Unlock Duration
+- [Vault Management](/ios/vault-management.md): Unlock Duration {/ #unlock-duration /}
 
 ## misc
 
-- [Contribute](/misc/contribute.md): How Can You Help Us?
+- [Contribute](/misc/contribute.md): How Can You Help Us? {/ #how-can-you-help-us /}
 - [Manual Migration](/misc/manual-migration.md): Under some circumstances, Cryptomator refuses to automatically migrate a vault to a newer format. In this case, your vault will remain untouched, so you can continue using it with the previous version.
 - [Supported Cloud Services](/misc/supported-cloud-services.md): A standard use case for Cryptomator is storing your encrypted vaults in a Cloud Service of your choice for
 - [Vault Format History](/misc/vault-format-history.md): Cryptomator vaults need to adhere to a structure and format (as described in Security Architecture) that may change over time.
 
 ## security
 
-- [Security Architecture](/security/architecture.md): Virtual Filesystem
-- [Best Practices](/security/best-practices.md): Sharing of Vaults
+- [Security Architecture](/security/architecture.md): Virtual Filesystem {/ #virtual-filesystem /}
+- [Best Practices](/security/best-practices.md): Sharing of Vaults {/ #sharing-of-vaults /}
 - [Cryptomator Hub](/security/hub.md): Cryptomator Hub facilitates asymmetric encryption to allow sharing the key material used in Cryptomator vaults between multiple parties.
 - [Security Target](/security/security-target.md): Cryptomator was designed to solve privacy issues when saving files to cloud storages.
-- [Vault Cryptography](/security/vault.md): File Header Encryption
+- [Vault Cryptography](/security/vault.md): File Header Encryption {/ #file-header-encryption /}
 - [Verify Installer Signatures](/security/verify-installers.md): If you are not sure whether an alleged Cryptomator installer is legitimate, you can verify its authenticity and integrity.

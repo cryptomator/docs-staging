@@ -58,9 +58,13 @@ If you have a directory structure inside your vault like this:
 
 ```
 .
+
 ├─ myProject.pptx
+
 ├─ Images for Project
+
 │  └─ ImageOfBees.jpg
+
 └─ ...
 ```
 
@@ -68,18 +72,31 @@ The actual directory structure of the vault on your hard drive/cloud will look l
 
 ```
 .
+
 ├─ d
+
 │  ├─ BZ
+
 │  │  └─ R4VZSS5PEF7TU3PMFIMON5GJRNBDWA
+
 │  │     ├─ dirId.c9r  # internal vault file
+
 │  │     ├─ 5TyvCyF255sRtfrIv**83ucADQ==.c9r  # myProject.pptx
+
 │  │     └─ FHTa55bH*sUfVDbEb0gTL9hZ8nho.c9r  # Linking entry for directory "Images for Project"
+
 │  │        └─ dir.c9r  # contains information for the link
+
 │  └─ FC
+
 │     └─ ZKZRLZUODUUYTYA4457CSBPZXB5A77  # content of the directory "Images for Project"
+
 │        └─ 4lmrQYfE_5ETusEkVJlTJrcFzjwxNBymig==.c9r # ImageOfBees.jpg
+
 ├─ masterkey.cryptomator
+
 ├─ masterkey.cryptomator.DFD9B248.bkup
+
 └─ vault.cryptomator
 ```
 
