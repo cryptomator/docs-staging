@@ -13,7 +13,7 @@ Cryptomator Hub is also offered as a hosted solution, including 99.5%-uptime gua
 3. Use the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) to generate a deployment descriptor template
 4. Customize the template if needed (e.g., adjust the Ingress settings) and deploy the software stack to your cluster
 
-Afterwards you're done. You can now login to Cryptomator Hub and start [creating vaults](/hub/vault-management/.md) or [add users](/hub/user-group-management/.md).
+Afterwards you're done. You can now log in to Cryptomator Hub and start [creating vaults](/hub/vault-management/.md) or [add users](/hub/user-group-management/.md).
 
 ## Hardware Requirements[​](#hardware-requirements "Direct link to Hardware Requirements")
 

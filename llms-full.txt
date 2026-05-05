@@ -1281,7 +1281,7 @@ and replace `[1]` with the host address of the proxy server, `[2]` with the port
 
 This section explains how to change a password for a vault, show its recovery key, and reset a password. But, before that, let's understand how Cryptomator encrypts a vault using a password and what a recovery key is. The security of your vault is only as good as its password because Cryptomator encrypts your vault using a key derived from your password. So, [choosing a strong password](/security/best-practices/.md#good-passwords) is very important.
 
-Additionally, a unique *recovery key* can be derived for each vault while creating its password or later. A *recovery key* allows you to create a new password if you forget the original one. Do note that the *recovery key* feature does not break encryption in any way. It is a human readable form of your decrypted [masterkey](/security/architecture/.md#masterkey) and therefore independent of the current vault password and highly confidential. Keep it as safe as your password.
+Additionally, a unique *recovery key* can be derived for each vault while creating its password or later. A *recovery key* allows you to create a new password if you forget the original one. Do note that the *recovery key* feature does not break encryption in any way. It is a human-readable form of your decrypted [masterkey](/security/architecture/.md#masterkey) and therefore independent of the current vault password and highly confidential. Keep it as safe as your password.
 
 All actions can be carried out using the `Password` tab under vault options. You can access it by selecting a vault, lock it if necessary, and click on `Vault Options`.
 
@@ -1930,7 +1930,7 @@ Cryptomator should open your default browser for authentication. If you're not a
 
 ### 3. Register Device[​](#register-device "Direct link to 3. Register Device")
 
-If you just did setup your account, a vault owner needs to grant you access for the requested vault as described [here](/hub/vault-management/.md#update-permissions). Retry unlocking the vault after the vault owner granted you access.
+If you just setup your account, a vault owner needs to grant you access for the requested vault as described [here](/hub/vault-management/.md#update-permissions). Retry unlocking the vault after the vault owner granted you access.
 
 ![Access is denied since it has not been granted by a vault owner yet](/img/hub/unlock-access-denied.png)
 
@@ -2135,7 +2135,7 @@ Cryptomator Hub is also offered as a hosted solution, including 99.5%-uptime gua
 3. Use the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) to generate a deployment descriptor template
 4. Customize the template if needed (e.g., adjust the Ingress settings) and deploy the software stack to your cluster
 
-Afterwards you're done. You can now login to Cryptomator Hub and start [creating vaults](/hub/vault-management/.md) or [add users](/hub/user-group-management/.md).
+Afterwards you're done. You can now log in to Cryptomator Hub and start [creating vaults](/hub/vault-management/.md) or [add users](/hub/user-group-management/.md).
 
 ## Hardware Requirements[​](#hardware-requirements "Direct link to Hardware Requirements")
 
@@ -2718,7 +2718,7 @@ In the next step, the vault *recovery key* is displayed. It can [restore access 
 
 warning
 
-The recovery key is **highly confidential**. It is a human readable form of the vault [masterkey](/security/architecture/.md#masterkey), which is used to encrypt your data and independent of the key management in Cryptomator Hub.
+The recovery key is **highly confidential**. It is a human-readable form of the vault [masterkey](/security/architecture/.md#masterkey), which is used to encrypt your data and independent of the key management in Cryptomator Hub.
 
 When the setup is finished, you have the opportunity to download the initial vault template and place it in your desired cloud storage location. You can unlock the vault and place data inside with [Cryptomator](https://cryptomator.org/downloads/). If you skip this step, you can download the template [later](#download-vault-template).
 
@@ -3396,7 +3396,7 @@ This applies to both Cryptomator for Android and Cryptomator for iOS.
 
 4. Not supported by the [Accrescent variant](/android/setup/.md#accrescent) because this Cloud Service requires proprietary dependencies. [↩](#user-content-fnref-no-accrescent)
 
-5. Some Android and iOS apps integrate into the operating system's file manager with their own storage spaces to allow seamless access to their files via so called "File Providers." Cryptomator generally supports saving vaults in those spaces, but is dependent on those apps explicitly supporting access by other apps like Cryptomator. For more technical information about this see [here](https://github.com/cryptomator/android/issues/553) for Android and [here](https://github.com/cryptomator/ios/issues/51) for iOS. [↩](#user-content-fnref-file-providers)
+5. Some Android and iOS apps integrate into the operating system's file manager with their own storage spaces to allow seamless access to their files via "File Providers." Cryptomator generally supports saving vaults in those spaces, but is dependent on those apps explicitly supporting access by other apps like Cryptomator. For more technical information about this see [here](https://github.com/cryptomator/android/issues/553) for Android and [here](https://github.com/cryptomator/ios/issues/51) for iOS. [↩](#user-content-fnref-file-providers)
 
 6. Please see [Cloud Services with WebDAV support](#cloud-services-with-webdav-support) for a non-exhaustive list of Cloud Services and information about accessing them with WebDAV. [↩](#user-content-fnref-webdav-list)
 
@@ -3678,7 +3678,7 @@ These keys are themselves protected and can be retrieved using, either of the fo
 
 ### Using Cryptomator Hub[​](#using-cryptomator-hub "Direct link to Using Cryptomator Hub")
 
-When using [Cryptomator Hub](/hub/access-vault/.md), the encrypted raw masterkey can be retrieved from a the server component.
+When using [Cryptomator Hub](/hub/access-vault/.md), the encrypted raw masterkey can be retrieved from the server component.
 
 note
 

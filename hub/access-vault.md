@@ -22,7 +22,7 @@ Cryptomator should open your default browser for authentication. If you're not a
 
 ### 3. Register Device[​](#register-device "Direct link to 3. Register Device")
 
-If you just did setup your account, a vault owner needs to grant you access for the requested vault as described [here](/hub/vault-management/.md#update-permissions). Retry unlocking the vault after the vault owner granted you access.
+If you just setup your account, a vault owner needs to grant you access for the requested vault as described [here](/hub/vault-management/.md#update-permissions). Retry unlocking the vault after the vault owner granted you access.
 
 ![Access is denied since it has not been granted by a vault owner yet](/img/hub/unlock-access-denied.png)
 

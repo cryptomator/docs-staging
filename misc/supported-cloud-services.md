@@ -88,7 +88,7 @@ This applies to both Cryptomator for Android and Cryptomator for iOS.
 
 4. Not supported by the [Accrescent variant](/android/setup/.md#accrescent) because this Cloud Service requires proprietary dependencies. [↩](#user-content-fnref-no-accrescent)
 
-5. Some Android and iOS apps integrate into the operating system's file manager with their own storage spaces to allow seamless access to their files via so called "File Providers." Cryptomator generally supports saving vaults in those spaces, but is dependent on those apps explicitly supporting access by other apps like Cryptomator. For more technical information about this see [here](https://github.com/cryptomator/android/issues/553) for Android and [here](https://github.com/cryptomator/ios/issues/51) for iOS. [↩](#user-content-fnref-file-providers)
+5. Some Android and iOS apps integrate into the operating system's file manager with their own storage spaces to allow seamless access to their files via "File Providers." Cryptomator generally supports saving vaults in those spaces, but is dependent on those apps explicitly supporting access by other apps like Cryptomator. For more technical information about this see [here](https://github.com/cryptomator/android/issues/553) for Android and [here](https://github.com/cryptomator/ios/issues/51) for iOS. [↩](#user-content-fnref-file-providers)
 
 6. Please see [Cloud Services with WebDAV support](#cloud-services-with-webdav-support) for a non-exhaustive list of Cloud Services and information about accessing them with WebDAV. [↩](#user-content-fnref-webdav-list)
 

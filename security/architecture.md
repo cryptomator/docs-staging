@@ -71,7 +71,7 @@ These keys are themselves protected and can be retrieved using, either of the fo
 
 ### Using Cryptomator Hub[​](#using-cryptomator-hub "Direct link to Using Cryptomator Hub")
 
-When using [Cryptomator Hub](/hub/access-vault/.md), the encrypted raw masterkey can be retrieved from a the server component.
+When using [Cryptomator Hub](/hub/access-vault/.md), the encrypted raw masterkey can be retrieved from the server component.
 
 note
 

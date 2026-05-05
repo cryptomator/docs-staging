@@ -51,7 +51,7 @@ In the next step, the vault *recovery key* is displayed. It can [restore access 
 
 warning
 
-The recovery key is **highly confidential**. It is a human readable form of the vault [masterkey](/security/architecture/.md#masterkey), which is used to encrypt your data and independent of the key management in Cryptomator Hub.
+The recovery key is **highly confidential**. It is a human-readable form of the vault [masterkey](/security/architecture/.md#masterkey), which is used to encrypt your data and independent of the key management in Cryptomator Hub.
 
 When the setup is finished, you have the opportunity to download the initial vault template and place it in your desired cloud storage location. You can unlock the vault and place data inside with [Cryptomator](https://cryptomator.org/downloads/). If you skip this step, you can download the template [later](#download-vault-template).
 
