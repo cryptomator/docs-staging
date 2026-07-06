@@ -12,7 +12,7 @@ You can run into concurrent edits when a vault is shared across multiple devices
 
 note
 
-The app tracks who's using each file by storing usage information in small files If the vault is synchronized with another app, it might take a short time (\~10 seconds) until such an info file is synced to other devices.
+The app tracks who's using each file by storing usage information in small files. Depending on your setup, it might take a short time (\~10 seconds) until such an info file is synced to other devices.
 
 ## What You Will See[​](#what-you-will-see "Direct link to What You Will See")
 
