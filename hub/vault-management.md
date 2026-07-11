@@ -37,7 +37,7 @@ Here, the conditions for Emergency Access are defined for the new vault. If the 
 
 Early Access
 
-Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
+Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
 
 Enterprise Feature
 
@@ -120,7 +120,7 @@ To show the vault recovery key, click on the `Show Recovery Key` button in the [
 
 Early Access
 
-Emergency Access is currently in **early access** and will be fully available in version 1.5.0.
+Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
 
 Enterprise Feature
 

@@ -2,7 +2,7 @@
 
 Early Access
 
-This feature is currently in **early access** and will be fully available in version 1.5.0.
+This feature is currently in **early access** and will be fully available in version 2.0.0.
 
 Enterprise Feature
 
