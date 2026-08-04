@@ -52,4 +52,8 @@ The mount options depend on the selected [volume type](/desktop/volume-type/.md)
 
 ![Vault options regarding the password](/img/desktop/vault-options-password.png)
 
+note
+
+If the `masterkey` file is not present in the vault directory, the functions in the `Password` tab are disabled. To use these functions again, place the `masterkey` file back into the vault directory or restore it using the vault recovery function.
+
 Take a look at the [Volume Type](/desktop/volume-type/.md) and [Password And Recovery Key](/desktop/password-and-recovery-key/.md) sections to understand how vault mounting and passwords work.

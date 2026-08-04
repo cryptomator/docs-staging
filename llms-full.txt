@@ -54,6 +54,7 @@
 ## misc
 
 - [Contribute](/misc/contribute.md): How Can You Help Us? {/ #how-can-you-help-us /}
+- [Glossary](/misc/glossary.md): Terms {/ #terms /}
 - [Manual Migration](/misc/manual-migration.md): Under some circumstances, Cryptomator refuses to automatically migrate a vault to a newer format. In this case, your vault will remain untouched, so you can continue using it with the previous version.
 - [Supported Cloud Services](/misc/supported-cloud-services.md): A standard use case for Cryptomator is storing your encrypted vaults in a Cloud Service of your choice for
 - [Vault Format History](/misc/vault-format-history.md): Cryptomator vaults need to adhere to a structure and format (as described in Security Architecture) that may change over time.
@@ -1702,6 +1703,10 @@ The mount options depend on the selected [volume type](/desktop/volume-type/.md)
 
 ![Vault options regarding the password](/img/desktop/vault-options-password.png)
 
+note
+
+If the `masterkey` file is not present in the vault directory, the functions in the `Password` tab are disabled. To use these functions again, place the `masterkey` file back into the vault directory or restore it using the vault recovery function.
+
 Take a look at the [Volume Type](/desktop/volume-type/.md) and [Password And Recovery Key](/desktop/password-and-recovery-key/.md) sections to understand how vault mounting and passwords work.
 
 
@@ -3279,6 +3284,37 @@ There are several ways you can help us:
 If you plan to help, please stick to our [Code of Conduct](https://github.com/cryptomator/cryptomator/blob/develop/.github/CODE_OF_CONDUCT.md).
 
 Our code is licensed under GPLv3 and this documentation under CC-BY-SA 4.0. If you contribute either, you grant us the rights to publish your contributions under those licenses. Also, you have to digitally sign a [Contributor License Agreement (CLA)](https://gist.github.com/cryptobot/80c6654b7c8d5529cc365f1124cef50e). This is required to protect the maintainers of Cryptomator from legal problems with patent or copyright infringement. The CLA signature process is triggered by your first pull request automatically. You will be asked to authenticate with your GitHub account and your username will be stored even if you revoke any activity on GitHub.
+
+
+---
+
+# Glossary
+
+## Terms[​](#terms "Direct link to Terms")
+
+### Account Key[​](#account-key "Direct link to Account Key")
+
+A sequence of digits and characters that looks like this: `535cf7e3-f305-4d97-9309-dcce813183cf`. It is used to authorize new devices to access your Cryptomator Hub account. It can be looked up in the profile of existing devices. If you lose it, you can reset your account, however doing so will revoke access from all vaults.
+
+### Recovery Key[​](#recovery-key "Direct link to Recovery Key")
+
+A human-readable representation of a vault's master key that is supposed to be printed out and archived for the case that you ever forget or lose access to your regular passphrase.
+
+## Localization of Terms[​](#localization-of-terms "Direct link to Localization of Terms")
+
+warning
+
+Some of the terms mentioned above are carefully chosen to be distinguishable from another. This is particularly important for key material, as we deal with many different kinds of keys. **Mixing these up can cause confusion or even bear the risk of information exposure.**
+
+Translating technical terms shall be considered with great care. Here are our official recommendations to translators:
+
+1. If using English terms in the realm of software is common practice in your native language, *do not translate* these terms.
+2. Otherwise, if you feel uncertain about a translation, then better put the English term in parenthesis (if there is enough room).
+3. Only if you are absolutely confident, that a translation precisely reflects the meaning as defined in this glossary, translate it.
+
+note
+
+We may add further terms in the future. If, for example, you deem it acceptable to translate *account* to something that has the same meaning as *user*, keep in mind that a translation of *account key* may eventually collide with *user key*.
 
 
 ---
