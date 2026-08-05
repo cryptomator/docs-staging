@@ -37,6 +37,7 @@
 - [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 2.0.0.
 - [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
+- [Keycloak](/hub/keycloak.md): Cryptomator Hub delegates authentication and user management to Keycloak, an open-source identity and access management solution. Hub ships with a preconfigured realm named cryptomator that contains the clients Hub needs and the realm roles user, create-vaults, and admin.
 - [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.
 - [Vault Recovery](/hub/vault-recovery.md): This section contains instructions for recovering Cryptomator Hub vaults using the vault recovery key.

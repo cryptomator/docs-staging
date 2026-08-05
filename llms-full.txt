@@ -37,6 +37,7 @@
 - [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 2.0.0.
 - [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
+- [Keycloak](/hub/keycloak.md): Cryptomator Hub delegates authentication and user management to Keycloak, an open-source identity and access management solution. Hub ships with a preconfigured realm named cryptomator that contains the clients Hub needs and the realm roles user, create-vaults, and admin.
 - [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.
 - [Vault Recovery](/hub/vault-recovery.md): This section contains instructions for recovering Cryptomator Hub vaults using the vault recovery key.
@@ -2153,6 +2154,8 @@ To get started, use the [Setup Wizard](https://cryptomator.org/hub/self-hosted/)
 
 Cryptomator Hub depends on [Keycloak](https://www.keycloak.org/), an open-source identity and access management solution. In the Setup Wizard, you will have the option to choose between deploying Keycloak alongside Hub or specifying an URL to an existing Keycloak installation.
 
+Once Hub is up and running, see [Keycloak](/hub/keycloak/.md) for configuration tasks such as connecting an external identity provider or adjusting session timeouts.
+
 ## Reverse Proxy[​](#reverse-proxy "Direct link to Reverse Proxy")
 
 Cryptomator Hub must be used behind a reverse proxy such as Traefik or Nginx. In the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) you can already add rules for some reverse proxies like Traefik. As mentioned there, you will still need a running Traefik deployment.
@@ -2323,6 +2326,180 @@ note
 
 Make sure this backup is moved to another secure location.
 
+## Restore[​](#restore "Direct link to Restore")
+
+To bring a Hub deployment back to the state of a backup, replace the `hub` database with the contents of the dump. The following steps use Docker Compose; adjust the commands accordingly if you deploy to Kubernetes.
+
+1. Create a fresh backup of the entire Postgres cluster, including the Keycloak database, so that you can return to the current state if something goes wrong.
+2. Stop Hub with `docker compose stop hub`. Keycloak and Postgres keep running.
+3. Connect to Postgres with `docker compose exec -ti postgres psql -U postgres`.
+4. Rename the existing database with `ALTER DATABASE hub RENAME TO hub_backup;` so that it remains available as an additional safety net.
+5. Create an empty database with `CREATE DATABASE hub WITH ENCODING 'UTF8'; GRANT ALL PRIVILEGES ON DATABASE hub TO hub;` and leave the shell with `exit`.
+6. Import the dump with `docker compose exec -T postgres psql -U hub -d hub -v ON_ERROR_STOP=1 < backup.sql`.
+7. Start Hub again with `docker compose start hub`.
+
+Once you have confirmed that Hub works as expected, you can drop the `hub_backup` database.
+
+warning
+
+Hub and Keycloak reference each other by user ID. If you restore the Hub database from a backup, restore the Keycloak database from the same point in time as well. Otherwise users may exist in one system but not in the other.
+
+## Changing the Database Password[​](#changing-the-database-password "Direct link to Changing the Database Password")
+
+Change the password in Postgres first, then update the deployment. Connect to the Postgres container with `docker exec -it POSTGRES_CONTAINER_NAME /bin/ash` or `kubectl exec -it deployments/postgres -n NAMESPACE -- /bin/ash`, open the database with `psql -h localhost -d hub -U hub`, and run `\password` to set a new password for the Hub database user.
+
+Afterwards, set the environment variable `QUARKUS_DATASOURCE_PASSWORD` in your Hub deployment to the new password and restart Hub.
+
+note
+
+Keycloak uses its own database user. Changing the Hub password does not affect it.
+
+## Verifying Container Images[​](#verifying-container-images "Direct link to Verifying Container Images")
+
+The Hub and Keycloak container images are published together with build provenance attestations, which allow you to confirm that an image was built by the official GitHub Actions workflow and has not been tampered with.
+
+The following example verifies the Keycloak image using [regctl](https://github.com/regclient/regclient) and [cosign](https://github.com/sigstore/cosign):
+
+```
+KC_VERSION=26.1.3
+
+regctl manifest get --format raw-body ghcr.io/cryptomator/keycloak:${KC_VERSION} > manifest.json
+
+DIGEST="sha256-$(sha256sum manifest.json | awk '{ print $1 }')"
+
+regctl artifact get ghcr.io/cryptomator/keycloak:${DIGEST} > bundle.json
+
+cosign verify-blob-attestation \
+
+    --bundle bundle.json \
+
+    --new-bundle-format \
+
+    --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
+
+    --certificate-identity-regexp="^https://github.com/cryptomator/hub/.github/workflows/keycloak.yml@refs/heads/release/keycloak-${KC_VERSION}" \
+
+    manifest.json
+```
+
+A successful run prints `Verified OK`.
+
+The Hub image itself is attested by the `build.yml` workflow of the same repository. To verify it, use the corresponding image name and adjust `--certificate-identity-regexp` to that workflow and the Git reference the release was built from.
+
+## Trusting a Private Certificate Authority[​](#trusting-a-private-certificate-authority "Direct link to Trusting a Private Certificate Authority")
+
+If Hub connects to a Keycloak instance whose TLS certificate was not issued by a well-known certificate authority, you have to make the issuing CA known to Hub. Hub runs on the JVM, which uses its own trust store and ignores the certificates trusted by the host system.
+
+Start by preparing a file `rootWithIntermediates.pem` that contains the root certificate and all intermediate certificates that are not publicly available, in PEM format. Then create a PKCS12 trust store from it:
+
+```
+keytool -importcert \
+
+    -alias keycloak-ca-chain \
+
+    -file rootWithIntermediates.pem \
+
+    -keystore keycloak-truststore.p12 \
+
+    -storepass changeit \
+
+    -noprompt
+```
+
+Replace `changeit` with a password of your own. You can verify the result with `keytool -list -v -keystore keycloak-truststore.p12 -storepass changeit`.
+
+Hub reads the trust store from the Java system properties `javax.net.ssl.trustStore` and `javax.net.ssl.trustStorePassword`, which you pass as arguments to the application command.
+
+In Docker Compose, mount the file into the container and override the command:
+
+```
+services:
+
+  hub:
+
+    image: ghcr.io/cryptomator/hub:latest
+
+    command: >
+
+      ./application
+
+      -Djavax.net.ssl.trustStore=/etc/certs/keycloak-truststore.p12
+
+      -Djavax.net.ssl.trustStorePassword=changeit
+
+    volumes:
+
+      - './certs/keycloak-truststore.p12:/etc/certs/keycloak-truststore.p12:ro'
+```
+
+In Kubernetes, store the trust store in a secret and mount it as a volume. Encode the file with `base64 -w0 keycloak-truststore.p12` and add the output to a secret:
+
+```
+apiVersion: v1
+
+kind: Secret
+
+metadata:
+
+  namespace: hub
+
+  name: instance-secrets
+
+type: Opaque
+
+data:
+
+  keycloak-truststore-p12: BASE64_ENCODED_TRUSTSTORE
+```
+
+Then reference it in the deployment:
+
+```
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+
+  name: cryptomator-hub
+
+  namespace: hub
+
+spec:
+
+  template:
+
+    spec:
+
+      containers:
+
+        - name: cryptomator-hub
+
+          image: ghcr.io/cryptomator/hub:latest
+
+          command: ['./application']
+
+          args:
+
+            - '-Djavax.net.ssl.trustStore=/etc/certs/keycloak-truststore-p12'
+
+            - '-Djavax.net.ssl.trustStorePassword=changeit'
+
+          volumeMounts:
+
+            - name: keycloak-truststore-p12
+
+              mountPath: /etc/certs
+
+              readOnly: true
+```
+
+note
+
+Quarkus also offers the configuration options `QUARKUS_OIDC_CERTIFICATE_CHAIN_TRUST_STORE_FILE` and `QUARKUS_OIDC_CERTIFICATE_CHAIN_TRUST_STORE_PASSWORD`. These do not work for this purpose, so use the Java system properties shown above.
+
+If the Cryptomator desktop app also needs to talk to that Hub instance, the same applies there. Add `java-options=-Djavax.net.ssl.trustStore=/path/to/your/truststore` to the `Cryptomator.cfg` file in the installation directory.
+
 
 ---
 
@@ -2481,6 +2658,131 @@ This documentation covers various topics, depending on your role. If you are…
 * [Your Account](/hub/your-account/.md) - how to manage your own account.
 * [Managing Vaults](/hub/vault-management/.md) - how to manage vaults.
 * [Working with Vaults](/hub/access-vault/.md) - how to use Hub vaults with Cryptomator apps to encrypt your data.
+
+
+---
+
+# Keycloak
+
+Cryptomator Hub delegates authentication and user management to [Keycloak](https://www.keycloak.org/), an open-source identity and access management solution. Hub ships with a preconfigured realm named `cryptomator` that contains the clients Hub needs and the realm roles `user`, `create-vaults`, and `admin`.
+
+This page describes the Keycloak configuration tasks that are specific to running Hub. For everything else, refer to the [Keycloak documentation](https://www.keycloak.org/documentation).
+
+Enterprise Feature
+
+Connecting external identity and access management (IAM) solutions is available as an Enterprise feature.
+
+Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+
+## Connecting an External Identity Provider[​](#connecting-an-external-identity-provider "Direct link to Connecting an External Identity Provider")
+
+You can connect Hub to your existing identity provider so that users authenticate with the credentials they already have. Keycloak supports two fundamentally different approaches, and the choice affects when users become visible in Hub.
+
+With user federation over LDAP or Active Directory, Keycloak reads the directory directly. All users and groups exist in Hub right after the first synchronization, which means you can assign vault permissions before anyone has logged in.
+
+With identity brokering over OpenID Connect or SAML, Keycloak redirects users to the external provider. Users only appear in Hub after their first successful login, so you cannot grant vault access to someone who has never signed in.
+
+### OpenID Connect[​](#openid-connect "Direct link to OpenID Connect")
+
+To delegate authentication to an OpenID Connect provider such as Microsoft Entra ID, add an OpenID Connect provider under *Identity providers* in the `cryptomator` realm and enter the discovery endpoint, client ID, and client secret issued by your provider.
+
+Note that users are created lazily. Keycloak only knows an account after that person has logged in through the external provider for the first time.
+
+### Mapping Groups to Roles[​](#mapping-groups-to-roles "Direct link to Mapping Groups to Roles")
+
+Group memberships are not part of the token by default, so you have to enable them on both sides.
+
+In Microsoft Entra ID, open your app registration, go to *Manage* → *Manifest*, and set `"groupMembershipClaims": "All"`. Other providers have an equivalent setting that adds a `groups` claim to the token.
+
+In Keycloak, open your identity provider and add one *Claim to Role* mapper per group you want to map. Set the claim to `groups` and the claim value to the group's identifier — for Entra ID this is the **Object ID** of the group, not its display name. Then select the realm role to assign, typically `user` for regular members and `admin` for administrators.
+
+These mappers are evaluated lazily as well. A role is only assigned when the affected user logs in.
+
+### LDAP and Active Directory[​](#ldap-and-active-directory "Direct link to LDAP and Active Directory")
+
+To federate users from an LDAP directory, add an LDAP provider under *User federation* in the `cryptomator` realm and enter the connection URL, the bind credentials, and the base DN of your directory. The [Keycloak documentation on LDAP](https://www.keycloak.org/docs/latest/server_admin/#_ldap) describes the individual settings.
+
+Hub additionally requires two mappers on the LDAP provider:
+
+1. Add a *group-ldap-mapper* so that directory groups are imported into Keycloak. Without it, only users are synchronized and you cannot assign vault permissions to groups.
+2. Add a *hardcoded-ldap-role-mapper* that assigns the realm role `user` to every imported user. Users without this role cannot log in to Hub.
+
+Once both mappers are in place, run *Sync all users* on the LDAP provider. Afterwards, verify the setup by logging in to Hub — not Keycloak — with one of the imported accounts.
+
+### Using the Identity Provider as Default Login[​](#using-the-identity-provider-as-default-login "Direct link to Using the Identity Provider as Default Login")
+
+By default, Keycloak shows a login form with the external provider as an additional button. You can skip that screen and redirect users straight to your provider by entering its alias as the default identity provider in the browser authentication flow, as described in the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/index.html#default_identity_provider).
+
+warning
+
+Once the login form is hidden, local accounts can no longer sign in through the regular flow. Make sure at least one account that you can reach through the external provider holds the `admin` role, otherwise you lock yourself out of Keycloak administration.
+
+### Skipping the Account Creation Screen[​](#skipping-the-account-creation-screen "Direct link to Skipping the Account Creation Screen")
+
+When a user logs in through an external provider for the first time, Keycloak asks them to review and confirm their profile. To remove this step:
+
+1. Select *Authentication* in the left panel.
+2. Click the three dots next to *first broker login* and choose *Duplicate*. Give the copy a descriptive name such as `first oidc broker login`.
+3. Open the duplicated flow and set *Review Profile* in the first section to *Alternative*.
+4. Select *Identity providers* in the left panel and open your identity provider.
+5. Scroll down to *First login flow*, select the duplicated flow, and save.
+
+### Customizing the Username[​](#customizing-the-username "Direct link to Customizing the Username")
+
+Keycloak derives the username of brokered accounts from the email address reported by the identity provider. If you need a different scheme, add a *Username Template Importer* mapper to your identity provider and set its target to `LOCAL`.
+
+The template describes how the username is composed. For example, `${ALIAS}.${CLAIM.sub}` uses the alias of the identity provider, a dot, and the `sub` claim of the token.
+
+Keycloak currently supports the modifiers `toUpperCase`, `toLowerCase`, and `getEmailLocalPart`. Regular expressions are [not yet implemented](https://github.com/keycloak/keycloak/issues/10107).
+
+The mapper takes effect the next time the affected user logs in.
+
+## Restricting Access to Hub[​](#restricting-access-to-hub "Direct link to Restricting Access to Hub")
+
+If your identity provider serves more people than should have access to Hub, you can filter them out at the point where Keycloak accepts the external login.
+
+Open your identity provider in the `cryptomator` realm, enable *Verify essential claim*, and enter the claim name and the value that identifies an authorized user. Logins that do not carry this claim are rejected before the account is created, so unauthorized users never show up in Hub and never consume a license seat.
+
+Users who are turned away see an error screen after logging in with their external credentials.
+
+If your identity provider is a Keycloak instance as well, create the claim as follows:
+
+1. Create a client role for Hub in the identity provider's realm.
+2. Open *Client scopes* and select the client's *dedicated* scope.
+3. Add a *User Client Role* mapper and make sure *Add to ID token* is enabled. Without it, the claim never reaches Hub's Keycloak.
+4. Assign the client role to every user or group that should have access to Hub.
+
+## Session Timeouts[​](#session-timeouts "Direct link to Session Timeouts")
+
+Keycloak offers a large number of [timeouts](https://www.keycloak.org/docs/latest/server_admin/#_timeouts). Three of them determine how long users stay signed in to Hub.
+
+*Access Token Lifespan* defines how long an issued token remains valid and therefore how often Hub refreshes it in the background. *SSO Session Idle* defines how long a session survives without any token refresh, for example while the browser is closed. *SSO Session Max* is the absolute upper bound after which the user is signed out regardless of activity.
+
+An example makes the interaction clearer. With an access token lifespan of 10 seconds and an SSO session idle of 30 seconds, closing the browser tab for 20 seconds and reopening it yields a new token. Closing it for 40 seconds signs the user out, because the session expired while no refresh happened.
+
+tip
+
+If users complain about being signed out too often, *SSO Session Idle* is usually the setting to increase.
+
+## Migrating to Another Identity Provider[​](#migrating-to-another-identity-provider "Direct link to Migrating to Another Identity Provider")
+
+Hub identifies users by the IDs that Keycloak assigns to them, and vault permissions are bound to those IDs. When you switch from one identity provider to another, you therefore have to link the new external identity to the existing Keycloak account instead of creating a new one. Done correctly, users keep their vault access and do not have to set up their account again.
+
+### Linking Accounts Manually[​](#linking-accounts-manually "Direct link to Linking Accounts Manually")
+
+If you know the user ID and the username in the new identity provider, open the existing user in Keycloak, switch to *Identity provider links*, and add the link directly. The same can be done through the [Keycloak Admin REST API](https://www.keycloak.org/docs-api/latest/rest-api/index.html#FederatedIdentityRepresentation), which is the better option for larger user bases.
+
+### Linking Accounts During Login[​](#linking-accounts-during-login "Direct link to Linking Accounts During Login")
+
+Users can also link their own accounts. When someone logs in through the new provider with an email address that already exists in Keycloak, Keycloak offers to add the login to the existing account. Choosing *Add existing account* prompts them to authenticate once with the old provider, after which both identities point to the same account.
+
+If the old provider has already been shut down, set a password on the affected accounts beforehand. Users can then confirm the link with username and password instead of the old provider. When the account has a verified email address, confirmation by email works as well; both alternatives are reachable through *Try Another Way* on the login screen.
+
+### Forcing the Migration[​](#forcing-the-migration "Direct link to Forcing the Migration")
+
+As long as both providers are offered on the login screen, nothing stops users from continuing to sign in with the old one, and their accounts are never migrated. Set the new provider as the [default identity provider](#using-the-identity-provider-as-default-login) to send everyone through the new login and trigger the linking automatically.
+
+Once every account is linked, you can remove the old identity provider from the realm.
 
 
 ---
@@ -2664,9 +2966,7 @@ You can access the Keycloak management interface from the admin section of Hub. 
 
 Setting up LDAP synchronization is described in the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/#_ldap). For OpenID Connect and SAML, the Keycloak documentation provides [general information](https://www.keycloak.org/docs/latest/server_admin/#_identity_broker).
 
-warning
-
-Regardless of your IAM setup, your Hub instance always contains two system users: `admin` and `syncer`. **Do not edit or delete them!** These accounts are required for administration and synchronization tasks.
+The [Keycloak](/hub/keycloak/.md) page covers the configuration steps that are specific to Hub, such as [connecting an external identity provider](/hub/keycloak/.md#connecting-an-external-identity-provider), [restricting who may access Hub](/hub/keycloak/.md#restricting-access-to-hub), and [migrating to another identity provider](/hub/keycloak/.md#migrating-to-another-identity-provider).
 
 
 ---
