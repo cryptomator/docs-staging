@@ -8,9 +8,11 @@ This documentation covers various topics, depending on your role. If you are…
 
 …an **administrator**:
 
+* [Quick Start](/hub/quick-start/.md) - how to try Cryptomator Hub on your machine.
 * [User & Group management](/hub/user-group-management/.md) - how to manage users and groups.
 * [License](/hub/admin/.md#license) - how to manage your Hub license.
-* [Deployment](/hub/deployment/.md) - how to deploy Cryptomator Hub.
+* [Deployment Cookbook](/hub/deployment/.md) - how to deploy Cryptomator Hub for your team.
+* [Operations](/hub/operations/.md) - how to back up, restore, and maintain your Hub instance.
 
 …a **user**:
 

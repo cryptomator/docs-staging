@@ -33,11 +33,15 @@
 
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Admin](/hub/admin.md): License {/ #license /}
-- [Deployment](/hub/deployment.md): Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
+- [Deployment Cookbook](/hub/deployment.md): This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the Quick Start instead.
+- [Docker Compose](/hub/deployment/compose.md): Run Hub on a single Docker host behind Traefik.
+- [Kubernetes](/hub/deployment/kubernetes.md): Install the Helm chart with the Helm CLI.
+- [Rancher](/hub/deployment/rancher.md): Install the Helm chart through the Rancher UI.
 - [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 2.0.0.
 - [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
 - [Keycloak](/hub/keycloak.md): Cryptomator Hub delegates authentication and user management to Keycloak, an open-source identity and access management solution. Hub ships with a preconfigured realm named cryptomator that contains the clients Hub needs and the realm roles user, create-vaults, and admin.
+- [Operations](/hub/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading.
 - [Quick Start](/hub/quick-start.md): Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about 10 minutes. No domain, no TLS certificates, no reverse proxy.
 - [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.

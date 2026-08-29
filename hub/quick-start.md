@@ -2,7 +2,7 @@
 
 Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about **10 minutes**. No domain, no TLS certificates, no reverse proxy.
 
-What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, head over to the [Production Deployment](/hub/deployment/.md).
+What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, head over to the [Deployment Cookbook](/hub/deployment/.md).
 
 tip
 
@@ -32,7 +32,7 @@ Docker now pulls the images and starts the containers. Keycloak takes a minute o
 
 ## Log In[​](#log-in "Direct link to Log In")
 
-Open <http://localhost:8080> in your browser and log in with `admin` / `admin`. Keycloak asks you to choose a new password for the admin account right away.
+Open <http://localhost:8080> in your browser and log in with `admin` / `admin`.
 
 note
 
@@ -64,4 +64,4 @@ docker compose down -v
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 
-Liked what you saw? Deploying Hub for your team requires a public address, TLS, and a plan for backups. The [Production Deployment](/hub/deployment/.md) guide covers all of that.
+Liked what you saw? Deploying Hub for your team requires a public address, TLS, and a plan for backups. The [Deployment Cookbook](/hub/deployment/.md) guide covers all of that.

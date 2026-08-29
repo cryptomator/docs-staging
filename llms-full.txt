@@ -33,11 +33,15 @@
 
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Admin](/hub/admin.md): License {/ #license /}
-- [Deployment](/hub/deployment.md): Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
+- [Deployment Cookbook](/hub/deployment.md): This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the Quick Start instead.
+- [Docker Compose](/hub/deployment/compose.md): Run Hub on a single Docker host behind Traefik.
+- [Kubernetes](/hub/deployment/kubernetes.md): Install the Helm chart with the Helm CLI.
+- [Rancher](/hub/deployment/rancher.md): Install the Helm chart through the Rancher UI.
 - [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 2.0.0.
 - [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
 - [Keycloak](/hub/keycloak.md): Cryptomator Hub delegates authentication and user management to Keycloak, an open-source identity and access management solution. Hub ships with a preconfigured realm named cryptomator that contains the clients Hub needs and the realm roles user, create-vaults, and admin.
+- [Operations](/hub/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading.
 - [Quick Start](/hub/quick-start.md): Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about 10 minutes. No domain, no TLS certificates, no reverse proxy.
 - [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 2.0.0.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.
@@ -2128,378 +2132,213 @@ A council without redundancy (`Required Keys == number of council members`) is p
 
 ---
 
-# Deployment
+# Deployment Cookbook
 
-Cryptomator Hub can be deployed to a Kubernetes cluster or a Docker host. The following sections describe the deployment process in detail.
+This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the [Quick Start](/hub/quick-start/.md) instead.
 
-note
+tip
 
 Cryptomator Hub is also offered as a hosted solution, including 99.5%-uptime guarantee and regular backups! Visit [cryptomator.org](https://cryptomator.org/for-teams/) for more information.
 
-## Summary[​](#summary "Direct link to Summary")
+## Before You Begin[​](#before-you-begin "Direct link to Before You Begin")
 
-1. Decide, on which web addresses you want to deploy Hub and Keycloak
-2. Set up DNS and TLS termination
-3. Use the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) to generate a deployment descriptor template
-4. Customize the template if needed (e.g., adjust the Ingress settings) and deploy the software stack to your cluster
+Whichever recipe you follow, decide on these up front:
 
-Afterwards you're done. You can now log in to Cryptomator Hub and start [creating vaults](/hub/vault-management/.md) or [add users](/hub/user-group-management/.md).
+* **Public URLs.** Hub and Keycloak each need one, either as two hostnames (`https://hub.example.com`, `https://kc.example.com`) or as two paths on one host (`https://example.com/hub`, `https://example.com/kc`). Create the DNS records before you deploy.
+* **TLS termination.** Hub, Keycloak, and PostgreSQL speak plain HTTP and plain PostgreSQL protocol. Their ports must never be published directly; the only component listening on a public interface is your TLS-terminating reverse proxy or ingress controller.
+* **Bundled or existing services.** Every recipe can run Keycloak and PostgreSQL for you, or connect to instances you already operate, e.g. your organization's SSO. See [example](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/existing-keycloak).
 
-## Hardware Requirements[​](#hardware-requirements "Direct link to Hardware Requirements")
+important
 
-Currently, we are evaluating the system requirements for Cryptomator Hub. If you can provide data, please send us an email to <hub@cryptomator.org>.
+Keycloak creates Hub's realm, including the redirect URIs derived from your public URLs, only on its **first** start. Decide on the final URLs before deploying. Changing them later means editing the `cryptomatorhub` client in the Keycloak admin console (*Clients → cryptomatorhub → Valid redirect URIs*) in addition to updating the deployment. Otherwise, login fails with `Invalid parameter: redirect_uri`.
 
-## Setup Wizard[​](#setup-wizard "Direct link to Setup Wizard")
+## Recipes[​](#recipes "Direct link to Recipes")
 
-To get started, use the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) to generate the necessary configuration files.
+## [📄️Rancher](/hub/deployment/rancher/.md)
 
-Cryptomator Hub depends on [Keycloak](https://www.keycloak.org/), an open-source identity and access management solution. In the Setup Wizard, you will have the option to choose between deploying Keycloak alongside Hub or specifying an URL to an existing Keycloak installation.
+[Install the Helm chart through the Rancher UI.](/hub/deployment/rancher/.md)
 
-Once Hub is up and running, see [Keycloak](/hub/keycloak/.md) for configuration tasks such as connecting an external identity provider or adjusting session timeouts.
+## [📄️Kubernetes](/hub/deployment/kubernetes/.md)
 
-## Reverse Proxy[​](#reverse-proxy "Direct link to Reverse Proxy")
+[Install the Helm chart with the Helm CLI.](/hub/deployment/kubernetes/.md)
 
-Cryptomator Hub must be used behind a reverse proxy such as Traefik or Nginx. In the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) you can already add rules for some reverse proxies like Traefik. As mentioned there, you will still need a running Traefik deployment.
+## [📄️Docker Compose](/hub/deployment/compose/.md)
 
-If you don't have a running Traefik deployment and want to use Docker Compose to run Hub, you can use the following as starting point:
+[Run Hub on a single Docker host behind Traefik.](/hub/deployment/compose/.md)
+
+Once Hub is running, see [Operations](/hub/operations/.md) for backups, restores, and other maintenance tasks.
+
+## Sizing[​](#sizing "Direct link to Sizing")
+
+The defaults of the Compose example and the Helm chart target a small installation:
+
+| Service    | Memory                         | Notes                                                                                                                                                                           |
+| ---------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hub        | 64 MiB                         | Native binary, no JVM                                                                                                                                                           |
+| Keycloak   | 512 MiB requested, 1 GiB limit | JVM; heap is 70% of the limit. Raise the limit for larger user bases, see Keycloak's [sizing guide](https://www.keycloak.org/high-availability/concepts-memory-and-cpu-sizing). |
+| PostgreSQL | 256 MiB, 2 GiB storage         | Serves only Hub and Keycloak                                                                                                                                                    |
+
+Startup and realm import of Keycloak are CPU-heavy; avoid strict CPU limits on it.
+
+
+---
+
+# Docker Compose
+
+We maintain example Compose files in the [Hub repository](https://github.com/cryptomator/hub/tree/develop/deploy/compose). The production example runs Hub, Keycloak, and PostgreSQL behind a [Traefik](https://traefik.io/) reverse proxy that obtains a TLS certificate from Let's Encrypt.
+
+## Prerequisites[​](#compose-prerequisites "Direct link to Prerequisites")
+
+* Docker with Docker Compose 2.23.1 or newer (`docker compose version`).
+* Ports 80 and 443 of the host reachable from the internet (Let's Encrypt HTTP challenge) and from your users.
+* DNS records for the Hub and Keycloak hostnames pointing to the host.
+
+## Deploy[​](#compose-deploy "Direct link to Deploy")
+
+Download the production example into an empty directory:
+
+<!-- -->
 
 ```
-networks:
-
-  srv:
-
-    name: srv
-
-
-
-services:
-
-  traefik:
-
-    image: traefik:v3
-
-    command:
-
-      # Provider
-
-      - '--providers.docker'
-
-      - '--providers.docker.exposedbydefault=false'
-
-      - '--providers.docker.network=srv'
-
-      # Entrypoints
-
-      - '--entrypoints.web.address=:80'
-
-      - '--entrypoints.web.http.redirections.entrypoint.to=websecure'
-
-      - '--entrypoints.websecure.address=:443'
-
-      # Let's Encrypt
-
-      - '--certificatesresolvers.myresolver.acme.email=TODO' # TODO change
-
-      - '--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web'
-
-      - '--certificatesresolvers.myresolver.acme.httpchallenge=true'
-
-      - '--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json'
-
-      # Uncomment to use staging for testing
-
-      # - '--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory'
-
-      - '--entrypoints.websecure.http.tls.certresolver=myresolver'
-
-      # HTTP/3
-
-      - '--entrypoints.websecure.http3'
-
-      # Logs
-
-      - '--accesslog.filepath=/logs/access.log'
-
-      - '--accesslog.format=json'
-
-      - '--log.filepath=/logs/traefik.log'
-
-      - '--log.format=json'
-
-      - '--log.level=ERROR'
-
-      # Misc
-
-      - '--api.dashboard=false'
-
-      - '--global.checknewversion=false'
-
-      - '--global.sendanonymoususage=false'
-
-      - '--ping'
-
-    ports:
-
-      - '80:80'
-
-      - '443:443'
-
-    networks:
-
-      - 'srv'
-
-    restart: always
-
-    healthcheck:
-
-      test: ['CMD', 'traefik', 'healthcheck', '--ping']
-
-      interval: 10s
-
-      timeout: 10s
-
-      retries: 5
-
-    volumes:
-
-      - '/var/run/docker.sock:/var/run/docker.sock'
-
-      - './logs:/logs'
-
-      - './letsencrypt:/letsencrypt'
-
-    labels:
-
-      - 'traefik.enable=false'
+curl -fsSLO https://raw.githubusercontent.com/cryptomator/hub/2.0.0/deploy/compose/prod/compose.yaml
 ```
 
-Some remarks
+Open `compose.yaml` and replace every placeholder before starting the stack:
 
-1. There are a lot of other features of Traefik like Promeheus metrics generation, API frontend, … but we wanted to keep the deployment as simple as possible
-2. This deployment uses Let's encrypt in HTTP challenge mode to create and update a TLS certificate for Hub/Keycloak. There are other methods available such as DNS or TCP challenge, see <https://doc.traefik.io/traefik/https/overview/> for more information
-3. Make sure you add `logs/access.log` to your log rotation, otherwise this file can grow very quickly
+1. The two public hostnames, in all places they appear (see [Configuration](#compose-configuration)).
+2. The email address for Let's Encrypt.
+3. All passwords and secrets: the PostgreSQL admin password, the database passwords of `hub` and `keycloak`, the Keycloak bootstrap admin password, the Hub admin password, and the secret of the `cryptomatorhub-system` client. Generate them, e.g. with `openssl rand -hex 32`.
 
-Before running this deployment
-
-1. You must set a valid email address in `TODO`
-
-2. You must have ports 80 and 443 open on the host machine
-
-3. You need to create for Hub and optionally Keycloak DNS entries (`CNAME`, or `A` record) for the domain entered in the Setup Wizard of Hub
-
-4. Create a Hub deployment using the [Setup Wizard](https://cryptomator.org/hub/self-hosted/) with `include Traeffik` selected and merge the content with this file:
-
-   <!-- -->
-
-   1. Copy the `hub-internal: {}` section of the Setup Wizard to this `networks`
-   2. Copy all services of the Setup Wizard under the `services` section to this `services`
-   3. Copy the `volumes` from the Setup Wizard to this file
-
-Troubleshooting: If you encounter problems, check the log files in `logs/traffik.log` and `logs/access.log`. Make sure you entered `srv` as `Public Network` in the Setup Wizard of Hub.
-
-## Backup[​](#backup "Direct link to Backup")
-
-Cryptomator Hub and Keycloak both write to the connected Postgres database. So the best and easiest way is to backup it cyclically using e.g. a Cron Job. Depending on your deployment, here is a sample command that you can run on the host system to backup the entire databases to a file using the Postgres container, which you than could import in a similar way:
+Then start everything:
 
 ```
-Docker:
-
-docker exec -u postgres -it postgres /bin/bash -c /usr/local/bin/pg_dumpall \
-
-    > "$(date +%F)-hub-backup"
-
-
-
-Kubernetes:
-
-kubectl exec -it deployments/postgres -n NAMESPACE \
-
-    -- /usr/local/bin/pg_dumpall -U postgres > "$(date +%F)-hub-backup"
+docker compose up -d
 ```
 
-See <https://www.postgresql.org/docs/current/app-pg-dumpall.html> for more information on the `pg_dumpall` command. The command will create a file on the host with a name like "2023-02-06-hub-backup".
+Keycloak takes a minute or two on first start to import the realm. Once all services are healthy, open the Hub URL, sign in as `admin` with the password you chose, and enter your license.
 
-Besides `pg_dumpall` Postgres offers with `psql -f PATH_TO_FILE` a command to restore the database from this file and a new system is completely at the state of this file.
+## Configuration[​](#compose-configuration "Direct link to Configuration")
 
-If you also back up the deployment script, you can restore the entire solution to production in minutes.
+You can find a reference table of all settings alongside the example in [the project's GitHub repository](https://github.com/cryptomator/hub/tree/2.0.0/deploy/compose/prod).
 
-note
+Never publish service ports
 
-Make sure this backup is moved to another secure location.
+Traefik is the only service in the example with a `ports:` section. Do not add `ports:` to `hub`, `keycloak`, or `postgres`, not even "just for testing" or bound to a non-standard port.
 
-## Restore[​](#restore "Direct link to Restore")
+Doing so exposes unencrypted logins, tokens, and the database to the network. Traefik reaches the services over the internal Compose network; if you need to inspect a service, use `docker compose exec` or an SSH tunnel instead.
 
-To bring a Hub deployment back to the state of a backup, replace the `hub` database with the contents of the dump. The following steps use Docker Compose; adjust the commands accordingly if you deploy to Kubernetes.
+## Upgrading[​](#compose-upgrading "Direct link to Upgrading")
 
-1. Create a fresh backup of the entire Postgres cluster, including the Keycloak database, so that you can return to the current state if something goes wrong.
-2. Stop Hub with `docker compose stop hub`. Keycloak and Postgres keep running.
-3. Connect to Postgres with `docker compose exec -ti postgres psql -U postgres`.
-4. Rename the existing database with `ALTER DATABASE hub RENAME TO hub_backup;` so that it remains available as an additional safety net.
-5. Create an empty database with `CREATE DATABASE hub WITH ENCODING 'UTF8'; GRANT ALL PRIVILEGES ON DATABASE hub TO hub;` and leave the shell with `exit`.
-6. Import the dump with `docker compose exec -T postgres psql -U hub -d hub -v ON_ERROR_STOP=1 < backup.sql`.
-7. Start Hub again with `docker compose start hub`.
+[Back up the database](/hub/operations/.md#backup) first. Image versions are pinned in `compose.yaml`; to upgrade, change the tags and run `docker compose up -d`. Hub applies its database migrations automatically at start. For Keycloak, follow the [Keycloak upgrade guide](https://www.keycloak.org/docs/latest/upgrading/).
 
-Once you have confirmed that Hub works as expected, you can drop the `hub_backup` database.
+PostgreSQL minor updates (e.g. `18.6` → `18.7`) are drop-in. A major update (`18` → `19`) is not: the data directory must be migrated with `pg_upgrade` or a dump and restore, see the [PostgreSQL upgrade notes](https://www.postgresql.org/docs/current/upgrading.html).
 
-warning
 
-Hub and Keycloak reference each other by user ID. If you restore the Hub database from a backup, restore the Keycloak database from the same point in time as well. Otherwise users may exist in one system but not in the other.
+---
 
-## Changing the Database Password[​](#changing-the-database-password "Direct link to Changing the Database Password")
+# Kubernetes
 
-Change the password in Postgres first, then update the deployment. Connect to the Postgres container with `docker exec -it POSTGRES_CONTAINER_NAME /bin/ash` or `kubectl exec -it deployments/postgres -n NAMESPACE -- /bin/ash`, open the database with `psql -h localhost -d hub -U hub`, and run `\password` to set a new password for the Hub database user.
+The Helm chart `oci://ghcr.io/cryptomator/charts/cryptomator-hub` deploys Hub together with an optional Keycloak and PostgreSQL. Passwords you don't set are generated on install and stored in Kubernetes Secrets. All values are documented in the chart's [`values.yaml`](https://github.com/cryptomator/hub/blob/develop/chart/values.yaml) and validated against a schema.
 
-Afterwards, set the environment variable `QUARKUS_DATASOURCE_PASSWORD` in your Hub deployment to the new password and restart Hub.
+Using Rancher? The same chart can be installed through its UI, see [Rancher](/hub/deployment/rancher/.md).
 
-note
+## Prerequisites[​](#kubernetes-prerequisites "Direct link to Prerequisites")
 
-Keycloak uses its own database user. Changing the Hub password does not affect it.
+* A Kubernetes cluster, version 1.27 or newer.
+* A **Traefik** ingress controller (bundled with K3s, for example). nginx is supported as well, see [Configuration](#kubernetes-configuration); the examples below assume Traefik.
+* A default StorageClass; the bundled PostgreSQL needs one `ReadWriteOnce` volume.
+* DNS records for the two hostnames pointing at the ingress controller.
+* For TLS: [cert-manager](https://cert-manager.io/) with a `ClusterIssuer`, or an existing TLS secret. See [Configuration](#kubernetes-configuration) for alternatives.
+* `kubectl` and Helm 3.8 or newer (OCI support).
 
-## Verifying Container Images[​](#verifying-container-images "Direct link to Verifying Container Images")
-
-The Hub and Keycloak container images are published together with build provenance attestations, which allow you to confirm that an image was built by the official GitHub Actions workflow and has not been tampered with.
-
-The following example verifies the Keycloak image using [regctl](https://github.com/regclient/regclient) and [cosign](https://github.com/sigstore/cosign):
+## Install[​](#kubernetes-install "Direct link to Install")
 
 ```
-KC_VERSION=26.1.3
+helm install hub oci://ghcr.io/cryptomator/charts/cryptomator-hub --version 2.0.0 \
 
-regctl manifest get --format raw-body ghcr.io/cryptomator/keycloak:${KC_VERSION} > manifest.json
+  --namespace cryptomator --create-namespace \
 
-DIGEST="sha256-$(sha256sum manifest.json | awk '{ print $1 }')"
+  --set urls.hub.public=https://hub.example.com \
 
-regctl artifact get ghcr.io/cryptomator/keycloak:${DIGEST} > bundle.json
+  --set urls.kc.public=https://kc.example.com \
 
-cosign verify-blob-attestation \
+  --set ingress.controller=traefik \
 
-    --bundle bundle.json \
-
-    --new-bundle-format \
-
-    --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
-
-    --certificate-identity-regexp="^https://github.com/cryptomator/hub/.github/workflows/keycloak.yml@refs/heads/release/keycloak-${KC_VERSION}" \
-
-    manifest.json
+  --set ingress.certificate.clusterIssuer=letsencrypt
 ```
 
-A successful run prints `Verified OK`.
-
-The Hub image itself is attested by the `build.yml` workflow of the same repository. To verify it, use the corresponding image name and adjust `--certificate-identity-regexp` to that workflow and the Git reference the release was built from.
-
-## Trusting a Private Certificate Authority[​](#trusting-a-private-certificate-authority "Direct link to Trusting a Private Certificate Authority")
-
-If Hub connects to a Keycloak instance whose TLS certificate was not issued by a well-known certificate authority, you have to make the issuing CA known to Hub. Hub runs on the JVM, which uses its own trust store and ignores the certificates trusted by the host system.
-
-Start by preparing a file `rootWithIntermediates.pem` that contains the root certificate and all intermediate certificates that are not publicly available, in PEM format. Then create a PKCS12 trust store from it:
+Helm prints the service names and the commands to retrieve the generated passwords. Wait until all pods are ready; Keycloak needs a minute on first start to import Hub's realm:
 
 ```
-keytool -importcert \
-
-    -alias keycloak-ca-chain \
-
-    -file rootWithIntermediates.pem \
-
-    -keystore keycloak-truststore.p12 \
-
-    -storepass changeit \
-
-    -noprompt
+kubectl get pods -n cryptomator -w
 ```
 
-Replace `changeit` with a password of your own. You can verify the result with `keytool -list -v -keystore keycloak-truststore.p12 -storepass changeit`.
-
-Hub reads the trust store from the Java system properties `javax.net.ssl.trustStore` and `javax.net.ssl.trustStorePassword`, which you pass as arguments to the application command.
-
-In Docker Compose, mount the file into the container and override the command:
+Then retrieve the two admin passwords:
 
 ```
-services:
+# Hub admin (realm user `admin`; the password must be changed on first login)
 
-  hub:
+kubectl get secret -n cryptomator hub-secrets-hub -o jsonpath='{.data.hub_admin_password}' | base64 -d && echo
 
-    image: ghcr.io/cryptomator/hub:latest
+# Keycloak bootstrap admin (`admin`)
 
-    command: >
-
-      ./application
-
-      -Djavax.net.ssl.trustStore=/etc/certs/keycloak-truststore.p12
-
-      -Djavax.net.ssl.trustStorePassword=changeit
-
-    volumes:
-
-      - './certs/keycloak-truststore.p12:/etc/certs/keycloak-truststore.p12:ro'
+kubectl get secret -n cryptomator hub-secrets-kc -o jsonpath='{.data.kc_admin_password}' | base64 -d && echo
 ```
 
-In Kubernetes, store the trust store in a secret and mount it as a volume. Encode the file with `base64 -w0 keycloak-truststore.p12` and add the output to a secret:
+Open `https://hub.example.com`, sign in as `admin`, set a new password, and enter your license. Users and groups are managed in Keycloak at `https://kc.example.com`; Hub syncs them every 5 minutes (`hub.config.keycloakSyncerPeriod`).
+
+## Configuration[​](#kubernetes-configuration "Direct link to Configuration")
+
+You can find a reference table of all settings alongside the chart in [the project's GitHub repository](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/prod).
+
+Never expose service ports
+
+Leave `hub.service.type`, `keycloak.service.type`, and `postgres.service.type` at `ClusterIP`. Setting them to `NodePort` or `LoadBalancer` exposes unencrypted logins, tokens, and the database to the network. The ingress controller is the only entry point; if you need to inspect a service, use `kubectl port-forward` instead.
+
+## Upgrading and Uninstalling[​](#kubernetes-upgrading "Direct link to Upgrading and Uninstalling")
+
+[Back up the database](/hub/operations/.md#backup) first, then:
 
 ```
-apiVersion: v1
+helm upgrade hub oci://ghcr.io/cryptomator/charts/cryptomator-hub --version <new version> \
 
-kind: Secret
-
-metadata:
-
-  namespace: hub
-
-  name: instance-secrets
-
-type: Opaque
-
-data:
-
-  keycloak-truststore-p12: BASE64_ENCODED_TRUSTSTORE
+  --namespace cryptomator --reuse-values
 ```
 
-Then reference it in the deployment:
+Hub applies its schema migrations at start; generated passwords are re-read from the existing Secrets, so they stay stable across upgrades.
 
-```
-apiVersion: apps/v1
+`helm uninstall hub -n cryptomator` removes the workloads and Secrets but keeps the PVC `data-hub-pg-0`; delete it explicitly if you want the data gone.
 
-kind: Deployment
 
-metadata:
+---
 
-  name: cryptomator-hub
+# Rancher
 
-  namespace: hub
+Rancher installs the same Helm chart as the [Kubernetes](/hub/deployment/kubernetes/.md) path, but through a guided form instead of the Helm CLI. The chart ships a `questions.yaml`, so the form asks only for what you have to decide; everything else keeps its default.
 
-spec:
+## Prerequisites[​](#rancher-prerequisites "Direct link to Prerequisites")
 
-  template:
+* Rancher 2.9 or newer (required for OCI chart repositories).
+* Traefik or Nginx as ingress controller and a way to obtain TLS certificates.
+* A default StorageClass
 
-    spec:
+## Install[​](#rancher-install "Direct link to Install")
 
-      containers:
+1. Add the chart repository once: go to *Apps → Repositories → Create*, choose the OCI type, and enter `oci://ghcr.io/cryptomator/charts`.
+2. Go to *Apps → Charts*, select *Cryptomator Hub*, and click *Install*.
+3. Click *Install* and wait until all workloads are active. Keycloak needs a minute on first start to import Hub's realm.
 
-        - name: cryptomator-hub
+Advanced Configuration
 
-          image: ghcr.io/cryptomator/hub:latest
+Everything the form does not ask for is available in the *Edit YAML* view, see the [reference table](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/prod).
 
-          command: ['./application']
+Generated passwords appear under *Storage → Secrets* in the release namespace: `hub-secrets-hub` holds the Hub admin password, `hub-secrets-kc` the Keycloak bootstrap admin password, `hub-secrets-pg` the database passwords.
 
-          args:
+Open the Hub URL, sign in as `admin`, set a new password, and enter your license.
 
-            - '-Djavax.net.ssl.trustStore=/etc/certs/keycloak-truststore-p12'
+## Upgrading[​](#rancher-upgrading "Direct link to Upgrading")
 
-            - '-Djavax.net.ssl.trustStorePassword=changeit'
-
-          volumeMounts:
-
-            - name: keycloak-truststore-p12
-
-              mountPath: /etc/certs
-
-              readOnly: true
-```
-
-note
-
-Quarkus also offers the configuration options `QUARKUS_OIDC_CERTIFICATE_CHAIN_TRUST_STORE_FILE` and `QUARKUS_OIDC_CERTIFICATE_CHAIN_TRUST_STORE_PASSWORD`. These do not work for this purpose, so use the Java system properties shown above.
-
-If the Cryptomator desktop app also needs to talk to that Hub instance, the same applies there. Add `java-options=-Djavax.net.ssl.trustStore=/path/to/your/truststore` to the `Cryptomator.cfg` file in the installation directory.
+[Back up the database](/hub/operations/.md#backup) first. Then go to *Apps → Installed Apps*, select the release, click *Upgrade*, and choose the new chart version. Your values are kept; generated passwords stay stable across upgrades.
 
 
 ---
@@ -2650,9 +2489,11 @@ This documentation covers various topics, depending on your role. If you are…
 
 …an **administrator**:
 
+* [Quick Start](/hub/quick-start/.md) - how to try Cryptomator Hub on your machine.
 * [User & Group management](/hub/user-group-management/.md) - how to manage users and groups.
 * [License](/hub/admin/.md#license) - how to manage your Hub license.
-* [Deployment](/hub/deployment/.md) - how to deploy Cryptomator Hub.
+* [Deployment Cookbook](/hub/deployment/.md) - how to deploy Cryptomator Hub for your team.
+* [Operations](/hub/operations/.md) - how to back up, restore, and maintain your Hub instance.
 
 …a **user**:
 
@@ -2788,11 +2629,238 @@ Once every account is linked, you can remove the old identity provider from the 
 
 ---
 
+# Operations
+
+All state of Cryptomator Hub lives in the PostgreSQL database: the `hub` database holds vaults, keys, and the audit log, the `keycloak` database holds users, groups, and credentials. Back up both, and always do so before upgrading.
+
+## Backup[​](#backup "Direct link to Backup")
+
+The easiest way is a logical dump of the entire PostgreSQL instance with `pg_dumpall`, run regularly, e.g. from a cron job on the host.
+
+Docker Compose:
+
+```
+docker compose exec -u postgres postgres pg_dumpall > "$(date +%F)-hub-backup.sql"
+```
+
+Kubernetes:
+
+```
+kubectl exec -n cryptomator hub-pg-0 -- pg_dumpall -U postgres > "$(date +%F)-hub-backup.sql"
+```
+
+On Kubernetes you can alternatively snapshot the volume `data-hub-pg-0` with your storage provider.
+
+See the [PostgreSQL documentation](https://www.postgresql.org/docs/current/app-pg-dumpall.html) for more information on `pg_dumpall`. If you also back up your `compose.yaml` or Helm values, you can restore the entire installation in minutes.
+
+note
+
+Make sure the backup is moved to another secure location.
+
+## Restore[​](#restore "Direct link to Restore")
+
+To bring a Hub deployment back to the state of a backup, replace the `hub` database with the contents of the dump. The following steps use Docker Compose; the Kubernetes equivalents are noted where they differ.
+
+1. Create a fresh backup of the entire PostgreSQL instance, including the Keycloak database, so that you can return to the current state if something goes wrong.
+2. Stop Hub with `docker compose stop hub`. Keycloak and PostgreSQL keep running. (Kubernetes: `kubectl scale -n cryptomator deployment/hub-hub --replicas=0`)
+3. Connect to PostgreSQL with `docker compose exec -ti postgres psql -U postgres`. (Kubernetes: `kubectl exec -ti -n cryptomator hub-pg-0 -- psql -U postgres`)
+4. Rename the existing database with `ALTER DATABASE hub RENAME TO hub_backup;` so that it remains available as an additional safety net.
+5. Create an empty database with `CREATE DATABASE hub WITH ENCODING 'UTF8'; GRANT ALL PRIVILEGES ON DATABASE hub TO hub;` and leave the shell with `exit`.
+6. Import the dump with `docker compose exec -T postgres psql -U hub -d hub -v ON_ERROR_STOP=1 < backup.sql`. (Kubernetes: `kubectl exec -i -n cryptomator hub-pg-0 -- psql -U hub -d hub -v ON_ERROR_STOP=1 < backup.sql`)
+7. Start Hub again with `docker compose start hub`. (Kubernetes: `kubectl scale -n cryptomator deployment/hub-hub --replicas=1`)
+
+Once you have confirmed that Hub works as expected, you can drop the `hub_backup` database.
+
+warning
+
+Hub and Keycloak reference each other by user ID. If you restore the Hub database from a backup, restore the Keycloak database from the same point in time as well. Otherwise users may exist in one system but not in the other.
+
+## Changing the Database Password[​](#changing-the-database-password "Direct link to Changing the Database Password")
+
+Change the password in Postgres first, then update the deployment. Connect to the Postgres container with `docker compose exec -it postgres /bin/sh` or `kubectl exec -it hub-pg-0 -n cryptomator -- /bin/sh`, open the database with `psql -h localhost -d hub -U hub`, and run `\password` to set a new password for the Hub database user.
+
+Afterwards, set the new password in your deployment and restart Hub: the environment variable `QUARKUS_DATASOURCE_PASSWORD` in `compose.yaml`, or `hub.database.password` on `helm upgrade`.
+
+note
+
+Keycloak uses its own database user. Changing the Hub password does not affect it.
+
+## Verifying Container Images[​](#verifying-container-images "Direct link to Verifying Container Images")
+
+The Hub and Keycloak container images are published together with build provenance attestations, which allow you to confirm that an image was built by the official GitHub Actions workflow and has not been tampered with.
+
+The following example verifies the Keycloak image using [regctl](https://github.com/regclient/regclient) and [cosign](https://github.com/sigstore/cosign):
+
+```
+KC_VERSION=26.7.2
+
+regctl manifest get --format raw-body ghcr.io/cryptomator/keycloak:${KC_VERSION} > manifest.json
+
+DIGEST="sha256-$(sha256sum manifest.json | awk '{ print $1 }')"
+
+regctl artifact get ghcr.io/cryptomator/keycloak:${DIGEST} > bundle.json
+
+cosign verify-blob-attestation \
+
+    --bundle bundle.json \
+
+    --new-bundle-format \
+
+    --certificate-oidc-issuer="https://token.actions.githubusercontent.com" \
+
+    --certificate-identity-regexp="^https://github.com/cryptomator/hub/.github/workflows/keycloak.yml@refs/heads/release/keycloak-${KC_VERSION}" \
+
+    manifest.json
+```
+
+A successful run prints `Verified OK`.
+
+The Hub image itself is attested by the `build.yml` workflow of the same repository. To verify it, use the corresponding image name and adjust `--certificate-identity-regexp` to that workflow and the Git reference the release was built from.
+
+The Helm chart is signed as well. Verify the signature and inspect the provenance attestation with:
+
+```
+cosign verify \
+
+  --certificate-identity-regexp 'https://github.com/cryptomator/hub/.github/workflows/helm-chart.yml@refs/(heads|tags)/.+' \
+
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+
+  ghcr.io/cryptomator/charts/cryptomator-hub:2.0.0
+
+
+
+cosign verify-attestation \
+
+  --type https://slsa.dev/provenance/v1 \
+
+  --certificate-identity-regexp 'https://github.com/cryptomator/hub/.github/workflows/helm-chart.yml@refs/(heads|tags)/.+' \
+
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+
+  ghcr.io/cryptomator/charts/cryptomator-hub:2.0.0
+```
+
+## Trusting a Private Certificate Authority[​](#trusting-a-private-certificate-authority "Direct link to Trusting a Private Certificate Authority")
+
+If Hub connects to a Keycloak instance whose TLS certificate was not issued by a well-known certificate authority, you have to make the issuing CA known to Hub. Hub runs on the JVM, which uses its own trust store and ignores the certificates trusted by the host system.
+
+Start by preparing a file `rootWithIntermediates.pem` that contains the root certificate and all intermediate certificates that are not publicly available, in PEM format. Then create a PKCS12 trust store from it:
+
+```
+keytool -importcert \
+
+    -alias keycloak-ca-chain \
+
+    -file rootWithIntermediates.pem \
+
+    -keystore keycloak-truststore.p12 \
+
+    -storepass changeit \
+
+    -noprompt
+```
+
+Replace `changeit` with a password of your own. You can verify the result with `keytool -list -v -keystore keycloak-truststore.p12 -storepass changeit`.
+
+Hub reads the trust store from the Java system properties `javax.net.ssl.trustStore` and `javax.net.ssl.trustStorePassword`, which you pass as arguments to the application command.
+
+In Docker Compose, mount the file into the container and override the command:
+
+```
+services:
+
+  hub:
+
+    image: ghcr.io/cryptomator/hub:2.0.0
+
+    command: >
+
+      ./application
+
+      -Djavax.net.ssl.trustStore=/etc/certs/keycloak-truststore.p12
+
+      -Djavax.net.ssl.trustStorePassword=changeit
+
+    volumes:
+
+      - './certs/keycloak-truststore.p12:/etc/certs/keycloak-truststore.p12:ro'
+```
+
+In Kubernetes, store the trust store in a secret and mount it as a volume. Encode the file with `base64 -w0 keycloak-truststore.p12` and add the output to a secret:
+
+```
+apiVersion: v1
+
+kind: Secret
+
+metadata:
+
+  namespace: cryptomator
+
+  name: keycloak-truststore
+
+type: Opaque
+
+data:
+
+  keycloak-truststore.p12: BASE64_ENCODED_TRUSTSTORE
+```
+
+The chart has no value for this, so patch the Hub deployment (`hub-hub` for a release named `hub`) after installing:
+
+```
+spec:
+
+  template:
+
+    spec:
+
+      containers:
+
+        - name: hub
+
+          args:
+
+            - '-Djavax.net.ssl.trustStore=/etc/certs/keycloak-truststore.p12'
+
+            - '-Djavax.net.ssl.trustStorePassword=changeit'
+
+          volumeMounts:
+
+            - name: keycloak-truststore
+
+              mountPath: /etc/certs
+
+              readOnly: true
+
+      volumes:
+
+        - name: keycloak-truststore
+
+          secret:
+
+            secretName: keycloak-truststore
+```
+
+```
+kubectl patch deployment hub-hub -n cryptomator --patch-file truststore-patch.yaml
+```
+
+note
+
+Quarkus also offers the configuration options `QUARKUS_OIDC_CERTIFICATE_CHAIN_TRUST_STORE_FILE` and `QUARKUS_OIDC_CERTIFICATE_CHAIN_TRUST_STORE_PASSWORD`. These do not work for this purpose, so use the Java system properties shown above.
+
+If the Cryptomator desktop app also needs to talk to that Hub instance, the same applies there. Add `java-options=-Djavax.net.ssl.trustStore=/path/to/your/truststore` to the `Cryptomator.cfg` file in the installation directory.
+
+
+---
+
 # Quick Start
 
 Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about **10 minutes**. No domain, no TLS certificates, no reverse proxy.
 
-What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, head over to the [Production Deployment](/hub/deployment/.md).
+What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, head over to the [Deployment Cookbook](/hub/deployment/.md).
 
 tip
 
@@ -2822,7 +2890,7 @@ Docker now pulls the images and starts the containers. Keycloak takes a minute o
 
 ## Log In[​](#log-in "Direct link to Log In")
 
-Open <http://localhost:8080> in your browser and log in with `admin` / `admin`. Keycloak asks you to choose a new password for the admin account right away.
+Open <http://localhost:8080> in your browser and log in with `admin` / `admin`.
 
 note
 
@@ -2854,7 +2922,7 @@ docker compose down -v
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 
-Liked what you saw? Deploying Hub for your team requires a public address, TLS, and a plan for backups. The [Production Deployment](/hub/deployment/.md) guide covers all of that.
+Liked what you saw? Deploying Hub for your team requires a public address, TLS, and a plan for backups. The [Deployment Cookbook](/hub/deployment/.md) guide covers all of that.
 
 
 ---
