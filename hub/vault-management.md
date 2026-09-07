@@ -13,7 +13,7 @@ note
 * As a user, you will only see the vaults that you have access to.
 * As an admin of the Hub instance, you can see all vaults, but you can only access those that you have been granted access to.
 
-Emergency Access Status in Vault List (Enterprise only, early access)
+Emergency Access Status in Vault List (Enterprise only)
 
 In the `Vault List`, owners can see the Emergency Access status directly via badges:
 
@@ -27,7 +27,7 @@ note
 
 Creating vaults require the `create-vault` role. [Here](/hub/user-group-management/.md#roles) you can read more about roles.
 
-To create a vault in Hub, navigate to the vault list and click on the `Create Vault` button in the top right corner. Every vault has a name and optionally a description. Fill out the form and continue the process by clicking the `Next` button in the right corner.
+To create a vault in Hub, navigate to the vault list and click `Add` → `Create New` in the top-right corner. Every vault has a name and optionally a description. Fill out the form and continue the process by clicking the `Next` button in the right corner.
 
 ![Create a vault](/img/hub/create-vault.png)
 
@@ -35,13 +35,9 @@ If the [Emergency Access](/hub/emergency-access/.md) feature is enabled, the fol
 
 Here, the conditions for Emergency Access are defined for the new vault. If the administrator allows custom council selection, you can adjust the default council. Select the council members who should participate in emergency recovery and review the example recovery scenario. Click `Next` to continue to the recovery key step.
 
-Early Access
-
-Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
-
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=vault-management) for more information about Enterprise features.
 
 ![Define Emergency Access Conditions](/img/hub/create-vault-emergency-access.png)
 
@@ -118,13 +114,9 @@ To show the vault recovery key, click on the `Show Recovery Key` button in the [
 
 ### Setup/Fix Emergency Access Council[​](#emergency-access-council "Direct link to Setup/Fix Emergency Access Council")
 
-Early Access
-
-Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
-
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=vault-management) for more information about Enterprise features.
 
 To configure [Emergency Access](/hub/emergency-access/.md) for a vault, click `Setup Emergency Access Council` in the [vault details](#vault-details). If Emergency Access is already configured but needs correction, click `Fix Emergency Access Council`. This opens a dialog where you define the council members and confirm with `Grant`.
 
@@ -143,17 +135,17 @@ The WoT state of a user is displayed in the vault details page. The state can be
 * **Unverified**: There is no trust chain between you and the specific user. Indicated with a red shield. You can change this by verifying the user.
 * **Verified**: There is a trust chain between you and the specific user. Indicated with a green shield. You or a user you trust has verified the user.
 
-To verify `alice`, click on the red shield icon and select `Check Identity…`
+To verify `carol`, click on the red shield icon and select `Check Identity…`
 
-![Carol is unverified regarding its Web of Trust state](/img/hub/wot-carol-unverified.png)
+![Carol is unverified regarding her Web of Trust state](/img/hub/wot-carol-unverified.png)
 
-While verifiying a user, you need to enter the first characters of the user's public key fingerprint. This fingerprint is displayed in user coresponding user profile page.
+While verifying a user, you need to enter the first characters of the user's public key fingerprint. This fingerprint is displayed in the user's profile page.
 
-![Verify Alice regarding its Web of Trust state](/img/hub/wot-carol-verify.png)
+![Verify Carol regarding her Web of Trust state](/img/hub/wot-carol-verify.png)
 
-`alice` is now verified
+`carol` is now verified
 
-![Alice is verified regarding its Web of Trust state](/img/hub/wot-carol-verified.png)
+![Carol is verified regarding her Web of Trust state](/img/hub/wot-carol-verified.png)
 
 The verification process is logged in the audit log with event type `Signed Identity`
 

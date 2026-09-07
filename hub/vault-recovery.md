@@ -4,12 +4,12 @@ This section contains instructions for recovering Cryptomator Hub vaults using t
 
 Cryptomator Hub vaults can be recovered in two different ways:
 
-1. [Online Recovery](#online-recovery) - Reestablishes Hub controlled access management for a vault in case the vault admin password got lost
-2. [Offline Recovery](#offline-recovery) - Restores vault data access of a hub managed vault in case of a disaster (e.g. Cryptomator Hub is down and immediate data access is needed)
+1. [Online Recovery](#online-recovery) - Reestablishes Hub-controlled access management for a vault in case it can no longer be managed in Hub
+2. [Offline Recovery](#offline-recovery) - Restores vault data access of a Hub-managed vault in case of a disaster (e.g. Cryptomator Hub is down and immediate data access is needed)
 
 ## Online Recovery[​](#online-recovery "Direct link to Online Recovery")
 
-This recovery method should be used, if the vault admin password got lost. In the process, a new Hub vault with the same key material as the "to-be-recovered" vault is created. The membership information of the old vault cannot be migrated, hence all users/groups need to be added manually afterwards.
+This recovery method should be used if a vault can no longer be managed in Hub, for example because it lost all its owners or was accidentally removed from Hub. In the process, a new Hub vault with the same key material as the "to-be-recovered" vault is created. The membership information of the old vault cannot be migrated, hence all users/groups need to be added manually afterwards.
 
 Requirements:
 
@@ -23,11 +23,11 @@ In Cryptomator Hub navigate to the vault list, click `Add` and `Recover Existing
 
 Enter the recovery key for the vault you want to restore. If you enter a recovery key from a different vault, the recovery will not work.
 
-Proceed with `Restore Vault`.
+Proceed with `Recover Vault`.
 
 ![Vault enter recovery key](/img/hub/vault-onlinerecovery-step2.png)
 
-Enter a new vault name, description and vault admin password. The new vault admin password is required to grant or revoke access to the vault.
+Enter a name and an optional description for the new vault. As its creator, you become the owner of the recovered vault and can grant or revoke access to it.
 
 ![Creating a vault using recovery key](/img/hub/vault-onlinerecovery-step3.png)
 
@@ -56,7 +56,7 @@ Requirements:
 
 Open the Cryptomator desktop app, right-click on the vault you want to restore in the vault list, click `Show vault options` in the opened context menu. In the opening window, select the `Recovery`, read the label description and click the `Convert to Password-Based Vault` button.
 
-![Vault recovery convert to Password-Based-Vault](/img/hub/vault-offlinerecovery-step1.png)
+![Vault recovery convert to Password-Based-Vault](/img/hub/vault-offline-recovery-step1.png)
 
 Enter the recovery key for the vault you want to restore. If you enter a recovery key from a different vault, the recovery will not work. Proceed with `Next`.
 
@@ -64,15 +64,9 @@ Enter the recovery key for the vault you want to restore. If you enter a recover
 
 In the next step choose a [good password](/security/best-practices/.md#good-passwords) used for unlocking the vault. Cryptomator requires at least 8 characters but we recommend you to use a longer phrases such as pass-sentences. The bar below the password field estimates the strength of your password.
 
-![Convert vault enter new password](/img/hub/vault-offlinerecovery-step3.png)
+![Convert vault enter new password](/img/hub/vault-offline-recovery-step3.png)
 
-If the conversion was successful, a success message is shown. You can close the dialog box. This vault is now converted to a password-based vault.
-
-![Convert vault successful](/img/hub/vault-offlinerecovery-step4.png)
-
-After the conversion, when unlocking the vault, you are prompted for a password and only the one chosen in the previous step leads to a successful unlock.
-
-![Unlock converted Vault](/img/hub/vault-offlinerecovery-step5.png)
+If the conversion was successful, a success message is shown. You can close the dialog box. This vault is now converted to a password-based vault and can be unlocked with the above chosen password.
 
 ## Reversing Offline Conversion[​](#reversing-offline-conversion "Direct link to Reversing Offline Conversion")
 

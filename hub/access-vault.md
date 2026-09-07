@@ -12,7 +12,7 @@ As described in [open an existing vault](/desktop/adding-vaults/.md#open-an-exis
 
 To unlock the vault, click on the large `Unlock` button in the center of Cryptomator's main window.
 
-![Click 'Unlock' to unlock a Hub vault with the Desktop app](/img/hub/unlock-click-unlock.png)
+![Click 'Unlock' to unlock a Hub vault with the Desktop app](/img/hub/unlock-auth-desktop-app.png)
 
 ### 2. Authenticate[​](#authenticate "Direct link to 2. Authenticate")
 
@@ -22,19 +22,15 @@ Cryptomator should open your default browser for authentication. If you're not a
 
 ### 3. Register Device[​](#register-device "Direct link to 3. Register Device")
 
-If you just setup your account, a vault owner needs to grant you access for the requested vault as described [here](/hub/vault-management/.md#update-permissions). Retry unlocking the vault after the vault owner granted you access.
-
-![Access is denied since it has not been granted by a vault owner yet](/img/hub/unlock-access-denied.png)
-
 If you connect to Hub with this device for the first time, you need to register it.
 
 Desktop
 
-![Register your device by entering the setup code and a name for it](/img/hub/unlock-register-device-desktop.png)
+![Register your device by entering the setup code and a name for it](/img/hub/unlock-register-device-desktop-app.png)
 
 Hub
 
-![Hub requests device registration](/img/hub/unlock-register-device-hub.png)
+![Hub shows the new device view during unlock](/img/hub/unlock-register-device-hub.png)
 
 Enter a name for the device to identify it later on and the [Account Key](/hub/your-account/.md#account-key) which was generated during the account setup. You can also find it in the [account settings](/hub/your-account/.md#profile-page).
 
@@ -46,7 +42,7 @@ You are all set up and an unlock should be successful from now on. You can then 
 
 Desktop
 
-![Desktop shows unlock successful](/img/hub/unlock-successfull-desktop.png)
+![Desktop shows unlock successful](/img/hub/unlock-success-desktop-app.png)
 
 Hub
 

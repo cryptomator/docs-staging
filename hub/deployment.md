@@ -1,6 +1,6 @@
 # Deployment Cookbook
 
-This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the [Quick Start](/hub/quick-start/.md) instead.
+This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the [Quick Start](/hub/quick-start/.md) instead. For an end-to-end walkthrough from deployment to backups, see the [Self-Hosting Guide](/hub/guides/self-hosting-guide/.md).
 
 tip
 

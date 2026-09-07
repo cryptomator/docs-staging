@@ -1,9 +1,5 @@
 # User & Group Management
 
-Early Access
-
-This feature is currently in **early access** and will be fully available in version 2.0.0.
-
 Users and groups are managed directly in the Cryptomator Hub admin interface. As an administrator, you can create, edit, and delete users and groups, assign roles, and manage group memberships.
 
 Access the user and group management from the navigation bar in the admin area.
@@ -18,7 +14,7 @@ The user list displays all users in your Hub instance. You can search for users 
 * Number of **group** memberships
 * Number of registered **devices**
 
-![User list overview](/img/hub/user-list.png)
+![User list overview.](/img/hub/user-list.png)
 
 ### Create User[​](#create-user "Direct link to Create User")
 
@@ -35,6 +31,17 @@ To create a new user, click the "Create User" button in the user list. Fill in t
 ![Create user form](/img/hub/user-create.png)
 
 After creation, the user can log in with their credentials and complete the [account setup](/hub/your-account/.md#account-setup).
+
+### User Details[​](#user-details "Direct link to User Details")
+
+The user detail page shows comprehensive information about a user:
+
+* **Groups**: All groups the user is a member of
+* **Accessible Vaults**: Vaults the user has access to (directly or through group membership)
+* **Devices**: All registered devices of the user
+* **Legacy Devices**: Devices registered with older Hub versions (see [Legacy Devices](/hub/your-account/.md#legacy-devices))
+
+![User detail view](/img/hub/user-detail.png)
 
 ### Edit User[​](#edit-user "Direct link to Edit User")
 
@@ -62,17 +69,6 @@ To delete a user, you can either click the delete button in the user list or nav
 warning
 
 This action cannot be undone.
-
-### User Details[​](#user-details "Direct link to User Details")
-
-The user detail page shows comprehensive information about a user:
-
-* **Groups**: All groups the user is a member of
-* **Accessible Vaults**: Vaults the user has access to (directly or through group membership)
-* **Devices**: All registered devices of the user
-* **Legacy Devices**: Devices registered with older Hub versions (see [Legacy Devices](/hub/your-account/.md#legacy-devices))
-
-![User detail view](/img/hub/user-detail.png)
 
 ## Group Management[​](#group-management "Direct link to Group Management")
 
@@ -131,23 +127,19 @@ From the group detail page, you can:
 
 note
 
-Subgroups are not supported at this time.
+Subgroups are not supported.
 
 ## Roles[​](#roles "Direct link to Roles")
 
 There are three roles in Cryptomator Hub:
 
-| Role             | Description                                                      |
-| ---------------- | ---------------------------------------------------------------- |
-| **user**         | Default role. Can open vaults and manage their own account.      |
-| **admin**        | Can manage users and groups, view audit logs, and create vaults. |
-| **create-vault** | Allows users to create new vaults. Inherited by the admin role.  |
+| Role             | Description                                                 |
+| ---------------- | ----------------------------------------------------------- |
+| **user**         | Default role. Can open vaults and manage their own account. |
+| **admin**        | Can manage users and groups and view audit logs.            |
+| **create-vault** | Allows users to create new vaults.                          |
 
 Roles are assigned when creating or editing a user. The `user` role is assigned by default to all users.
-
-### Create Vault Role[​](#create-vault-role "Direct link to Create Vault Role")
-
-By default, only users with the `admin` role can create vaults. To allow other users to create vaults, assign the `create-vault` role to them when creating or editing the user.
 
 ## User Avatars[​](#user-avatars "Direct link to User Avatars")
 
@@ -159,14 +151,6 @@ If no profile picture is set, a generated avatar based on the user's name will b
 
 ## External Identity Management[​](#enterprise-external-iam "Direct link to External Identity Management")
 
-Enterprise Feature
-
-Connecting external identity and access management (IAM) solutions is available as an Enterprise feature.
-
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
-
-![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
-
 Connecting Cryptomator Hub to an external identity manager allows you to:
 
 * Synchronize users and groups from LDAP or Active Directory
@@ -174,6 +158,8 @@ Connecting Cryptomator Hub to an external identity manager allows you to:
 * Keep your user management centralized in your existing IAM
 
 You can access the Keycloak management interface from the admin section of Hub. There you can perform all user- and group-related tasks, such as [creating new users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-creating-user_server_administration_guide), [deleting users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-deleting-user_server_administration_guide) or [managing groups](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-managing-groups_server_administration_guide).
+
+![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
 
 Setting up LDAP synchronization is described in the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/#_ldap). For OpenID Connect and SAML, the Keycloak documentation provides [general information](https://www.keycloak.org/docs/latest/server_admin/#_identity_broker).
 

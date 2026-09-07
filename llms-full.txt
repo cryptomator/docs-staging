@@ -33,17 +33,21 @@
 
 - [Working with Vaults](/hub/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Admin](/hub/admin.md): License {/ #license /}
-- [Deployment Cookbook](/hub/deployment.md): This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the Quick Start instead.
+- [Deployment Cookbook](/hub/deployment.md): This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the Quick Start instead. For an end-to-end walkthrough from deployment to backups, see the Self-Hosting Guide.
 - [Docker Compose](/hub/deployment/compose.md): Run Hub on a single Docker host behind Traefik.
 - [Kubernetes](/hub/deployment/kubernetes.md): Install the Helm chart with the Helm CLI.
 - [Rancher](/hub/deployment/rancher.md): Install the Helm chart through the Rancher UI.
-- [Early Access](/hub/early-access.md): These features are currently in early access and will be fully available in Cryptomator Hub 2.0.0.
-- [Emergency Access](/hub/emergency-access.md): This feature is currently in early access and will be fully available in version 2.0.0.
+- [Emergency Access](/hub/emergency-access.md): Visit cryptomator.org for more information about Enterprise features.
+- [Guides](/hub/guides.md): Step-by-step walkthroughs for the most common Cryptomator Hub workflows.
+- [Admin Guide](/hub/guides/admin-guide.md): Your first day as a Hub administrator — add users and groups, connect your identity provider, enable Emergency Access, and keep an eye on audit logs and license seats.
+- [Self-Hosting Guide](/hub/guides/self-hosting-guide.md): Take Hub from a local playground to a production deployment — pick a recipe, deploy, set up backups, and keep the instance healthy.
+- [User Guide](/hub/guides/user-guide.md): From your first login to an unlocked vault — set up your account, create a vault, invite teammates, and unlock it with Cryptomator.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator.
 - [Keycloak](/hub/keycloak.md): Cryptomator Hub delegates authentication and user management to Keycloak, an open-source identity and access management solution. Hub ships with a preconfigured realm named cryptomator that contains the clients Hub needs and the realm roles user, create-vaults, and admin.
-- [Operations](/hub/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading.
+- [New Features](/hub/new-features.md): Cryptomator Hub 2.0.0 introduces the following new features:
+- [Operations](/hub/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see the Self-Hosting Guide.
 - [Quick Start](/hub/quick-start.md): Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about 10 minutes. No domain, no TLS certificates, no reverse proxy.
-- [User & Group Management](/hub/user-group-management.md): This feature is currently in early access and will be fully available in version 2.0.0.
+- [User & Group Management](/hub/user-group-management.md): Users and groups are managed directly in the Cryptomator Hub admin interface. As an administrator, you can create, edit, and delete users and groups, assign roles, and manage group memberships.
 - [Vault Management](/hub/vault-management.md): The central entities in Cryptomator Hub are vaults.
 - [Vault Recovery](/hub/vault-recovery.md): This section contains instructions for recovering Cryptomator Hub vaults using the vault recovery key.
 - [Your Account](/hub/your-account.md): To open vaults secured by a Cryptomator Hub instance, you need an account on the regarding Hub instance.
@@ -1932,7 +1936,7 @@ As described in [open an existing vault](/desktop/adding-vaults/.md#open-an-exis
 
 To unlock the vault, click on the large `Unlock` button in the center of Cryptomator's main window.
 
-![Click 'Unlock' to unlock a Hub vault with the Desktop app](/img/hub/unlock-click-unlock.png)
+![Click 'Unlock' to unlock a Hub vault with the Desktop app](/img/hub/unlock-auth-desktop-app.png)
 
 ### 2. Authenticate[​](#authenticate "Direct link to 2. Authenticate")
 
@@ -1942,19 +1946,15 @@ Cryptomator should open your default browser for authentication. If you're not a
 
 ### 3. Register Device[​](#register-device "Direct link to 3. Register Device")
 
-If you just setup your account, a vault owner needs to grant you access for the requested vault as described [here](/hub/vault-management/.md#update-permissions). Retry unlocking the vault after the vault owner granted you access.
-
-![Access is denied since it has not been granted by a vault owner yet](/img/hub/unlock-access-denied.png)
-
 If you connect to Hub with this device for the first time, you need to register it.
 
 Desktop
 
-![Register your device by entering the setup code and a name for it](/img/hub/unlock-register-device-desktop.png)
+![Register your device by entering the setup code and a name for it](/img/hub/unlock-register-device-desktop-app.png)
 
 Hub
 
-![Hub requests device registration](/img/hub/unlock-register-device-hub.png)
+![Hub shows the new device view during unlock](/img/hub/unlock-register-device-hub.png)
 
 Enter a name for the device to identify it later on and the [Account Key](/hub/your-account/.md#account-key) which was generated during the account setup. You can also find it in the [account settings](/hub/your-account/.md#profile-page).
 
@@ -1966,7 +1966,7 @@ You are all set up and an unlock should be successful from now on. You can then 
 
 Desktop
 
-![Desktop shows unlock successful](/img/hub/unlock-successfull-desktop.png)
+![Desktop shows unlock successful](/img/hub/unlock-success-desktop-app.png)
 
 Hub
 
@@ -1993,7 +1993,7 @@ A regular license contains a fixed number of *seats*. A *seat* is taken for ever
 
 note
 
-Enterprise licenses can have an unlimited number of seats. Visit [cryptomator.org](https://cryptomator.org/for-teams/) for more information.
+Enterprise licenses can have an unlimited number of seats. Visit [cryptomator.org](https://cryptomator.org/for-teams/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=admin) for more information.
 
 ### Community License[​](#community-license "Direct link to Community License")
 
@@ -2106,13 +2106,9 @@ If a user resets their account, their [User Key Pair](/security/hub/.md#user-key
 
 ## Emergency Access[​](#emergency-access "Direct link to Emergency Access")
 
-Early Access
-
-Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
-
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=admin) for more information about Enterprise features.
 
 This configuration defines default [Emergency Access](/hub/emergency-access/.md) values for new or updated vaults.
 
@@ -2134,7 +2130,7 @@ A council without redundancy (`Required Keys == number of council members`) is p
 
 # Deployment Cookbook
 
-This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the [Quick Start](/hub/quick-start/.md) instead.
+This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the [Quick Start](/hub/quick-start/.md) instead. For an end-to-end walkthrough from deployment to backups, see the [Self-Hosting Guide](/hub/guides/self-hosting-guide/.md).
 
 tip
 
@@ -2343,25 +2339,11 @@ Open the Hub URL, sign in as `admin`, set a new password, and enter your license
 
 ---
 
-# Early Access
-
-These features are currently in **early access** and will be fully available in **Cryptomator Hub 2.0.0**.
-
-* [User & Group Management](/hub/user-group-management/.md) — Manage users, groups, roles, and permissions directly in Hub
-* [Emergency Access](/hub/emergency-access/.md) — Restore access to a vault in case of account loss or ownership issues
-
-
----
-
 # Emergency Access
-
-Early Access
-
-This feature is currently in **early access** and will be fully available in version 2.0.0.
 
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=emergency-access) for more information about Enterprise features.
 
 Emergency Access restores access to a vault inside Cryptomator Hub in case of account loss or ownership issues. Its process requires a group of trusted users (the "council") to approve the recovery. When enough approvals are collected, the emergency change is completed and vault management access is restored. Technically, this is implemented using key splitting based on **[Shamir's Secret Sharing](https://en.wikipedia.org/wiki/Shamir%27s_secret_sharing)**.
 
@@ -2479,6 +2461,237 @@ See [Emergency Access Audit Log events](/hub/admin/.md#event-type-emergency-acce
 
 ---
 
+# Guides
+
+Step-by-step walkthroughs for the most common Cryptomator Hub workflows. Each guide follows a worked example from start to finish and links to the reference pages for details.
+
+## [📄️User Guide](/hub/guides/user-guide/.md)
+
+[From your first login to an unlocked vault — set up your account, create a vault, invite teammates, and unlock it with Cryptomator.](/hub/guides/user-guide/.md)
+
+## [📄️Admin Guide](/hub/guides/admin-guide/.md)
+
+[Your first day as a Hub administrator — add users and groups, connect your identity provider, enable Emergency Access, and keep an eye on audit logs and license seats.](/hub/guides/admin-guide/.md)
+
+## [📄️Self-Hosting Guide](/hub/guides/self-hosting-guide/.md)
+
+[Take Hub from a local playground to a production deployment — pick a recipe, deploy, set up backups, and keep the instance healthy.](/hub/guides/self-hosting-guide/.md)
+
+
+---
+
+# Admin Guide
+
+This guide walks you through setting up a fresh Cryptomator Hub instance for your organization in about **20 minutes**.
+
+As a worked example, meet Alice: she administers Hub at the design agency Acme. Her instance is up and running, and now she adds her first users and a group, connects the company's identity provider, enables Emergency Access, and checks the audit log and license.
+
+## Before You Start[​](#before-you-start "Direct link to Before You Start")
+
+You need:
+
+* A running Hub instance — a local test instance from the [Quick Start](/hub/quick-start/.md) or a server deployment (managed or selfhosted)
+* An account with the `admin` [role](/hub/user-group-management/.md#roles), such as the initial admin account created during deployment.
+
+tip
+
+Not keen on hosting an instance yourself? Cryptomator Hub is also available as a [managed service](https://cryptomator.org/hub/managed/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=admin-guide) with a free 30-day trial period — this guide applies there all the same.
+
+## Add Users and Groups[​](#add-users-and-groups "Direct link to Add Users and Groups")
+
+Since version 2.0, users and groups are managed directly in Hub, via the `Users` and `Groups` entries in the sidebar. Alice creates accounts for Bob and Carol, each with username, email, and an initial password. She then creates the group *Designers* and adds both as members — sharing vaults with a group scales better than managing individual permissions.
+
+![Create user form](/img/hub/user-create.png)
+
+Bob and Carol can now log in and complete their account setup, as described in the [User Guide](/hub/guides/user-guide/.md#set-up-your-account).
+
+For more details, read [Create User](/hub/user-group-management/.md#create-user), [Create Group](/hub/user-group-management/.md#create-group), and [Manage Group Members](/hub/user-group-management/.md#manage-group-members).
+
+## Connect Your Identity Provider[​](#connect-your-identity-provider "Direct link to Connect Your Identity Provider")
+
+Creating users by hand is fine for a handful of people. Since Acme already manages its staff in a central directory, Alice instead connects Hub's bundled Keycloak to it, so users log in with their existing credentials and accounts stay in sync.
+
+![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
+
+The `Manage Keycloak` link takes Alice to the Keycloak admin console, where identity providers are configured on the `Identity providers` page:
+
+![Identity providers in the Keycloak admin console](/img/hub/keycloak-identity-providers.png)
+
+Depending on what your organization runs, follow the matching reference section:
+
+* [OpenID Connect](/hub/keycloak/.md#openid-connect) providers such as Microsoft Entra ID or Google Workspace.
+* [LDAP and Active Directory](/hub/keycloak/.md#ldap-and-active-directory) for user federation.
+* [Mapping groups to roles](/hub/keycloak/.md#mapping-groups-to-roles), e.g. to grant an *IT* directory group the `admin` role automatically.
+
+For more details, read [Connecting an External Identity Provider](/hub/keycloak/.md#connecting-an-external-identity-provider) and [External Identity Management](/hub/user-group-management/.md#enterprise-external-iam).
+
+## Enable Emergency Access[​](#enable-emergency-access "Direct link to Enable Emergency Access")
+
+What if Bob leaves Acme and the *Client Projects* vault has no other owner? Emergency Access, new in version 2.0, lets a council of trusted users jointly restore access to a vault. Alice enables it in the admin area and defines a default council, so every new vault gets Emergency Access conditions during creation. For existing vaults, owners set up the council in the vault details.
+
+![Emergency Access](/img/hub/admin-emergency-access.png)
+
+Enterprise Feature
+
+Emergency Access is available as an Enterprise feature. Visit [cryptomator.org](https://cryptomator.org/hub/) for more information.
+
+For more details, read [Emergency Access admin settings](/hub/admin/.md#emergency-access), [Set Up Emergency Access](/hub/emergency-access/.md#set-up-emergency-access), and the per-vault [Emergency Access Council](/hub/vault-management/.md#emergency-access-council).
+
+## Review the Audit Log[​](#review-the-audit-log "Direct link to Review the Audit Log")
+
+The next morning, Alice verifies that everything went as intended. In the audit log, she filters for vault events and sees the creation of *Client Projects* and the access grants for Carol and the *Designers* group, each with actor and timestamp.
+
+![Audit Logs Table View](/img/hub/auditlogs-overview.png)
+
+For more details, read [Audit Logs](/hub/admin/.md#audit-logs), [Filtering Audit Logs](/hub/admin/.md#filtering-audit-logs), and the list of [Event Types](/hub/admin/.md#event-types).
+
+## Check Your License[​](#check-your-license "Direct link to Check Your License")
+
+Finally, Alice opens the license section of the admin area. With Bob and Carol having vault access, two seats are in use — a seat is occupied by every user who is assigned to at least one vault. The overview shows the used and licensed seats and where to upgrade before the team grows.
+
+![Administration area](/img/hub/admin-area-license.png)
+
+For more details, read [License](/hub/admin/.md#license), [What Is a Seat?](/hub/admin/.md#what-is-a-seat), and [Updating Your License](/hub/admin/.md#updating-your-license).
+
+## Next Steps[​](#next-steps "Direct link to Next Steps")
+
+* Set up [backups](/hub/operations/.md#backup) before real data accumulates.
+* Harden logins with [session timeouts](/hub/keycloak/.md#session-timeouts) and [access restrictions](/hub/keycloak/.md#restricting-access-to-hub).
+* Send your team the [User Guide](/hub/guides/user-guide/.md) so they can get started on their own.
+
+
+---
+
+# Self-Hosting Guide
+
+This guide takes you from trying Cryptomator Hub to running it in production for your organization. It sequences the existing [Deployment Cookbook](/hub/deployment/.md) and [Operations](/hub/operations/.md) references into one path; how long it takes depends mostly on your infrastructure — plan for **an hour** plus DNS.
+
+As a worked example, meet Alice: she liked the [Quick Start](/hub/quick-start/.md) playground and now deploys Hub for the design agency Acme, a team of about 20 people.
+
+tip
+
+Not keen on running Hub yourself? We also offer Hub as a [managed service](https://cryptomator.org/hub/managed/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=self-hosting-guide) with uptime guarantee and regular backups.
+
+## Before You Start[​](#before-you-start "Direct link to Before You Start")
+
+Decide on these up front — they are hard to change later:
+
+* Two public URLs, one for Hub and one for Keycloak, with DNS records created before deploying.
+* TLS termination via a reverse proxy or ingress controller — Hub, Keycloak, and PostgreSQL must never be exposed directly.
+* Whether to run the bundled Keycloak and PostgreSQL or connect existing instances.
+
+The defaults are sized for small installations like Acme's; see [Sizing](/hub/deployment/.md#sizing) for larger teams.
+
+For more details, read [Before You Begin](/hub/deployment/.md#before-you-begin) — including why the public URLs must be final before the first start.
+
+## Choose a Recipe[​](#choose-a-recipe "Direct link to Choose a Recipe")
+
+The [Deployment Cookbook](/hub/deployment/.md#recipes) offers three recipes:
+
+* [Docker Compose](/hub/deployment/compose/.md) — a single Docker host behind a Traefik reverse proxy with Let's Encrypt. The simplest production setup.
+* [Kubernetes](/hub/deployment/kubernetes/.md) — the Helm chart via the Helm CLI, for teams that already operate a cluster.
+* [Rancher](/hub/deployment/rancher/.md) — the same Helm chart installed through the Rancher UI.
+
+Acme has no Kubernetes cluster and 20 users fit comfortably on one virtual machine, so Alice picks Docker Compose. The rest of this guide follows that path.
+
+## Deploy with Docker Compose[​](#deploy-with-docker-compose "Direct link to Deploy with Docker Compose")
+
+Alice provisions a VM with Docker, points the two DNS records at it, and opens ports 80 and 443. She downloads the production Compose example, replaces the placeholders — hostnames, Let's Encrypt email, and freshly generated passwords and secrets — and starts the stack with `docker compose up -d`. Once all services are healthy, she signs in as `admin`, enters the license, and Hub is live at Acme's own domain.
+
+For more details, read [Prerequisites](/hub/deployment/compose/.md#compose-prerequisites), [Deploy](/hub/deployment/compose/.md#compose-deploy), and [Configuration](/hub/deployment/compose/.md#compose-configuration) — including which ports must never be published.
+
+## Set Up Backups[​](#set-up-backups "Direct link to Set Up Backups")
+
+All of Hub's state lives in PostgreSQL: vaults, encrypted keys, and the audit log in the `hub` database, users and credentials in the `keycloak` database. Alice schedules a nightly `pg_dumpall` via cron and moves the dumps off the VM. Then she does what most people skip: she [restores](/hub/operations/.md#restore) one dump onto a scratch instance to confirm the backup actually works — a backup that has never been restored is a hope, not a backup.
+
+For more details, read [Backup](/hub/operations/.md#backup) and [Restore](/hub/operations/.md#restore).
+
+## Keep It Healthy[​](#keep-it-healthy "Direct link to Keep It Healthy")
+
+Running Hub is low-maintenance; these are the recurring and occasional tasks:
+
+* [Upgrading](/hub/deployment/compose/.md#compose-upgrading) — back up first, bump the pinned image tags, `docker compose up -d`.
+* [Verifying container images](/hub/operations/.md#verifying-container-images) before deploying new versions.
+* [Trusting a private certificate authority](/hub/operations/.md#trusting-a-private-certificate-authority) if your organization uses one.
+* [Changing the database password](/hub/operations/.md#changing-the-database-password) as part of credential rotation.
+
+## Next Steps[​](#next-steps "Direct link to Next Steps")
+
+* The instance is running, but empty — continue with the [Admin Guide](/hub/guides/admin-guide/.md) to add users, groups, and your identity provider.
+* Bookmark [Operations](/hub/operations/.md) as the reference for everything maintenance.
+
+
+---
+
+# User Guide
+
+This guide walks you through your first steps in Cryptomator Hub, from logging in for the first time to working with an unlocked vault, in about **15 minutes**.
+
+As a worked example, meet Bob: he just joined the design agency Acme, and his administrator Alice sent him the Hub URL and his login credentials. Bob will set up his account, create a vault called *Client Projects*, share it with his colleague Carol and the *Designers* group, and unlock it with the Cryptomator desktop app.
+
+## Before You Start[​](#before-you-start "Direct link to Before You Start")
+
+You need:
+
+* The URL of your organization's Hub instance and login credentials, both provided by your administrator.
+* The [Cryptomator app](https://cryptomator.org/downloads/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=user-guide) for your OS. This guide uses the desktop app; Android and iOS work analogously, see [Working with Vaults](/hub/access-vault/.md).
+* The `create-vaults` role to create a vault yourself. If the `Add` button in the vault list stays grayed out for you, ask your administrator for the [role](/hub/user-group-management/.md#roles) — or skip that section and continue with a vault someone shared with you.
+
+## Set Up Your Account[​](#set-up-your-account "Direct link to Set Up Your Account")
+
+Bob opens the Hub URL, logs in with his credentials, and Hub greets him with a one-time account setup.
+
+![Account setup on first login](/img/hub/account-setup.png)
+
+The setup generates his personal *Account Key*. It is what links further browsers and Cryptomator apps to his account later, so he copies it into his password manager before finishing the setup.
+
+After finishing the setup, Bob lands on the vault list — Acme's is still empty. The `Add` button in the top right corner is the starting point for the next section: `Create New` opens the vault creation wizard.
+
+![Empty vault list with the Add button in the top right corner](/img/hub/vaultlist-empty.png)
+
+For more details, read [Account Setup](/hub/your-account/.md#account-setup) and [Account Key](/hub/your-account/.md#account-key).
+
+## Create a Vault[​](#create-a-vault "Direct link to Create a Vault")
+
+Time for the first vault:
+
+1. In the vault list, Bob clicks `Add` → `Create New` and names the vault *Client Projects*.
+2. He follows the creation wizard and stores the displayed recovery key in his password manager — it restores access to the vault data if Hub is ever unavailable.
+3. In the last step, he downloads the vault template (a zip file, exactly once) and unzips it into the cloud storage folder the team already shares.
+
+![Create a vault](/img/hub/create-vault.png)
+
+For more details, read [Create a Vault](/hub/vault-management/.md#create-a-vault), [Show Recovery Key](/hub/vault-management/.md#show-recovery-key), and [Download Vault Template](/hub/vault-management/.md#download-vault-template).
+
+## Add Members[​](#add-members "Direct link to Add Members")
+
+The vault is Bob's alone so far. In the vault details, he clicks into the search field of the `Shared with` section, picks Carol, and clicks `Add`. He then adds the *Designers* group the same way, so future team members get access automatically through their group membership.
+
+![Add a user or group in the vault details](/img/hub/vault-details-search.png)
+
+note
+
+When a member completes their account setup (or resets their account), a vault owner has to confirm the access once via the `Update Permissions` button before that member can unlock the vault.
+
+For more details, read [Share a Vault](/hub/vault-management/.md#share-a-vault), [Update Permissions](/hub/vault-management/.md#update-permissions), and [Web of Trust](/hub/vault-management/.md#web-of-trust) for verifying the identity of vault members.
+
+## Unlock the Vault[​](#unlock-the-vault "Direct link to Unlock the Vault")
+
+To work with the encrypted data, Bob opens the Cryptomator desktop app, adds the vault by selecting the `vault.cryptomator` file from the shared cloud folder, and clicks `Unlock`. His browser opens for authentication, and since this is the first unlock from this device, Hub asks him to register it with a device name and his Account Key. After that, the vault unlocks, and Bob can reveal and edit the *Client Projects* files as usual.
+
+![Desktop shows unlock successful](/img/hub/user-guide-unlock-success-desktop.png)
+
+For more details, read [Unlocking a Vault](/hub/access-vault/.md#unlocking-a-vault), in particular [Register Device](/hub/access-vault/.md#register-device).
+
+## Next Steps[​](#next-steps "Direct link to Next Steps")
+
+* Lost access to a vault or Hub itself? See [Vault Recovery](/hub/vault-recovery/.md).
+* Review and revoke your registered browsers and apps under [Authorized Devices](/hub/your-account/.md#authorized-devices).
+* Curious how the zero-knowledge key management works? Read the [security architecture](/security/hub/.md).
+
+
+---
+
 ![Cryptomator Hub connects team members](/img/hub/hub-intro.png)
 
 # Cryptomator Hub
@@ -2490,6 +2703,8 @@ This documentation covers various topics, depending on your role. If you are…
 …an **administrator**:
 
 * [Quick Start](/hub/quick-start/.md) - how to try Cryptomator Hub on your machine.
+* [Admin Guide](/hub/guides/admin-guide/.md) - a walkthrough of your first day as a Hub administrator.
+* [Self-Hosting Guide](/hub/guides/self-hosting-guide/.md) - a walkthrough from playground to production deployment.
 * [User & Group management](/hub/user-group-management/.md) - how to manage users and groups.
 * [License](/hub/admin/.md#license) - how to manage your Hub license.
 * [Deployment Cookbook](/hub/deployment/.md) - how to deploy Cryptomator Hub for your team.
@@ -2497,6 +2712,7 @@ This documentation covers various topics, depending on your role. If you are…
 
 …a **user**:
 
+* [User Guide](/hub/guides/user-guide/.md) - a walkthrough from your first login to an unlocked vault.
 * [Your Account](/hub/your-account/.md) - how to manage your own account.
 * [Managing Vaults](/hub/vault-management/.md) - how to manage vaults.
 * [Working with Vaults](/hub/access-vault/.md) - how to use Hub vaults with Cryptomator apps to encrypt your data.
@@ -2509,12 +2725,6 @@ This documentation covers various topics, depending on your role. If you are…
 Cryptomator Hub delegates authentication and user management to [Keycloak](https://www.keycloak.org/), an open-source identity and access management solution. Hub ships with a preconfigured realm named `cryptomator` that contains the clients Hub needs and the realm roles `user`, `create-vaults`, and `admin`.
 
 This page describes the Keycloak configuration tasks that are specific to running Hub. For everything else, refer to the [Keycloak documentation](https://www.keycloak.org/documentation).
-
-Enterprise Feature
-
-Connecting external identity and access management (IAM) solutions is available as an Enterprise feature.
-
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
 
 ## Connecting an External Identity Provider[​](#connecting-an-external-identity-provider "Direct link to Connecting an External Identity Provider")
 
@@ -2629,9 +2839,21 @@ Once every account is linked, you can remove the old identity provider from the 
 
 ---
 
+# New Features
+
+**Cryptomator Hub 2.0.0** introduces the following new features:
+
+* [User & Group Management](/hub/user-group-management/.md) — Manage users, groups, roles, and permissions directly in Hub
+* [Emergency Access](/hub/emergency-access/.md) — Restore access to a vault in case of account loss or ownership issues
+
+The [Admin Guide](/hub/guides/admin-guide/.md) walks through both features in a worked example: see [Add Users and Groups](/hub/guides/admin-guide/.md#add-users-and-groups) and [Enable Emergency Access](/hub/guides/admin-guide/.md#enable-emergency-access).
+
+
+---
+
 # Operations
 
-All state of Cryptomator Hub lives in the PostgreSQL database: the `hub` database holds vaults, keys, and the audit log, the `keycloak` database holds users, groups, and credentials. Back up both, and always do so before upgrading.
+All state of Cryptomator Hub lives in the PostgreSQL database: the `hub` database holds vaults, keys, and the audit log, the `keycloak` database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see the [Self-Hosting Guide](/hub/guides/self-hosting-guide/.md).
 
 ## Backup[​](#backup "Direct link to Backup")
 
@@ -2862,10 +3084,6 @@ Want to see Cryptomator Hub in action before rolling it out to your team? This g
 
 What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, head over to the [Deployment Cookbook](/hub/deployment/.md).
 
-tip
-
-Not keen on running Hub yourself at all? We also offer Hub as a [managed service](https://cryptomator.org/for-teams/).
-
 ## Before You Start[​](#before-you-start "Direct link to Before You Start")
 
 You need:
@@ -2904,7 +3122,7 @@ Hub greets you with a short onboarding on your first login:
 2. **Choose a license.** For a local test, the *free trial* is what you want. You can claim it as often as you like. There are further free options for perpetual use on production installations as well.
 3. **Save your Account Key.** Hub generates an [Account Key](/hub/your-account/.md#account-key) in your browser. It's what you use to link further devices (browsers and Cryptomator apps) to your account, so keep it somewhere safe.
 
-That's it, you are in. Try [creating a vault](/hub/vault-management/.md#create-a-vault), [adding a user](/hub/user-group-management/.md#create-user), or [unlocking the vault](/hub/access-vault/.md) from the Cryptomator desktop app with `http://localhost:8080` as the Hub address.
+That's it, you are in. Try [creating a vault](/hub/vault-management/.md#create-a-vault), [adding a user](/hub/user-group-management/.md#create-user), or [unlocking the vault](/hub/access-vault/.md) from the Cryptomator desktop app. The [User Guide](/hub/guides/user-guide/.md) and [Admin Guide](/hub/guides/admin-guide/.md) walk you through these tasks using complete worked examples.
 
 ## Clean Up[​](#clean-up "Direct link to Clean Up")
 
@@ -2922,16 +3140,20 @@ docker compose down -v
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 
-Liked what you saw? Deploying Hub for your team requires a public address, TLS, and a plan for backups. The [Deployment Cookbook](/hub/deployment/.md) guide covers all of that.
+Liked what you saw? Here is where to go next:
+
+* Deploy Hub for real — the [Self-Hosting Guide](/hub/guides/self-hosting-guide/.md) takes you from this playground to a production deployment, and the [Deployment Cookbook](/hub/deployment/.md) has the detailed recipes.
+
+tip
+
+Not keen on running Hub yourself at all? We also offer Hub as a [managed service](https://cryptomator.org/hub/managed/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=quick-start) — including custom domain name, a 99.5%-uptime guarantee and regular backups.
+
+* Set up your organization — the [Admin Guide](/hub/guides/admin-guide/.md) walks through users, groups, identity providers, and more.
 
 
 ---
 
 # User & Group Management
-
-Early Access
-
-This feature is currently in **early access** and will be fully available in version 2.0.0.
 
 Users and groups are managed directly in the Cryptomator Hub admin interface. As an administrator, you can create, edit, and delete users and groups, assign roles, and manage group memberships.
 
@@ -2947,7 +3169,7 @@ The user list displays all users in your Hub instance. You can search for users 
 * Number of **group** memberships
 * Number of registered **devices**
 
-![User list overview](/img/hub/user-list.png)
+![User list overview.](/img/hub/user-list.png)
 
 ### Create User[​](#create-user "Direct link to Create User")
 
@@ -2964,6 +3186,17 @@ To create a new user, click the "Create User" button in the user list. Fill in t
 ![Create user form](/img/hub/user-create.png)
 
 After creation, the user can log in with their credentials and complete the [account setup](/hub/your-account/.md#account-setup).
+
+### User Details[​](#user-details "Direct link to User Details")
+
+The user detail page shows comprehensive information about a user:
+
+* **Groups**: All groups the user is a member of
+* **Accessible Vaults**: Vaults the user has access to (directly or through group membership)
+* **Devices**: All registered devices of the user
+* **Legacy Devices**: Devices registered with older Hub versions (see [Legacy Devices](/hub/your-account/.md#legacy-devices))
+
+![User detail view](/img/hub/user-detail.png)
 
 ### Edit User[​](#edit-user "Direct link to Edit User")
 
@@ -2991,17 +3224,6 @@ To delete a user, you can either click the delete button in the user list or nav
 warning
 
 This action cannot be undone.
-
-### User Details[​](#user-details "Direct link to User Details")
-
-The user detail page shows comprehensive information about a user:
-
-* **Groups**: All groups the user is a member of
-* **Accessible Vaults**: Vaults the user has access to (directly or through group membership)
-* **Devices**: All registered devices of the user
-* **Legacy Devices**: Devices registered with older Hub versions (see [Legacy Devices](/hub/your-account/.md#legacy-devices))
-
-![User detail view](/img/hub/user-detail.png)
 
 ## Group Management[​](#group-management "Direct link to Group Management")
 
@@ -3060,23 +3282,19 @@ From the group detail page, you can:
 
 note
 
-Subgroups are not supported at this time.
+Subgroups are not supported.
 
 ## Roles[​](#roles "Direct link to Roles")
 
 There are three roles in Cryptomator Hub:
 
-| Role             | Description                                                      |
-| ---------------- | ---------------------------------------------------------------- |
-| **user**         | Default role. Can open vaults and manage their own account.      |
-| **admin**        | Can manage users and groups, view audit logs, and create vaults. |
-| **create-vault** | Allows users to create new vaults. Inherited by the admin role.  |
+| Role             | Description                                                 |
+| ---------------- | ----------------------------------------------------------- |
+| **user**         | Default role. Can open vaults and manage their own account. |
+| **admin**        | Can manage users and groups and view audit logs.            |
+| **create-vault** | Allows users to create new vaults.                          |
 
 Roles are assigned when creating or editing a user. The `user` role is assigned by default to all users.
-
-### Create Vault Role[​](#create-vault-role "Direct link to Create Vault Role")
-
-By default, only users with the `admin` role can create vaults. To allow other users to create vaults, assign the `create-vault` role to them when creating or editing the user.
 
 ## User Avatars[​](#user-avatars "Direct link to User Avatars")
 
@@ -3088,14 +3306,6 @@ If no profile picture is set, a generated avatar based on the user's name will b
 
 ## External Identity Management[​](#enterprise-external-iam "Direct link to External Identity Management")
 
-Enterprise Feature
-
-Connecting external identity and access management (IAM) solutions is available as an Enterprise feature.
-
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
-
-![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
-
 Connecting Cryptomator Hub to an external identity manager allows you to:
 
 * Synchronize users and groups from LDAP or Active Directory
@@ -3103,6 +3313,8 @@ Connecting Cryptomator Hub to an external identity manager allows you to:
 * Keep your user management centralized in your existing IAM
 
 You can access the Keycloak management interface from the admin section of Hub. There you can perform all user- and group-related tasks, such as [creating new users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-creating-user_server_administration_guide), [deleting users](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-deleting-user_server_administration_guide) or [managing groups](https://www.keycloak.org/docs/latest/server_admin/index.html#proc-managing-groups_server_administration_guide).
+
+![Accessing Keycloak via Hub](/img/hub/access-keycloak-link.png)
 
 Setting up LDAP synchronization is described in the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/#_ldap). For OpenID Connect and SAML, the Keycloak documentation provides [general information](https://www.keycloak.org/docs/latest/server_admin/#_identity_broker).
 
@@ -3126,7 +3338,7 @@ note
 * As a user, you will only see the vaults that you have access to.
 * As an admin of the Hub instance, you can see all vaults, but you can only access those that you have been granted access to.
 
-Emergency Access Status in Vault List (Enterprise only, early access)
+Emergency Access Status in Vault List (Enterprise only)
 
 In the `Vault List`, owners can see the Emergency Access status directly via badges:
 
@@ -3140,7 +3352,7 @@ note
 
 Creating vaults require the `create-vault` role. [Here](/hub/user-group-management/.md#roles) you can read more about roles.
 
-To create a vault in Hub, navigate to the vault list and click on the `Create Vault` button in the top right corner. Every vault has a name and optionally a description. Fill out the form and continue the process by clicking the `Next` button in the right corner.
+To create a vault in Hub, navigate to the vault list and click `Add` → `Create New` in the top-right corner. Every vault has a name and optionally a description. Fill out the form and continue the process by clicking the `Next` button in the right corner.
 
 ![Create a vault](/img/hub/create-vault.png)
 
@@ -3148,13 +3360,9 @@ If the [Emergency Access](/hub/emergency-access/.md) feature is enabled, the fol
 
 Here, the conditions for Emergency Access are defined for the new vault. If the administrator allows custom council selection, you can adjust the default council. Select the council members who should participate in emergency recovery and review the example recovery scenario. Click `Next` to continue to the recovery key step.
 
-Early Access
-
-Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
-
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=vault-management) for more information about Enterprise features.
 
 ![Define Emergency Access Conditions](/img/hub/create-vault-emergency-access.png)
 
@@ -3231,13 +3439,9 @@ To show the vault recovery key, click on the `Show Recovery Key` button in the [
 
 ### Setup/Fix Emergency Access Council[​](#emergency-access-council "Direct link to Setup/Fix Emergency Access Council")
 
-Early Access
-
-Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
-
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=vault-management) for more information about Enterprise features.
 
 To configure [Emergency Access](/hub/emergency-access/.md) for a vault, click `Setup Emergency Access Council` in the [vault details](#vault-details). If Emergency Access is already configured but needs correction, click `Fix Emergency Access Council`. This opens a dialog where you define the council members and confirm with `Grant`.
 
@@ -3256,17 +3460,17 @@ The WoT state of a user is displayed in the vault details page. The state can be
 * **Unverified**: There is no trust chain between you and the specific user. Indicated with a red shield. You can change this by verifying the user.
 * **Verified**: There is a trust chain between you and the specific user. Indicated with a green shield. You or a user you trust has verified the user.
 
-To verify `alice`, click on the red shield icon and select `Check Identity…`
+To verify `carol`, click on the red shield icon and select `Check Identity…`
 
-![Carol is unverified regarding its Web of Trust state](/img/hub/wot-carol-unverified.png)
+![Carol is unverified regarding her Web of Trust state](/img/hub/wot-carol-unverified.png)
 
-While verifiying a user, you need to enter the first characters of the user's public key fingerprint. This fingerprint is displayed in user coresponding user profile page.
+While verifying a user, you need to enter the first characters of the user's public key fingerprint. This fingerprint is displayed in the user's profile page.
 
-![Verify Alice regarding its Web of Trust state](/img/hub/wot-carol-verify.png)
+![Verify Carol regarding her Web of Trust state](/img/hub/wot-carol-verify.png)
 
-`alice` is now verified
+`carol` is now verified
 
-![Alice is verified regarding its Web of Trust state](/img/hub/wot-carol-verified.png)
+![Carol is verified regarding her Web of Trust state](/img/hub/wot-carol-verified.png)
 
 The verification process is logged in the audit log with event type `Signed Identity`
 
@@ -3291,12 +3495,12 @@ This section contains instructions for recovering Cryptomator Hub vaults using t
 
 Cryptomator Hub vaults can be recovered in two different ways:
 
-1. [Online Recovery](#online-recovery) - Reestablishes Hub controlled access management for a vault in case the vault admin password got lost
-2. [Offline Recovery](#offline-recovery) - Restores vault data access of a hub managed vault in case of a disaster (e.g. Cryptomator Hub is down and immediate data access is needed)
+1. [Online Recovery](#online-recovery) - Reestablishes Hub-controlled access management for a vault in case it can no longer be managed in Hub
+2. [Offline Recovery](#offline-recovery) - Restores vault data access of a Hub-managed vault in case of a disaster (e.g. Cryptomator Hub is down and immediate data access is needed)
 
 ## Online Recovery[​](#online-recovery "Direct link to Online Recovery")
 
-This recovery method should be used, if the vault admin password got lost. In the process, a new Hub vault with the same key material as the "to-be-recovered" vault is created. The membership information of the old vault cannot be migrated, hence all users/groups need to be added manually afterwards.
+This recovery method should be used if a vault can no longer be managed in Hub, for example because it lost all its owners or was accidentally removed from Hub. In the process, a new Hub vault with the same key material as the "to-be-recovered" vault is created. The membership information of the old vault cannot be migrated, hence all users/groups need to be added manually afterwards.
 
 Requirements:
 
@@ -3310,11 +3514,11 @@ In Cryptomator Hub navigate to the vault list, click `Add` and `Recover Existing
 
 Enter the recovery key for the vault you want to restore. If you enter a recovery key from a different vault, the recovery will not work.
 
-Proceed with `Restore Vault`.
+Proceed with `Recover Vault`.
 
 ![Vault enter recovery key](/img/hub/vault-onlinerecovery-step2.png)
 
-Enter a new vault name, description and vault admin password. The new vault admin password is required to grant or revoke access to the vault.
+Enter a name and an optional description for the new vault. As its creator, you become the owner of the recovered vault and can grant or revoke access to it.
 
 ![Creating a vault using recovery key](/img/hub/vault-onlinerecovery-step3.png)
 
@@ -3343,7 +3547,7 @@ Requirements:
 
 Open the Cryptomator desktop app, right-click on the vault you want to restore in the vault list, click `Show vault options` in the opened context menu. In the opening window, select the `Recovery`, read the label description and click the `Convert to Password-Based Vault` button.
 
-![Vault recovery convert to Password-Based-Vault](/img/hub/vault-offlinerecovery-step1.png)
+![Vault recovery convert to Password-Based-Vault](/img/hub/vault-offline-recovery-step1.png)
 
 Enter the recovery key for the vault you want to restore. If you enter a recovery key from a different vault, the recovery will not work. Proceed with `Next`.
 
@@ -3351,15 +3555,9 @@ Enter the recovery key for the vault you want to restore. If you enter a recover
 
 In the next step choose a [good password](/security/best-practices/.md#good-passwords) used for unlocking the vault. Cryptomator requires at least 8 characters but we recommend you to use a longer phrases such as pass-sentences. The bar below the password field estimates the strength of your password.
 
-![Convert vault enter new password](/img/hub/vault-offlinerecovery-step3.png)
+![Convert vault enter new password](/img/hub/vault-offline-recovery-step3.png)
 
-If the conversion was successful, a success message is shown. You can close the dialog box. This vault is now converted to a password-based vault.
-
-![Convert vault successful](/img/hub/vault-offlinerecovery-step4.png)
-
-After the conversion, when unlocking the vault, you are prompted for a password and only the one chosen in the previous step leads to a successful unlock.
-
-![Unlock converted Vault](/img/hub/vault-offlinerecovery-step5.png)
+If the conversion was successful, a success message is shown. You can close the dialog box. This vault is now converted to a password-based vault and can be unlocked with the above chosen password.
 
 ## Reversing Offline Conversion[​](#reversing-offline-conversion "Direct link to Reversing Offline Conversion")
 

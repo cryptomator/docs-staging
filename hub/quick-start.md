@@ -4,10 +4,6 @@ Want to see Cryptomator Hub in action before rolling it out to your team? This g
 
 What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, head over to the [Deployment Cookbook](/hub/deployment/.md).
 
-tip
-
-Not keen on running Hub yourself at all? We also offer Hub as a [managed service](https://cryptomator.org/for-teams/).
-
 ## Before You Start[​](#before-you-start "Direct link to Before You Start")
 
 You need:
@@ -46,7 +42,7 @@ Hub greets you with a short onboarding on your first login:
 2. **Choose a license.** For a local test, the *free trial* is what you want. You can claim it as often as you like. There are further free options for perpetual use on production installations as well.
 3. **Save your Account Key.** Hub generates an [Account Key](/hub/your-account/.md#account-key) in your browser. It's what you use to link further devices (browsers and Cryptomator apps) to your account, so keep it somewhere safe.
 
-That's it, you are in. Try [creating a vault](/hub/vault-management/.md#create-a-vault), [adding a user](/hub/user-group-management/.md#create-user), or [unlocking the vault](/hub/access-vault/.md) from the Cryptomator desktop app with `http://localhost:8080` as the Hub address.
+That's it, you are in. Try [creating a vault](/hub/vault-management/.md#create-a-vault), [adding a user](/hub/user-group-management/.md#create-user), or [unlocking the vault](/hub/access-vault/.md) from the Cryptomator desktop app. The [User Guide](/hub/guides/user-guide/.md) and [Admin Guide](/hub/guides/admin-guide/.md) walk you through these tasks using complete worked examples.
 
 ## Clean Up[​](#clean-up "Direct link to Clean Up")
 
@@ -64,4 +60,12 @@ docker compose down -v
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 
-Liked what you saw? Deploying Hub for your team requires a public address, TLS, and a plan for backups. The [Deployment Cookbook](/hub/deployment/.md) guide covers all of that.
+Liked what you saw? Here is where to go next:
+
+* Deploy Hub for real — the [Self-Hosting Guide](/hub/guides/self-hosting-guide/.md) takes you from this playground to a production deployment, and the [Deployment Cookbook](/hub/deployment/.md) has the detailed recipes.
+
+tip
+
+Not keen on running Hub yourself at all? We also offer Hub as a [managed service](https://cryptomator.org/hub/managed/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=quick-start) — including custom domain name, a 99.5%-uptime guarantee and regular backups.
+
+* Set up your organization — the [Admin Guide](/hub/guides/admin-guide/.md) walks through users, groups, identity providers, and more.

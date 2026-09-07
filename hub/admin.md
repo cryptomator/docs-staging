@@ -16,7 +16,7 @@ A regular license contains a fixed number of *seats*. A *seat* is taken for ever
 
 note
 
-Enterprise licenses can have an unlimited number of seats. Visit [cryptomator.org](https://cryptomator.org/for-teams/) for more information.
+Enterprise licenses can have an unlimited number of seats. Visit [cryptomator.org](https://cryptomator.org/for-teams/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=admin) for more information.
 
 ### Community License[​](#community-license "Direct link to Community License")
 
@@ -129,13 +129,9 @@ If a user resets their account, their [User Key Pair](/security/hub/.md#user-key
 
 ## Emergency Access[​](#emergency-access "Direct link to Emergency Access")
 
-Early Access
-
-Emergency Access is currently in **early access** and will be fully available in version 2.0.0.
-
 Enterprise Feature
 
-Visit [cryptomator.org](https://cryptomator.org/hub/) for more information about Enterprise features.
+Visit [cryptomator.org](https://cryptomator.org/hub/?utm_source=docs.cryptomator.org\&utm_medium=referral\&utm_campaign=admin) for more information about Enterprise features.
 
 This configuration defines default [Emergency Access](/hub/emergency-access/.md) values for new or updated vaults.
 
