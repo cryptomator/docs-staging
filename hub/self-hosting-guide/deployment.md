@@ -1,0 +1,47 @@
+# Deployment Cookbook
+
+This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the [Quick Start](/hub/self-hosting-guide/quick-start/.md) instead. For an end-to-end walkthrough from deployment to backups, see the [Self-Hosting Guide](/hub/self-hosting-guide/quick-start/.md#going-to-production).
+
+tip
+
+Cryptomator Hub is also offered as a hosted solution, including 99.5%-uptime guarantee and regular backups! Visit [cryptomator.org](https://cryptomator.org/for-teams/) for more information.
+
+## Before You Begin[​](#before-you-begin "Direct link to Before You Begin")
+
+Whichever recipe you follow, decide on these up front:
+
+* **Public URLs.** Hub and Keycloak each need one, either as two hostnames (`https://hub.example.com`, `https://kc.example.com`) or as two paths on one host (`https://example.com/hub`, `https://example.com/kc`). Create the DNS records before you deploy.
+* **TLS termination.** Hub, Keycloak, and PostgreSQL speak plain HTTP and plain PostgreSQL protocol. Their ports must never be published directly; the only component listening on a public interface is your TLS-terminating reverse proxy or ingress controller.
+* **Bundled or existing services.** Every recipe can run Keycloak and PostgreSQL for you, or connect to instances you already operate, e.g. your organization's SSO. See [example](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/existing-keycloak).
+
+important
+
+Keycloak creates Hub's realm, including the redirect URIs derived from your public URLs, only on its **first** start. Decide on the final URLs before deploying. Changing them later means editing the `cryptomatorhub` client in the Keycloak admin console (*Clients → cryptomatorhub → Valid redirect URIs*) in addition to updating the deployment. Otherwise, login fails with `Invalid parameter: redirect_uri`.
+
+## Recipes[​](#recipes "Direct link to Recipes")
+
+## [📄️Rancher](/hub/self-hosting-guide/deployment/rancher/.md)
+
+[Install the Helm chart through the Rancher UI.](/hub/self-hosting-guide/deployment/rancher/.md)
+
+## [📄️Kubernetes](/hub/self-hosting-guide/deployment/kubernetes/.md)
+
+[Install the Helm chart with the Helm CLI.](/hub/self-hosting-guide/deployment/kubernetes/.md)
+
+## [📄️Docker Compose](/hub/self-hosting-guide/deployment/compose/.md)
+
+[Run Hub on a single Docker host behind Traefik.](/hub/self-hosting-guide/deployment/compose/.md)
+
+Once Hub is running, see [Operations](/hub/self-hosting-guide/operations/.md) for backups, restores, and other maintenance tasks.
+
+## Sizing[​](#sizing "Direct link to Sizing")
+
+The defaults of the Compose example and the Helm chart target a small installation:
+
+| Service    | Memory                         | Notes                                                                                                                                                                           |
+| ---------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hub        | 64 MiB                         | Native binary, no JVM                                                                                                                                                           |
+| Keycloak   | 512 MiB requested, 1 GiB limit | JVM; heap is 70% of the limit. Raise the limit for larger user bases, see Keycloak's [sizing guide](https://www.keycloak.org/high-availability/concepts-memory-and-cpu-sizing). |
+| PostgreSQL | 256 MiB, 2 GiB storage         | Serves only Hub and Keycloak                                                                                                                                                    |
+
+Startup and realm import of Keycloak are CPU-heavy; avoid strict CPU limits on it.
