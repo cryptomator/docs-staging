@@ -46,4 +46,4 @@ Desktop
 
 Hub
 
-![Hub shows unlock successful](/img/hub/unlock-successfull-hub.png)
+![Hub shows unlock successful](/img/hub/unlock-success-hub.png)
