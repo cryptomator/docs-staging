@@ -31,6 +31,7 @@
 
 ## hub
 
+- [Admin Guide](/hub/admin-guide.md): Everything you need as a Hub administrator — users and groups, identity provider, Emergency Access, audit logs, Web of Trust, and license.
 - [Audit Logs](/hub/admin-guide/audit-logs.md): The Audit Logs provide an overview of security-related events within Cryptomator Hub.
 - [Emergency Access](/hub/admin-guide/emergency-access.md): Visit cryptomator.org for more information about Enterprise features.
 - [Identity Provider](/hub/admin-guide/keycloak.md): Cryptomator Hub delegates authentication and user management to Keycloak, an open-source identity and access management solution. Hub ships with a preconfigured realm named cryptomator that contains the clients Hub needs and the realm roles user, create-vaults, and admin.
@@ -40,12 +41,14 @@
 - [Web of Trust](/hub/admin-guide/web-of-trust.md): The Web of Trust (WoT) feature in Cryptomator Hub helps users verify each other's identity by signing the User Key Pair with their private keys using ECDSA.
 - [Cryptomator Hub](/hub/introduction.md): Cryptomator Hub adds zero-knowledge key management for teams and organizations to Cryptomator, ensuring your confidential
 - [New Features](/hub/new-features.md): Cryptomator Hub 2.0.0 introduces the following new features:
-- [Deployment Cookbook](/hub/self-hosting-guide/deployment.md): This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the Quick Start instead. For an end-to-end walkthrough from deployment to backups, see the Self-Hosting Guide.
+- [Self-Hosting Guide](/hub/self-hosting-guide.md): Everything you need to run Hub yourself — a local test instance, production deployment recipes, and maintenance tasks.
+- [Deployment Cookbook](/hub/self-hosting-guide/deployment.md): This section collects recipes for running Cryptomator Hub in production. If you just want to try Hub, start with the Quick Start instead. For an end-to-end walkthrough from deployment to backups, see Going to Production.
 - [Docker Compose](/hub/self-hosting-guide/deployment/compose.md): Run Hub on a single Docker host behind Traefik.
 - [Kubernetes](/hub/self-hosting-guide/deployment/kubernetes.md): Install the Helm chart with the Helm CLI.
 - [Rancher](/hub/self-hosting-guide/deployment/rancher.md): Install the Helm chart through the Rancher UI.
-- [Operations](/hub/self-hosting-guide/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see the Self-Hosting Guide.
+- [Operations](/hub/self-hosting-guide/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see Going to Production.
 - [Quick Start](/hub/self-hosting-guide/quick-start.md): Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about 10 minutes. No domain, no TLS certificates, no reverse proxy.
+- [User Guide](/hub/user-guide.md): Everything you need as a Hub user — your account, your vaults, and how you open them with the Cryptomator apps.
 - [Working with Vaults](/hub/user-guide/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Quick Start](/hub/user-guide/quick-start.md): From your first login to an unlocked vault — set up your account, create a vault, invite teammates, and unlock it with Cryptomator.
 - [Vault Management](/hub/user-guide/vault-management.md): The central entities in Cryptomator Hub are vaults.

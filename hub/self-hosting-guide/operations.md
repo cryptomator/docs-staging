@@ -1,6 +1,6 @@
 # Operations
 
-All state of Cryptomator Hub lives in the PostgreSQL database: the `hub` database holds vaults, keys, and the audit log, the `keycloak` database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see the [Self-Hosting Guide](/hub/self-hosting-guide/quick-start/.md#going-to-production).
+All state of Cryptomator Hub lives in the PostgreSQL database: the `hub` database holds vaults, keys, and the audit log, the `keycloak` database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see [Going to Production](/hub/self-hosting-guide/quick-start/.md#going-to-production).
 
 ## Backup[​](#backup "Direct link to Backup")
 

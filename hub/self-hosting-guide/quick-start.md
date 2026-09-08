@@ -113,5 +113,5 @@ Running Hub is low-maintenance; these are the recurring and occasional tasks:
 
 ## Next Steps[​](#next-steps "Direct link to Next Steps")
 
-* Set up your organization — the [Admin Guide](/hub/admin-guide/quick-start/.md) walks through users, groups, identity providers, and more.
+* Set up your organization — the [Admin Guide](/hub/admin-guide/.md) walks through users, groups, identity providers, and more.
 * Bookmark [Operations](/hub/self-hosting-guide/operations/.md) as the reference for everything maintenance.

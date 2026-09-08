@@ -75,4 +75,4 @@ For more details, read [License](/hub/admin-guide/license/.md), [What Is a Seat?
 
 * Set up [backups](/hub/self-hosting-guide/operations/.md#backup) before real data accumulates.
 * Harden logins with [session timeouts](/hub/admin-guide/keycloak/.md#session-timeouts) and [access restrictions](/hub/admin-guide/keycloak/.md#restricting-access-to-hub).
-* Send your team the [User Guide](/hub/user-guide/quick-start/.md) so they can get started on their own.
+* Send your team the [User Guide](/hub/user-guide/.md) so they can get started on their own.

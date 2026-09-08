@@ -6,14 +6,14 @@
 
 This documentation is organized into three guides, one per role. Pick the one that matches what you want to do:
 
-…if you **use** Hub, start with the [User Guide](/hub/user-guide/quick-start/.md):
+…if you **use** Hub, start with the [User Guide](/hub/user-guide/.md):
 
 * [Quick Start](/hub/user-guide/quick-start/.md) - a walkthrough from your first login to an unlocked vault.
 * [Your Account](/hub/user-guide/your-account/.md) - how to manage your own account.
 * [Managing Vaults](/hub/user-guide/vault-management/.md) - how to create, share, and recover vaults.
 * [Working with Vaults](/hub/user-guide/access-vault/.md) - how to use Hub vaults with Cryptomator apps to encrypt your data.
 
-…if you **administer** Hub, start with the [Admin Guide](/hub/admin-guide/quick-start/.md):
+…if you **administer** Hub, start with the [Admin Guide](/hub/admin-guide/.md):
 
 * [Quick Start](/hub/admin-guide/quick-start/.md) - a walkthrough of your first day as a Hub administrator.
 * [User & Group Management](/hub/admin-guide/user-group-management/.md) - how to manage users and groups.
@@ -21,7 +21,7 @@ This documentation is organized into three guides, one per role. Pick the one th
 * [Emergency Access](/hub/admin-guide/emergency-access/.md) - how a council can restore access to a vault.
 * [License](/hub/admin-guide/license/.md) - how to manage your Hub license.
 
-…if you **host** Hub yourself, start with the [Self-Hosting Guide](/hub/self-hosting-guide/quick-start/.md):
+…if you **host** Hub yourself, start with the [Self-Hosting Guide](/hub/self-hosting-guide/.md):
 
 * [Quick Start](/hub/self-hosting-guide/quick-start/.md) - a walkthrough from playground to production deployment.
 * [Deployment Cookbook](/hub/self-hosting-guide/deployment/.md) - recipes for Docker Compose, Kubernetes, and Rancher.
