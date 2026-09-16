@@ -80,7 +80,7 @@ This applies to both Cryptomator for Android and Cryptomator for iOS.
 
 ## Footnotes[​](#footnote-label "Direct link to Footnotes")
 
-1. **We recommend using the** [**Google Play Store variant**](/android/setup/.md#google-play-store) **of Cryptomator for Android users** for the best experience. Please see [here](/android/setup/.md#differences-between-variants-and-how-to-choose) for more information about the different Cryptomator for Android variants and the reasoning behind those. [↩](#user-content-fnref-android-recommendation)
+1. **We recommend using the** [**Google Play Store (Freemium) variant**](/android/setup/.md#google-play-store-freemium) **of Cryptomator for Android users** for the best experience. Please see [here](/android/setup/.md#differences-between-variants-and-how-to-choose) for more information about the different Cryptomator for Android variants and the reasoning behind those. [↩](#user-content-fnref-android-recommendation)
 
 2. Not supported by the [Main F-Droid repo variant](/android/setup/.md#main-f-droid-repository) because this Cloud Service requires an API key. [↩](#user-content-fnref-no-fdroid-main) [↩2](#user-content-fnref-no-fdroid-main-2) [↩3](#user-content-fnref-no-fdroid-main-3) [↩4](#user-content-fnref-no-fdroid-main-4)
 
