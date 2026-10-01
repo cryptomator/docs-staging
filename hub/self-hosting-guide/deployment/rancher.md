@@ -16,7 +16,7 @@ Rancher installs the same Helm chart as the [Kubernetes](/hub/self-hosting-guide
 
 Advanced Configuration
 
-Everything the form does not ask for is available in the *Edit YAML* view, see the [reference table](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/prod).
+Everything the form does not ask for is available in the *Edit YAML* view, see the [reference table](https://github.com/cryptomator/hub/tree/main/deploy/helm/prod).
 
 Generated passwords appear under *Storage → Secrets* in the release namespace: `hub-secrets-hub` holds the Hub admin password, `hub-secrets-kc` the Keycloak bootstrap admin password, `hub-secrets-pg` the database passwords.
 

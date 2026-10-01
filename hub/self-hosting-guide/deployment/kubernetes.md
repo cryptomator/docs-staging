@@ -1,6 +1,6 @@
 # Kubernetes
 
-The Helm chart `oci://ghcr.io/cryptomator/charts/cryptomator-hub` deploys Hub together with an optional Keycloak and PostgreSQL. Passwords you don't set are generated on install and stored in Kubernetes Secrets. All values are documented in the chart's [`values.yaml`](https://github.com/cryptomator/hub/blob/develop/chart/values.yaml) and validated against a schema.
+The Helm chart `oci://ghcr.io/cryptomator/charts/cryptomator-hub` deploys Hub together with an optional Keycloak and PostgreSQL. Passwords you don't set are generated on install and stored in Kubernetes Secrets. All values are documented in the chart's [`values.yaml`](https://github.com/cryptomator/hub/blob/main/chart/values.yaml) and validated against a schema.
 
 Using Rancher? The same chart can be installed through its UI, see [Rancher](/hub/self-hosting-guide/deployment/rancher/.md).
 
@@ -51,7 +51,7 @@ Open `https://hub.example.com`, sign in as `admin`, set a new password, and ente
 
 ## Configuration[​](#kubernetes-configuration "Direct link to Configuration")
 
-You can find a reference table of all settings alongside the chart in [the project's GitHub repository](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/prod).
+You can find a reference table of all settings alongside the chart in [the project's GitHub repository](https://github.com/cryptomator/hub/tree/main/deploy/helm/prod).
 
 Never expose service ports
 

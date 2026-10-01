@@ -12,7 +12,7 @@ Whichever recipe you follow, decide on these up front:
 
 * **Public URLs.** Hub and Keycloak each need one, either as two hostnames (`https://hub.example.com`, `https://kc.example.com`) or as two paths on one host (`https://example.com/hub`, `https://example.com/kc`). Create the DNS records before you deploy.
 * **TLS termination.** Hub, Keycloak, and PostgreSQL speak plain HTTP and plain PostgreSQL protocol. Their ports must never be published directly; the only component listening on a public interface is your TLS-terminating reverse proxy or ingress controller.
-* **Bundled or existing services.** Every recipe can run Keycloak and PostgreSQL for you, or connect to instances you already operate, e.g. your organization's SSO. See [example](https://github.com/cryptomator/hub/tree/2.0.0/deploy/helm/existing-keycloak).
+* **Bundled or existing services.** Every recipe can run Keycloak and PostgreSQL for you, or connect to instances you already operate, e.g. your organization's SSO. See [example](https://github.com/cryptomator/hub/tree/main/deploy/helm/existing-keycloak).
 
 important
 

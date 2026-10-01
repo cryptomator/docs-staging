@@ -1,6 +1,6 @@
 # Docker Compose
 
-We maintain example Compose files in the [Hub repository](https://github.com/cryptomator/hub/tree/develop/deploy/compose). The production example runs Hub, Keycloak, and PostgreSQL behind a [Traefik](https://traefik.io/) reverse proxy that obtains a TLS certificate from Let's Encrypt.
+We maintain example Compose files in the [Hub repository](https://github.com/cryptomator/hub/tree/main/deploy/compose). The production example runs Hub, Keycloak, and PostgreSQL behind a [Traefik](https://traefik.io/) reverse proxy that obtains a TLS certificate from Let's Encrypt.
 
 ## Prerequisites[​](#compose-prerequisites "Direct link to Prerequisites")
 
@@ -12,10 +12,8 @@ We maintain example Compose files in the [Hub repository](https://github.com/cry
 
 Download the production example into an empty directory:
 
-<!-- -->
-
 ```
-curl -fsSLO https://raw.githubusercontent.com/cryptomator/hub/2.0.0/deploy/compose/prod/compose.yaml
+curl -fsSLO https://raw.githubusercontent.com/cryptomator/hub/refs/heads/main/deploy/compose/prod/compose.yaml
 ```
 
 Open `compose.yaml` and replace every placeholder before starting the stack:
@@ -34,7 +32,7 @@ Keycloak takes a minute or two on first start to import the realm. Once all serv
 
 ## Configuration[​](#compose-configuration "Direct link to Configuration")
 
-You can find a reference table of all settings alongside the example in [the project's GitHub repository](https://github.com/cryptomator/hub/tree/2.0.0/deploy/compose/prod).
+You can find a reference table of all settings alongside the example in [the project's GitHub repository](https://github.com/cryptomator/hub/tree/main/deploy/compose/prod).
 
 Never publish service ports
 

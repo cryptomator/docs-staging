@@ -47,7 +47,7 @@
 - [Kubernetes](/hub/self-hosting-guide/deployment/kubernetes.md): Install the Helm chart with the Helm CLI.
 - [Rancher](/hub/self-hosting-guide/deployment/rancher.md): Install the Helm chart through the Rancher UI.
 - [Operations](/hub/self-hosting-guide/operations.md): All state of Cryptomator Hub lives in the PostgreSQL database: the hub database holds vaults, keys, and the audit log, the keycloak database holds users, groups, and credentials. Back up both, and always do so before upgrading. For an end-to-end walkthrough from deployment to backups, see Going to Production.
-- [Quick Start](/hub/self-hosting-guide/quick-start.md): Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about 10 minutes. No domain, no TLS certificates, no reverse proxy.
+- [Quick Start](/hub/self-hosting-guide/quick-start.md): Want to see Cryptomator Hub in action before rolling it out to your team? What you end up with is a playground, not a production system. It only listens on localhost, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, continue with Going to Production below.
 - [User Guide](/hub/user-guide.md): Everything you need as a Hub user — your account, your vaults, and how you open them with the Cryptomator apps.
 - [Working with Vaults](/hub/user-guide/access-vault.md): To encrypt your data securely with Cryptomator Hub vaults, you need the Cryptomator app for your OS.
 - [Quick Start](/hub/user-guide/quick-start.md): From your first login to an unlocked vault — set up your account, create a vault, invite teammates, and unlock it with Cryptomator.

@@ -1,8 +1,6 @@
 # Quick Start
 
-Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about **10 minutes**. No domain, no TLS certificates, no reverse proxy.
-
-What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, continue with [Going to Production](#going-to-production) below.
+Want to see Cryptomator Hub in action before rolling it out to your team? What you end up with is a playground, not a production system. It only listens on `localhost`, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, continue with [Going to Production](#going-to-production) below.
 
 ## Before You Start[​](#before-you-start "Direct link to Before You Start")
 
@@ -19,7 +17,7 @@ We provide a ready-made Compose file that runs Hub locally. Nothing to configure
 Open a terminal in an empty directory, download the file, and start the stack:
 
 ```
-curl -fsSLO https://raw.githubusercontent.com/cryptomator/hub/refs/tags/2.0.0/deploy/compose/local/compose.yaml
+curl -fsSLO https://raw.githubusercontent.com/cryptomator/hub/refs/heads/main/deploy/compose/local/compose.yaml
 
 docker compose up -d
 ```

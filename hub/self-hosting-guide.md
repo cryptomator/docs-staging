@@ -6,7 +6,7 @@ If you want to see Hub in action first, start with the [Quick Start](/hub/self-h
 
 ## [📄️Quick Start](/hub/self-hosting-guide/quick-start/.md)
 
-[Want to see Cryptomator Hub in action before rolling it out to your team? This guide gets a test instance running on your own machine in about 10 minutes. No domain, no TLS certificates, no reverse proxy.](/hub/self-hosting-guide/quick-start/.md)
+[Want to see Cryptomator Hub in action before rolling it out to your team? What you end up with is a playground, not a production system. It only listens on localhost, uses plain HTTP, and comes with default passwords. When you are ready for the real thing, continue with Going to Production below.](/hub/self-hosting-guide/quick-start/.md)
 
 ## [🗃Deployment Cookbook](/hub/self-hosting-guide/deployment/.md)
 
