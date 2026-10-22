@@ -21,6 +21,7 @@
 - [Getting Started](/desktop/getting-started.md): You will be greeted with the following screen when you start Cryptomator for the first time.
 - [Network Settings](/desktop/network.md): In general, Cryptomator does not require a network connection to function.
 - [Password and Recovery Key](/desktop/password-and-recovery-key.md): This section explains how to change a password for a vault, show its recovery key, and reset a password.
+- [Restoring Files from a Backup](/desktop/restoring-files-from-backup.md): Cryptomator encrypts not only file names but also the directory structure of your vault (see Encrypted File Names).
 - [Setup](/desktop/setup.md): The Desktop version of Cryptomator is currently available for Windows, macOS, and Linux.
 - [Synchronization Conflicts](/desktop/sync-conflicts.md): Working on encrypted data from multiple locations is the same as working on unencrypted data from multiple locations.
 - [Troubleshooting](/desktop/troubleshooting.md): This page contains solutions for common issues you might encounter when using Cryptomator on desktop platforms.
@@ -1069,7 +1070,7 @@ File name and directory structure encryption **cannot** be disabled.
 
 Cryptomator protects your files by not only encrypting their content, but also their names and the overall directory structure of the vault. As a result, encrypted files and folders inside the vault storage location do not reveal the original names or layout (for an example see [below](#technical-example)).
 
-This matters whenever you need to match a cleartext file in your unlocked vault with its encrypted counterpart in the vault storage location, for example when restoring an older version from a cloud provider or backup tool.
+This matters whenever you need to match a cleartext file in your unlocked vault with its encrypted counterpart in the vault storage location, for example when restoring an older version from a cloud provider or backup tool. For step-by-step instructions, see [Restoring Files from a Backup](/desktop/restoring-files-from-backup/.md).
 
 The app offers two features to reveal the mapping between the cleartext and the encrypted files:
 
@@ -1477,6 +1478,41 @@ Once changed, you can unlock your vault with the new password.
 note
 
 Don't discard the recovery key after resetting the password as it will still remain valid.
+
+
+---
+
+# Restoring Files from a Backup
+
+Cryptomator encrypts not only file names but also the directory structure of your vault (see [Encrypted File Names](/desktop/encrypted-file-names/.md)). In a backup of the vault storage location, you therefore can't tell which encrypted file belongs to which cleartext file, especially if it sits deep in a subdirectory.
+
+There are two ways to restore a file or folder:
+
+1. [Open the backup as a second vault](#open-backup-as-vault) - Recommended. Works at any nesting depth and also for files and folders that have already been deleted from the vault.
+2. [Restore a single encrypted file](#restore-single-encrypted-file) - Use this if the file still exists in the vault with the same name and in the same folder as at the time of the backup, you only need an older version of it, and your backup tool can restore individual files.
+
+Both methods require Cryptomator for Windows, macOS, or Linux.
+
+## Open the Backup as a Second Vault[​](#open-backup-as-vault "Direct link to Open the Backup as a Second Vault")
+
+1. Restore the **complete** vault folder from the backup to a separate location. It must contain the `d` folder and the `vault.cryptomator` and/or `masterkey.cryptomator` file. Do not restore it inside the existing vault folder or inside a cloud-synced folder.
+2. In Cryptomator, click the plus `+` button, choose [`Open Existing Vault…`](/desktop/adding-vaults/.md#open-an-existing-vault), and select the `vault.cryptomator` file of the restored copy. If only a `masterkey.cryptomator` file exists, select that instead. The copy appears as an additional vault next to your original one.
+3. Unlock the copy. For a password-based vault, use the password that was valid at the time of the backup. For a [Cryptomator Hub](/hub/introduction/.md) vault, [unlock it through Hub](/hub/user-guide/access-vault/.md#unlocking-a-vault) as usual. Unlock your original vault as well.
+4. In the unlocked copy, navigate to the file or folder you want to restore and copy it into your original vault.
+5. Lock the copy and [remove it from the vault list](/desktop/vault-management/.md#remove-vaults) by right-clicking it and choosing `Remove…`. This only removes the list entry and doesn't delete any encrypted files. You can then delete the restored vault folder manually.
+
+## Restore a Single Encrypted File[​](#restore-single-encrypted-file "Direct link to Restore a Single Encrypted File")
+
+This method only works if the file still exists in the vault with the same name and in the same folder as at the time of the backup. If the file was renamed or moved to a different folder since the backup, its encrypted path has changed, so [open the backup as a second vault](#open-backup-as-vault) instead.
+
+1. Unlock the vault and use [`Locate Encrypted File`](/desktop/encrypted-file-names/.md#locate-encrypted-file) on the file you want to restore. Note the path of the encrypted file shown in the file manager.
+2. Lock the vault.
+3. With your backup tool, restore exactly that encrypted file to exactly the same path, overwriting the current one. If the file ends up anywhere else, the vault won't recognize it, because its name is encrypted using the ID of its parent directory.
+4. Unlock the vault again.
+
+note
+
+If you use `Locate Encrypted File` on a folder, the file manager shows the folder's content directory under `d/`. It only contains the files directly inside that folder. Subfolders are stored as links (`dir.c9r`) to other directories under `d/`, so to restore a folder with subfolders, [open the backup as a second vault](#open-backup-as-vault).
 
 
 ---

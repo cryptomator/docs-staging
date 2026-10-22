@@ -6,7 +6,7 @@ File name and directory structure encryption **cannot** be disabled.
 
 Cryptomator protects your files by not only encrypting their content, but also their names and the overall directory structure of the vault. As a result, encrypted files and folders inside the vault storage location do not reveal the original names or layout (for an example see [below](#technical-example)).
 
-This matters whenever you need to match a cleartext file in your unlocked vault with its encrypted counterpart in the vault storage location, for example when restoring an older version from a cloud provider or backup tool.
+This matters whenever you need to match a cleartext file in your unlocked vault with its encrypted counterpart in the vault storage location, for example when restoring an older version from a cloud provider or backup tool. For step-by-step instructions, see [Restoring Files from a Backup](/desktop/restoring-files-from-backup/.md).
 
 The app offers two features to reveal the mapping between the cleartext and the encrypted files:
 

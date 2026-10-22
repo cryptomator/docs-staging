@@ -21,6 +21,7 @@
 - [Getting Started](/desktop/getting-started.md): You will be greeted with the following screen when you start Cryptomator for the first time.
 - [Network Settings](/desktop/network.md): In general, Cryptomator does not require a network connection to function.
 - [Password and Recovery Key](/desktop/password-and-recovery-key.md): This section explains how to change a password for a vault, show its recovery key, and reset a password.
+- [Restoring Files from a Backup](/desktop/restoring-files-from-backup.md): Cryptomator encrypts not only file names but also the directory structure of your vault (see Encrypted File Names).
 - [Setup](/desktop/setup.md): The Desktop version of Cryptomator is currently available for Windows, macOS, and Linux.
 - [Synchronization Conflicts](/desktop/sync-conflicts.md): Working on encrypted data from multiple locations is the same as working on unencrypted data from multiple locations.
 - [Troubleshooting](/desktop/troubleshooting.md): This page contains solutions for common issues you might encounter when using Cryptomator on desktop platforms.
