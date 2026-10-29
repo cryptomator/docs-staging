@@ -38,7 +38,7 @@ Our Windows installers are signed using a code signing certificate. You can veri
 
    <!-- -->
 
-   * Column `SignerCertificate` with value `9DE645D63969984E0127C0F65BDA4652D7458056`(\*)
+   * Column `SignerCertificate` with value `0DDB9269A31F56CC6E9D9AD4D235741BB8917EFA`(\*)
    * Column `Status` with value `Valid`
    * no errors
 
@@ -71,6 +71,7 @@ Every Cryptomator installer is signed with a certificate. A certificate is ident
 
 | Version(s)       | Certificate Thumbprint                     |
 | ---------------- | ------------------------------------------ |
+| 1.19.5           | `0DDB9269A31F56CC6E9D9AD4D235741BB8917EFA` |
 | 1.19.4           | `9DE645D63969984E0127C0F65BDA4652D7458056` |
 | 1.19.3           | `F255C2D35DDB45D20CE854EBF393A266DB16736C` |
 | 1.19.2           | `20F30D7C5B1AB3ACAFA4AB27874ACBC4B47B0697` |
